@@ -3,6 +3,32 @@
 \end{center}
 \vspace{1cm}
 
-La calidad del software es uno de los temas que más investiga la comunidad informática, ya que el fin último es poder ofrecer un producto de calidad a los clientes, ya sean personas individuales o empresas. Se entiende por calidad al cumplimiento de las expectativas y requerimientos establecidos por los usuarios, así como de normativas o estándares. La calidad de un software puede medirse desde diferentes perspectivas, siempre en relación a mitigar el riesgo y las fallas mediante métodos de testing y verificación del software en fase de análisis, desarrollo y pruebas. En base a este concepto nace una de las técnicas de aseguramiento de calidad llamadas Pruebas Unitarias.
+Imagina esto: es viernes por la tarde, tu equipo acaba de lanzar una actualización crítica de una aplicación Ionic para un hospital. Todo parece funcionar… hasta que, horas después, los médicos reportan que el módulo de citas falla al agendar urgencias. ¿El motivo? Un componente aparentemente sencillo —un selector de horarios— no tenía pruebas unitarias para validar casos extremos. El resultado: horas de hotfixes, estrés y, lo peor, un riesgo evitable para pacientes.
 
-Las pruebas unitarias son una estrategia ampliamente utilizada y reconocida en la gestión de invenciones a los errores en las aplicaciones móviles, las cuales es la temática sobre la que versa este trabajo. Durante el desarrollo de este trabajo se implementará automáticamente pruebas unitarias aplicables a una aplicación móvil creada en IONIC, mediante un sistema de testing automatizado. Con ello se introduce la investigación sobre el funcionamiento de dicha herramienta de automatización y las prácticas más indicadas para el desarrollo de pruebas unitarias guiadas por el estudio de verbosidad en lenguajes generales de test, haciendo mención a errores más frecuentes a la hora de realizar las pruebas automatizadas mediante la discusión con el equipo de testing responsable de tal aplicación en el taller adaptado para tal fin.
+Este escenario no es ficticio. En el desarrollo móvil híbrido con Ionic, las pruebas unitarias suelen sacrificarse por la presión de entregar features rápido. Los equipos confían en pruebas manuales o en suites desactualizadas que no escalan. Y cuando alguien intenta mejorar la cobertura, se enfrenta a:
+
+Pruebas frágiles: Un pequeño cambio en el diseño rompe 20 tests.
+
+Tiempo perdido: Escribir pruebas para un componente complejo puede tomar más que desarrollarlo.
+
+Cobertura desigual: El 80% de las pruebas cubren solo lo "fácil", dejando edge cases sin verificar.
+
+Aquí es donde este proyecto propone un cambio radical: ¿Y si la IA generara pruebas adaptativas, aprendiendo de tu código y priorizando lo crítico? No se trata de reemplazar a los desarrolladores, sino de darles un "asistente inteligente" que:
+
+Clasifique automáticamente los componentes en 3 niveles (básico, complejo, crítico), analizando su estructura, historial de cambios y dependencias.
+
+Genere pruebas contextuales usando modelos como DeepSeek, sugiriendo no solo qué testear, sino cómo, basado en patrones del repositorio.
+
+Se integre en el flujo Git: Ejecutando y actualizando pruebas con cada commit, como un guardián automático.
+
+Este no es otro framework de testing. Es un sistema vivo que evoluciona con el proyecto. Para un desarrollador, significaría:
+
+Dejar de escribir pruebas repetitivas para botones o inputs.
+
+Recibir alertas como: "Este servicio de pagos necesita 3 pruebas nuevas: aquí tienes un draft".
+
+Ver reportes en GitHub como: "Cobertura del 95% en Nivel 3 (flujos críticos) ✅".
+
+Validaremos el sistema en proyectos reales, midiendo no solo métricas técnicas (como cobertura o falsos positivos), sino su impacto humano: horas devueltas al equipo, estrés reducido y —lo más importante— bugs evitados en producción.
+
+Porque al final, el testing no se trata de código: se trata de confianza. Confianza en que, cuando un médico, un maestro o un usuario final abra tu app, funcionará como debe. Esta investigación busca hacer esa confianza más accesible, automática y, sobre todo, inteligente.

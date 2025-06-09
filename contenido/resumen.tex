@@ -1,6 +1,34 @@
-\begin{resumen}
-%Aquí deberás colocar entre 100 y 150 palabras como máximo, el problema que intentas resolver, la justificación y los aportes o soluciones que planteas.
-\noindent
-Debe contener el tema de investigación, su importancia, los objetivos propuestos, las estrategias metodología y posibles aplicaciones. Debe ser redactado en un solo párrafo y no contener espacios entre líneas ni sangrías. Presentación: máximo 400  palabras, letra Arial 12, espacio sencillo (más información ver guía).
+\begin{center}
+{\bf RESUMEN}
+\end{center}
+\vspace{1cm}
 
-\end{resumen}
+Imagina esto: es viernes por la tarde, tu equipo acaba de lanzar una actualización crítica de una aplicación Ionic para un hospital. Todo parece funcionar… hasta que, horas después, los médicos reportan que el módulo de citas falla al agendar urgencias. ¿El motivo? Un componente aparentemente sencillo —un selector de horarios— no tenía pruebas unitarias para validar casos extremos. El resultado: horas de hotfixes, estrés y, lo peor, un riesgo evitable para pacientes.
+
+Este escenario no es ficticio. En el desarrollo móvil híbrido con Ionic, las pruebas unitarias suelen sacrificarse por la presión de entregar features rápido. Los equipos confían en pruebas manuales o en suites desactualizadas que no escalan. Y cuando alguien intenta mejorar la cobertura, se enfrenta a:
+
+Pruebas frágiles: Un pequeño cambio en el diseño rompe 20 tests.
+
+Tiempo perdido: Escribir pruebas para un componente complejo puede tomar más que desarrollarlo.
+
+Cobertura desigual: El 80% de las pruebas cubren solo lo "fácil", dejando edge cases sin verificar.
+
+Aquí es donde este proyecto propone un cambio radical: ¿Y si la IA generara pruebas adaptativas, aprendiendo de tu código y priorizando lo crítico? No se trata de reemplazar a los desarrolladores, sino de darles un "asistente inteligente" que:
+
+Clasifique automáticamente los componentes en 3 niveles (básico, complejo, crítico), analizando su estructura, historial de cambios y dependencias.
+
+Genere pruebas contextuales usando modelos como DeepSeek, sugiriendo no solo qué testear, sino cómo, basado en patrones del repositorio.
+
+Se integre en el flujo Git: Ejecutando y actualizando pruebas con cada commit, como un guardián automático.
+
+Este no es otro framework de testing. Es un sistema vivo que evoluciona con el proyecto. Para un desarrollador, significaría:
+
+Dejar de escribir pruebas repetitivas para botones o inputs.
+
+Recibir alertas como: "Este servicio de pagos necesita 3 pruebas nuevas: aquí tienes un draft".
+
+Ver reportes en GitHub como: "Cobertura del 95% en Nivel 3 (flujos críticos) ✅".
+
+Validaremos el sistema en proyectos reales, midiendo no solo métricas técnicas (como cobertura o falsos positivos), sino su impacto humano: horas devueltas al equipo, estrés reducido y —lo más importante— bugs evitados en producción.
+
+Porque al final, el testing no se trata de código: se trata de confianza. Confianza en que, cuando un médico, un maestro o un usuario final abra tu app, funcionará como debe. Esta investigación busca hacer esa confianza más accesible, automática y, sobre todo, inteligente.

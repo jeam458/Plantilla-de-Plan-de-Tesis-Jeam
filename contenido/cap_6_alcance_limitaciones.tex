@@ -1,23 +1,38 @@
-\chapter{Alcances y Limitaciones}
-(Se recomienda presentar los alcances y limitaciones en forma de puntos, se espera una redacción clara y detallada)
-
-Los alcances y algunas limitaciones del estudio se presentan en los siguientes párrafos.
+\chapter{Alcance y Limitaciones}
+\label{chap:alcance_limitaciones}
 
 \section{Alcances}
+\label{sec:alcances}
 Los alcances de este estudio pueden resumirse en:
 
- \begin{itemize}
- 	\item Primer Alcance.
-	\item Segundo Alcance.
-	\item Tercer Alcance.
- \end{itemize}
-\section{Limitaciones}
+\subsection{Tecnológico}
+\label{ssec:alcance_tecnologico}
+Desarrollo de un sistema en Python que integre IA (DeepSeek) con Jest/Spectator para generación y ejecución automática de pruebas unitarias en aplicaciones Ionic/Angular.
 
+\subsection{Metodológico}
+\label{ssec:alcance_metodologico}
+Clasificación de componentes en 3 niveles de complejidad (básico, intermedio, crítico) mediante análisis de código estático y patrones de commits en Git.
+
+\subsection{Validación}
+\label{ssec:alcance_validacion}
+Pruebas en al menos 3 proyectos reales con métricas comparativas (cobertura, tiempo de desarrollo, bugs reportados).
+
+\section{Limitaciones}
+\label{sec:limitaciones}
 Algunas limitaciones de este estudio pueden resumirse en:
 
- \begin{itemize}
- 	\item Primera limitación.
-	\item Segunda limitación.
-	\item Tercera limitación.
- \end{itemize}
- 
+\subsection{Técnicas}
+\label{ssec:limitaciones_tecnicas}
+El sistema no cubrirá pruebas E2E ni de integración, enfocándose exclusivamente en pruebas unitarias de componentes y servicios.
+
+\subsection{Dependencias}
+\label{ssec:limitaciones_dependencias}
+Requerirá acceso a la API de DeepSeek o modelos locales fine-tuneados, lo que podría implicar costos computacionales.
+
+\subsection{Compatibilidad}
+\label{ssec:limitaciones_compatibilidad}
+Solo funcionará con proyectos Ionic+Angular que sigan una estructura modular estándar (ej: src/app/components).
+
+\subsection{Contexto}
+\label{ssec:limitaciones_contexto}
+La efectividad en proyectos con código legacy muy desorganizado puede ser reducida.

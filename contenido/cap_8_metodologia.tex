@@ -1,41 +1,104 @@
-\chapter{Metodología}
-(Se espera una redacción amplia y detallada la extensión esta determinada por el método seguido por el estudiante)
-En este capitulo se presenta el tipo de metodología utilizado en esta tesis, así como las etapas que se seguirán para alcanzar los objetivos establecidos para la investigación.
+\chapter{Metodología de Investigación}
+\label{chap:metodologia}
 
-\section{Tipo de Investigación}
-Escribir que tipo de investigación se esta siguiendo.
+% Eliminar el texto introductorio general y el ejemplo de imagen si no es relevante para la metodología específica.
 
-\section{Métodos de Validación Propuestas}
-Cuales serán las métricas utilizadas ?
+\section{Diseño General de la Investigación}
+\label{sec:diseno_investigacion}
+% Aquí describirás el enfoque general.
+% Ejemplo: "Esta investigación empleará un diseño cuasi-experimental con un enfoque mixto (cuantitativo y cualitativo).
+% Se comparará la eficiencia y efectividad de la generación manual de pruebas unitarias (grupo de control o línea base)
+% con la generación automática mediante el sistema propuesto (grupo experimental) en el contexto de aplicaciones Ionic.
+% Se analizarán métricas de rendimiento y se recogerán percepciones de los desarrolladores."
+% Mencionar que es un estudio comparativo.
 
-% Insertando imagen.
-  \begin{figure}
-  \centering
-  \subfloat[]{\includegraphics[width=150mm]{graficos/counting.png}}
-  \caption[Ejemplo inserción de imagen]
-  {Aquí deberas colocar la leyenda o descripción de la imagen.}
- % Nota. Adaptado de Título de la imagen, de Autor de la Imagen, año de publicación de la imagen, Fuente. Tipo de licencia.%
-  \label{fig:counting}
-  \end{figure}
-% Fin insertando imagen
+\section{Población y Muestra}
+\label{sec:poblacion_muestra}
+% ¿En qué tipo de proyectos Ionic se probará? ¿Cuántos?
+% ¿Quiénes participarán (desarrolladores)? ¿Cuántos? ¿Qué experiencia tienen?
+% Ejemplo: "La población objetivo son proyectos de desarrollo de aplicaciones móviles híbridas con Ionic y Angular.
+% Se seleccionarán N proyectos (o módulos dentro de proyectos) de código abierto o de empresas colaboradoras.
+% Participarán M desarrolladores con experiencia variada en Ionic."
 
-La metodología de investigación hace referencia al conjunto de procedimientos racionales y ordenados utilizados para alcanzar uno o varios objetivos que rigen en una investigación científica, en otras palabras, es el método utilizado para alcanzar los objetivos perseguidos. Se recomienda que el estudiante redacte en forma de párrafos el procedimiento a seguir para la elaboración de investigación.
+\section{Variables de Estudio}
+\label{sec:variables_estudio}
+% Detallar las variables dependientes e independientes.
+% Ejemplo:
+% \subsection{Variables Independientes}
+% \begin{itemize}
+%     \item Método de generación de pruebas unitarias: (1) Manual, (2) Sistema automatizado propuesto.
+%     \item Nivel de complejidad del componente (según la métrica definida en el Marco Teórico).
+% \end{itemize}
+% \subsection{Variables Dependientes (Métricas de Comparación)}
+% \begin{itemize}
+%     \item Tiempo de generación de pruebas (horas/minutos).
+%     \item Cobertura de código (porcentaje - línea, rama, función).
+%     \item Número de errores detectados por las pruebas generadas.
+%     \item Calidad de las pruebas generadas (evaluación cualitativa, p.ej., relevancia, legibilidad).
+%     \item Esfuerzo percibido por el desarrollador (escala Likert, entrevistas).
+%     \item Reducción de bugs reportados en fases posteriores (si es medible en el alcance del estudio).
+% \end{itemize}
 
-\section{Mapeo de Componentes del Proyecto Ionic}
-\label{sec:mapeo_componentes}
-% Describe aquí el proceso de identificación y mapeo de los diferentes componentes de una aplicación Ionic (servicios, pipes, directivas, componentes).
+\section{Desarrollo del Sistema de Automatización Propuesto}
+\label{sec:desarrollo_sistema}
+% Esta sección detalla la construcción de TU herramienta/sistema.
+% Hereda de las secciones que ya teníamos, pero más enfocado en la construcción.
+\subsection{Recolección y Preparación de Datos para IA (si aplica)}
+\label{ssec:datos_ia}
+% Si tu modelo de IA (DeepSeek fine-tuning) requiere un dataset específico para Ionic.
+% Ejemplo: "Se recopilará un corpus de código de aplicaciones Ionic y sus correspondientes pruebas unitarias
+% de repositorios públicos y proyectos ejemplo para el fine-tuning del modelo DeepSeek..."
+\subsection{Diseño de la Arquitectura del Sistema}
+\label{ssec:arquitectura_sistema_metodologia}
+% Referenciar la arquitectura descrita en el Marco Teórico (Figura \ref{fig:flujo_pruebas}).
+% Detallar aquí las tecnologías específicas para cada módulo: Python, LibCST, modelo LLM específico, etc.
+\subsection{Implementación del Módulo de Clasificación de Componentes}
+\label{ssec:implementacion_clasificacion}
+% Cómo se implementará el cálculo de la métrica de complejidad (CYC, DEP, CHG, LOC).
+\subsection{Implementación del Módulo de Generación de Pruebas con IA}
+\label{ssec:implementacion_generacion_ia}
+% Detalles sobre la integración con DeepSeek, prompts, y cómo se adapta al contexto del componente.
+\subsection{Implementación del Mocking Inteligente}
+\label{ssec:implementacion_mocking}
+% Detalles sobre la generación automática de mocks para APIs y plugins nativos.
+\subsection{Integración con Flujos de Desarrollo (Git y CI/CD)}
+\label{ssec:implementacion_git_ci}
+% Cómo se integra con GitHub Actions, tal como se mencionó en el Marco Teórico.
 
-\section{Generación de Pruebas Unitarias con ngentest}
-\label{sec:generacion_ngentest}
-% Detalla cómo se utilizará la herramienta ngentest para generar automáticamente las pruebas unitarias para cada tipo de componente identificado.
+\section{Procedimiento Experimental y Recolección de Datos}
+\label{sec:procedimiento_experimental}
+% Detallar los pasos del estudio comparativo.
+\subsection{Fase 1: Establecimiento de la Línea Base (Pruebas Manuales)}
+\label{ssec:fase_linea_base}
+% Ejemplo: "Para cada proyecto/módulo seleccionado, un grupo de desarrolladores (o un desarrollador)
+% generará pruebas unitarias de forma manual para un conjunto de componentes previamente identificados y clasificados.
+% Se registrará el tiempo empleado, la cobertura alcanzada y se guardarán las pruebas."
+\subsection{Fase 2: Aplicación del Sistema Automatizado}
+\label{ssec:fase_sistema_automatizado}
+% Ejemplo: "Para los mismos componentes (o un conjunto comparable), se utilizará el sistema de generación automática
+% de pruebas. Se registrará el tiempo de generación (si es relevante, o el tiempo de configuración y ejecución),
+% la cobertura alcanzada. Las pruebas generadas serán revisadas y, si es necesario, ajustadas mínimamente por un desarrollador,
+% registrando también este tiempo."
+\subsection{Recolección de Datos Cuantitativos}
+\label{ssec:recoleccion_cuantitativa}
+% Cómo se medirán las variables: herramientas para cobertura (e.g., Istanbul/nyc), cronometraje, etc.
+\subsection{Recolección de Datos Cualitativos (Opcional pero Recomendado)}
+\label{ssec:recoleccion_cualitativa}
+% Ejemplo: "Se realizarán encuestas o entrevistas semi-estructuradas a los desarrolladores participantes
+% para recoger sus percepciones sobre la utilidad, facilidad de uso y calidad de las pruebas generadas
+% por ambos métodos."
 
-\section{Compilación y Ejecución de Pruebas con Jasmine}
-\label{sec:compilacion_jasmine}
-% Explica el flujo de trabajo para compilar y ejecutar las pruebas unitarias generadas, utilizando Jasmine como framework de pruebas. Menciona los comandos de consola relevantes.
+\section{Análisis de Datos}
+\label{sec:analisis_datos}
+% ¿Cómo se analizarán los datos recogidos?
+% Ejemplo: "Se utilizarán pruebas estadísticas (e.g., t-student, ANOVA) para comparar las medias de las variables
+% cuantitativas entre los dos grupos (manual vs. automatizado). Para los datos cualitativos, se realizará
+% un análisis temático de las respuestas."
 
-\section{Mocking de Funcionalidades Nativas}
-\label{sec:mocking_funcionalidades_nativas}
-% Describe las estrategias y técnicas para mockear las funcionalidades nativas del dispositivo que Ionic utiliza a través de Cordova o Capacitor.
-% Incluye ejemplos específicos, como el mocking de datos del GPS.
+\section{Consideraciones Éticas (si aplica)}
+\label{sec:consideraciones_eticas}
+% Si trabajas con datos de empresas o encuestas a desarrolladores.
+% Ejemplo: "Se garantizará la anonimidad de los participantes y la confidencialidad de los datos de los proyectos.
+% Se obtendrá consentimiento informado..."
 
 % Puedes agregar más secciones o subsecciones según sea necesario para detallar la metodología.

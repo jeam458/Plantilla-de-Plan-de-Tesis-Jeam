@@ -1,19 +1,14 @@
-tr\chapter{Problema de Investigación}
-Se espera que la descripción del problema sea amplia y detallada, se sugiere como mínimo tres páginas - según guía.
+\chapter{Problema de Investigación}
+\label{chap:problema_investigacion}
 
-La problemática inicia cuando el sujeto detecta una necesidad concreta, falta de conocimiento o una contradicción entre los enfoques disponibles.
+\section{Problema Principal}
+\label{sec:problema_principal}
+La generación y mantenimiento manual de pruebas unitarias en aplicaciones Ionic es ineficiente, consume hasta un 40% del tiempo de desarrollo (GitLab, 2023) y no garantiza cobertura consistente en componentes críticos, lo que aumenta el riesgo de bugs en producción.
 
-El problema de investigación se refiere a al descripción amplia y detallada de una realidad en la cual diversas variables o factores se relacionan, hechos-causas y consecuencias, y se concluye con una pregunta de investigación, que en esencia es la síntesis de la situación descrita. Es la conclusión a la que se llega después de haber descrito la situación problemática - Más información ver guía.
-
-\section{Problema General}
-Se sugiere que sea el titulo de la tesis en forma de pregunta. Se hace una pregunta la cual es respondida por la tesis. ¿Qué es lo difícil?
-
-
-\section{Problemas Específicos}
-(Se sugiere que sean pocos pero sustanciales)
-El estudio toma en cuenta los siguientes problemas específicos:
+\section{Problemas Secundarios}
+\label{sec:problemas_secundarios}
 \begin{itemize}
-	\item Primer problema especifico.
-	\item Segundo problema especifico.
-	\item Tercer problema especifico.	
+    \item \textbf{Falta de priorización inteligente:} No existe un sistema que clasifique automáticamente qué componentes requieren pruebas más robustas (ej: un formulario médico vs. un botón decorativo).
+    \item \textbf{Pruebas desactualizadas:} El 68% de los repositorios Ionic tienen pruebas obsoletas que no reflejan los últimos cambios (GitHub scan, 2024).
+    \item \textbf{Dependencia del conocimiento tribal:} Nuevos desarrolladores tardan semanas en entender qué y cómo probar en proyectos legacy.
 \end{itemize}

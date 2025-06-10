@@ -1,104 +1,152 @@
 \chapter{Metodología de Investigación}
 \label{chap:metodologia}
 
-% Eliminar el texto introductorio general y el ejemplo de imagen si no es relevante para la metodología específica.
-
 \section{Diseño General de la Investigación}
 \label{sec:diseno_investigacion}
-% Aquí describirás el enfoque general.
-% Ejemplo: "Esta investigación empleará un diseño cuasi-experimental con un enfoque mixto (cuantitativo y cualitativo).
-% Se comparará la eficiencia y efectividad de la generación manual de pruebas unitarias (grupo de control o línea base)
-% con la generación automática mediante el sistema propuesto (grupo experimental) en el contexto de aplicaciones Ionic.
-% Se analizarán métricas de rendimiento y se recogerán percepciones de los desarrolladores."
-% Mencionar que es un estudio comparativo.
+Esta investigación empleará un diseño experimental con enfoque mixto (cuantitativo-cualitativo) para validar el sistema propuesto. Siguiendo el modelo DSR (Design Science Research), constará de tres ciclos iterativos:
+
+\begin{enumerate}
+\item \textbf{Prototipado}: Desarrollo incremental del sistema
+\item \textbf{Validación Técnica}: Métricas de rendimiento
+\item \textbf{Validación en Contexto}: Aplicación en proyectos reales
+\end{enumerate}
 
 \section{Población y Muestra}
 \label{sec:poblacion_muestra}
-% ¿En qué tipo de proyectos Ionic se probará? ¿Cuántos?
-% ¿Quiénes participarán (desarrolladores)? ¿Cuántos? ¿Qué experiencia tienen?
-% Ejemplo: "La población objetivo son proyectos de desarrollo de aplicaciones móviles híbridas con Ionic y Angular.
-% Se seleccionarán N proyectos (o módulos dentro de proyectos) de código abierto o de empresas colaboradoras.
-% Participarán M desarrolladores con experiencia variada en Ionic."
+
+\subsection{Proyectos de Estudio}
+\begin{itemize}
+\item \textbf{Criterios de selección}:
+\begin{itemize}
+\item Aplicaciones Ionic 6+ con Angular
+\item 50+ componentes declarados
+\item Historial Git \geq 6 meses
+\end{itemize}
+\item \textbf{Muestra}: 3 proyectos open-source (health, e-commerce, education) + 2 proyectos empresariales colaboradores
+\end{itemize}
+
+\subsection{Participantes}
+\begin{itemize}
+\item 10 desarrolladores Ionic (5 seniors, 3 mid-level, 2 juniors)
+\item 2 QA engineers especializados en testing automatizado
+\end{itemize}
 
 \section{Variables de Estudio}
 \label{sec:variables_estudio}
-% Detallar las variables dependientes e independientes.
-% Ejemplo:
-% \subsection{Variables Independientes}
-% \begin{itemize}
-%     \item Método de generación de pruebas unitarias: (1) Manual, (2) Sistema automatizado propuesto.
-%     \item Nivel de complejidad del componente (según la métrica definida en el Marco Teórico).
-% \end{itemize}
-% \subsection{Variables Dependientes (Métricas de Comparación)}
-% \begin{itemize}
-%     \item Tiempo de generación de pruebas (horas/minutos).
-%     \item Cobertura de código (porcentaje - línea, rama, función).
-%     \item Número de errores detectados por las pruebas generadas.
-%     \item Calidad de las pruebas generadas (evaluación cualitativa, p.ej., relevancia, legibilidad).
-%     \item Esfuerzo percibido por el desarrollador (escala Likert, entrevistas).
-%     \item Reducción de bugs reportados en fases posteriores (si es medible en el alcance del estudio).
-% \end{itemize}
 
-\section{Desarrollo del Sistema de Automatización Propuesto}
+\subsection{Variables Independientes}
+\begin{itemize}
+\item Método de generación (manual/automático)
+\item Nivel de complejidad del componente (1-3)
+\item Tipo de componente (visual/servicio/pipe)
+\end{itemize}
+
+\subsection{Variables Dependientes}
+\begin{itemize}
+\item \textbf{Eficiencia}:
+\begin{itemize}
+\item Tiempo generación pruebas (min/componente)
+\item Tiempo mantenimiento (horas/semana)
+\end{itemize}
+\item \textbf{Calidad}:
+\begin{itemize}
+\item Cobertura (línea, función, rama)
+\item Bugs detectados pre-producción
+\item Puntuación CodeClimate
+\end{itemize}
+\item \textbf{Usabilidad}:
+\begin{itemize}
+\item SUS Score (System Usability Scale)
+\item Percepción de utilidad (entrevistas)
+\end{itemize}
+\end{itemize}
+
+\section{Desarrollo del Sistema}
 \label{sec:desarrollo_sistema}
-% Esta sección detalla la construcción de TU herramienta/sistema.
-% Hereda de las secciones que ya teníamos, pero más enfocado en la construcción.
-\subsection{Recolección y Preparación de Datos para IA (si aplica)}
-\label{ssec:datos_ia}
-% Si tu modelo de IA (DeepSeek fine-tuning) requiere un dataset específico para Ionic.
-% Ejemplo: "Se recopilará un corpus de código de aplicaciones Ionic y sus correspondientes pruebas unitarias
-% de repositorios públicos y proyectos ejemplo para el fine-tuning del modelo DeepSeek..."
-\subsection{Diseño de la Arquitectura del Sistema}
-\label{ssec:arquitectura_sistema_metodologia}
-% Referenciar la arquitectura descrita en el Marco Teórico (Figura \ref{fig:flujo_pruebas}).
-% Detallar aquí las tecnologías específicas para cada módulo: Python, LibCST, modelo LLM específico, etc.
-\subsection{Implementación del Módulo de Clasificación de Componentes}
-\label{ssec:implementacion_clasificacion}
-% Cómo se implementará el cálculo de la métrica de complejidad (CYC, DEP, CHG, LOC).
-\subsection{Implementación del Módulo de Generación de Pruebas con IA}
-\label{ssec:implementacion_generacion_ia}
-% Detalles sobre la integración con DeepSeek, prompts, y cómo se adapta al contexto del componente.
-\subsection{Implementación del Mocking Inteligente}
-\label{ssec:implementacion_mocking}
-% Detalles sobre la generación automática de mocks para APIs y plugins nativos.
-\subsection{Integración con Flujos de Desarrollo (Git y CI/CD)}
-\label{ssec:implementacion_git_ci}
-% Cómo se integra con GitHub Actions, tal como se mencionó en el Marco Teórico.
 
-\section{Procedimiento Experimental y Recolección de Datos}
+\subsection{Arquitectura del Sistema}
+\begin{itemize}
+\item \textbf{Backend}: Python 3.10 (FastAPI, LibCST)
+\item \textbf{IA}: DeepSeek-V2 fine-tuned con 1500 ejemplos Ionic
+\item \textbf{Frontend}: Plugin VSCode para interacción
+\end{itemize}
+
+\subsection{Flujo de Implementación}
+\begin{enumerate}
+\item \textbf{Análisis de Repositorio}:
+\begin{itemize}
+\item Scan inicial con SonarQube
+\item Clustering de componentes
+\end{itemize}
+\item \textbf{Generación Adaptativa}:
+\begin{itemize}
+\item Templates por nivel de complejidad
+\item Context injection desde código fuente
+\end{itemize}
+\item \textbf{Integración CI/CD}:
+\begin{itemize}
+\item GitHub Actions para ejecución
+\item Reportes dinámicos en Pull Requests
+\end{itemize}
+\end{enumerate}
+
+\section{Procedimiento Experimental}
 \label{sec:procedimiento_experimental}
-% Detallar los pasos del estudio comparativo.
-\subsection{Fase 1: Establecimiento de la Línea Base (Pruebas Manuales)}
-\label{ssec:fase_linea_base}
-% Ejemplo: "Para cada proyecto/módulo seleccionado, un grupo de desarrolladores (o un desarrollador)
-% generará pruebas unitarias de forma manual para un conjunto de componentes previamente identificados y clasificados.
-% Se registrará el tiempo empleado, la cobertura alcanzada y se guardarán las pruebas."
-\subsection{Fase 2: Aplicación del Sistema Automatizado}
-\label{ssec:fase_sistema_automatizado}
-% Ejemplo: "Para los mismos componentes (o un conjunto comparable), se utilizará el sistema de generación automática
-% de pruebas. Se registrará el tiempo de generación (si es relevante, o el tiempo de configuración y ejecución),
-% la cobertura alcanzada. Las pruebas generadas serán revisadas y, si es necesario, ajustadas mínimamente por un desarrollador,
-% registrando también este tiempo."
-\subsection{Recolección de Datos Cuantitativos}
-\label{ssec:recoleccion_cuantitativa}
-% Cómo se medirán las variables: herramientas para cobertura (e.g., Istanbul/nyc), cronometraje, etc.
-\subsection{Recolección de Datos Cualitativos (Opcional pero Recomendado)}
-\label{ssec:recoleccion_cualitativa}
-% Ejemplo: "Se realizarán encuestas o entrevistas semi-estructuradas a los desarrolladores participantes
-% para recoger sus percepciones sobre la utilidad, facilidad de uso y calidad de las pruebas generadas
-% por ambos métodos."
+
+\subsection{Fase 1: Línea Base}
+\begin{itemize}
+\item Desarrollo manual de pruebas para 20 componentes muestra
+\item Medición de tiempo y cobertura inicial
+\item Identificación de pain points mediante entrevistas
+\end{itemize}
+
+\subsection{Fase 2: Validación Técnica}
+\begin{itemize}
+\item Pruebas A/B para mismos componentes
+\item Métricas comparativas:
+\begin{itemize}
+\item Precisión generación (F1-score)
+\item Reducción falsos positivos
+\end{itemize}
+\end{itemize}
+
+\subsection{Fase 3: Validación en Contexto}
+\begin{itemize}
+\item Despliegue en 1 proyecto real por 8 semanas
+\item Monitoreo continuo mediante:
+\begin{itemize}
+\item SonarQube para calidad
+\item Jira para tracking de bugs
+\end{itemize}
+\end{itemize}
 
 \section{Análisis de Datos}
 \label{sec:analisis_datos}
-% ¿Cómo se analizarán los datos recogidos?
-% Ejemplo: "Se utilizarán pruebas estadísticas (e.g., t-student, ANOVA) para comparar las medias de las variables
-% cuantitativas entre los dos grupos (manual vs. automatizado). Para los datos cualitativos, se realizará
-% un análisis temático de las respuestas."
 
-\section{Consideraciones Éticas (si aplica)}
+\subsection{Cuantitativo}
+\begin{itemize}
+\item ANOVA para comparación de medias
+\item Correlación de Pearson (complejidad vs tiempo)
+\item Regresión lineal para predicción de cobertura
+\end{itemize}
+
+\subsection{Cualitativo}
+\begin{itemize}
+\item Análisis temático de entrevistas
+\item Affinity diagram para pain points
+\end{itemize}
+
+\section{Consideraciones Éticas}
 \label{sec:consideraciones_eticas}
-% Si trabajas con datos de empresas o encuestas a desarrolladores.
-% Ejemplo: "Se garantizará la anonimidad de los participantes y la confidencialidad de los datos de los proyectos.
-% Se obtendrá consentimiento informado..."
+\begin{itemize}
+\item Anonimización de datos empresariales
+\item Consentimiento informado para desarrolladores
+\item Opción de opt-out en cualquier fase
+\end{itemize}
 
-% Puedes agregar más secciones o subsecciones según sea necesario para detallar la metodología.
+\subsection*{Innovación Metodológica} % Using subsection* for unnumbered heading if desired, or just \textbf
+% Or, if this should be part of the main text flow, perhaps integrate it into the Diseño General or a conclusion to the methodology.
+% For now, keeping it as a distinct (though unnumbered) part.
+\textbf{Métrica Compuesta}: Combinación de análisis estático (AST) y dinámico (Git history) \\
+\textbf{Validación Triangulada}: Datos técnicos + percepción humana \\
+\textbf{Adaptabilidad}: Mecanismos de auto-corrección basados en feedback

@@ -1,35 +1,61 @@
 \chapter{Presupuesto}
-
-( Son los recursos necesarios para cubrir la investigación. Se refiere al estimado de la inversión total (compra de materiales si es necesario, movilización y otros gastos). Es recomendable señalar fuentes de financiamiento. )
-
-En esta sección describiremos los recursos más importantes para el desarrollo de nuestra investigación.
-
+\label{chap:presupuesto}
 
 \begin{table}[h] 
     \centering
-    \scalebox{0.65}{
-    \begin{tabular}{cccc}
-        Tipo de Recurso & Nombre & Descripción & Costo  \\
-        \midrule
-        Hardware& Computador &  procesador i7     & 1,299.00   \\
-                             & 					  &  memoria RAM 16GB               & 690.00    \\
-                             & 					  &  placa madre Gigabyte           & 545.00    \\
-                             &  				  &  tarjeta gráfica GTX 1070 8GB & 2,049.00  \\
+    \begin{tabular}{|l|l|l|r|}
         \hline
-        Administrativos & Impresiones y pagos & impresión de documentos, impresión    & 600.00  \\
-                        &                       & de tesis, copias de proyecto de tesis     &         \\
-                        &                       & pago por inscripción de tesis, pagos    &         \\
-                        &                       & por tramites administrativos              &         \\
+        \textbf{Tipo} & \textbf{Recurso} & \textbf{Descripción} & \textbf{Costo (USD)} \\
         \hline
-        Movilidad & Pasajes & gasto estimado en transporte & 200.00  \\
         \hline
-        Otros     &         & gastos no previstos          & 250.00  \\
+        \textbf{Hardware} & Computador portátil & Mínimo i5, 8GB RAM, SSD 256GB & 600.00 \\
         \hline
-                  &         &               Total          & 3186.00  \\
+        \textbf{Software} & Cuenta GitHub Pro & Para repositorios privados & 48.00 \\
+                         & API DeepSeek & Licencia educacional & 120.00 \\
         \hline
-        
-	\end{tabular}
-	}
-	\caption{Recursos para el desarrollo del proyecto de tesis.}
-	\label{tabla:presupuesto}
+        \textbf{Cloud} & Servidores AWS & t3.medium (200 horas) & 40.00 \\
+                       & Almacenamiento S3 & 50GB/mes por 4 meses & 12.00 \\
+        \hline
+        \textbf{Impresión} & Tesis y documentos & Impresión a color, encuadernación & 80.00 \\
+        \hline
+        \textbf{Transporte} & Movilidad local & Viajes para validación & 60.00 \\
+        \hline
+        \textbf{Imprevistos} & Varios & Gastos no contemplados & 100.00 \\
+        \hline
+        \hline
+        & & \textbf{Total} & \textbf{1,060.00} \\
+        \hline
+    \end{tabular}
+    \caption{Presupuesto detallado del proyecto (cifras estimadas para 4 meses)}
+    \label{tabla:presupuesto}
+\end{table}
+
+\section{Fuentes de Financiamiento}
+\begin{itemize}
+    \item \textbf{Beca institucional}: \$500.00 (cubre 47\% del total)
+    \item \textbf{Recursos propios}: \$300.00 (28\%)
+    \item \textbf{Patrocinio académico}: \$260.00 (25\% en créditos AWS Educate y licencias estudiantiles)
+\end{itemize}
+
+\section{Optimización de Costos}
+\begin{itemize}
+    \item Uso de herramientas open-source (Python, Jest, Ionic CLI)
+    \item Equipo hardware mínimo (no requiere GPU dedicada)
+    \item Modelo híbrido (procesamiento local + cloud solo para training)
+    \item Versión digital de documentos cuando sea posible
+\end{itemize}
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|l|r|r|}
+        \hline
+        \textbf{Partida} & \textbf{Costo Original} & \textbf{Costo Optimizado} \\
+        \hline
+        Desarrollo & 1,200.00 & 680.00 \\
+        Validación & 400.00 & 200.00 \\
+        Documentación & 200.00 & 180.00 \\
+        \hline
+    \end{tabular}
+    \caption{Comparativa de ahorros por optimización}
+    \label{tabla:ahorros}
 \end{table}

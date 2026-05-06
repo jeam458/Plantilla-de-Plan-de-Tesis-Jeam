@@ -1,38 +1,51 @@
 \chapter{Alcance y Limitaciones}
 \label{chap:alcance_limitaciones}
 
+\cite{sampieri2010metodologia} clasifica el alcance cuantitativo en exploratorio, descriptivo, correlacional o explicativo; también advierte que la viabilidad real (tiempo, recursos, acceso a datos) acota lo que se puede prometer. Este capítulo dice qué queda dentro de esa franja para el \textbf{módulo de simulación Capacitor}, la \textbf{estrategia de cobertura} y el \textbf{MCP auxiliar}.
+
+\section{Alcance del estudio según la metodología de la investigación}
+\label{sec:alcance_metodologia_sampieri}
+El trabajo se entiende como \textbf{explicativo-aplicado} en ingeniería de software: se construye un artefacto (simulador + método de cobertura + MCP opcional) y se comparan mediciones \textit{antes} y \textit{después} sobre variables como cobertura, tiempo de preparación de pruebas u otros indicadores opcionales de calidad. Va también una parte \textbf{descriptiva}: caracterizar qué plugins cubrimos, cómo se configuró el proyecto y con qué herramientas medimos.
+
 \section{Alcances}
 \label{sec:alcances}
-Los alcances de este estudio pueden resumirse en:
 
-\subsection{Tecnológico}
+\subsection{Alcance Tecnológico}
 \label{ssec:alcance_tecnologico}
-Desarrollo de un sistema en Python que integre IA (DeepSeek) con Jest/Spectator para generación y ejecución automática de pruebas unitarias en aplicaciones Ionic/Angular.
+\begin{itemize}
+    \item Un \textbf{módulo de simulación} para un conjunto \textbf{finito y nombrado} de plugins Capacitor en Ionic con Angular y/o React, ejecutable en Node mediante Jest y/o Jasmine según el caso de referencia.
+    \item Un \textbf{método de cobertura} limitado al código que consume esos plugins (por ejemplo perfiles de éxito, permiso denegado, vacíos, errores simulados), sin prometer exploración exhaustiva de todo el programa.
+    \item Un \textbf{servidor MCP auxiliar} con herramientas explícitas para correr tests con cobertura, leer agregados del reporte y, si hay proyecto SonarQube/SonarCloud disponible, consultarlo en solo lectura; sin prometer refactors genéricos fuera de alcance.
+    \item Uso de herramientas habituales del ecosistema (Istanbul a través de Jest, ESLint si aporta) como instrumentos de medición.
+\end{itemize}
 
-\subsection{Metodológico}
+\subsection{Alcance Metodológico}
 \label{ssec:alcance_metodologico}
-Clasificación de componentes en 3 niveles de complejidad (básico, intermedio, crítico) mediante análisis de código estático y patrones de commits en Git.
+Las variables se operacionalizan como sugiere \cite{sampieri2010metodologia}: independientes (uso del simulador, aplicación del método de cobertura, uso opcional del MCP), dependientes (cobertura de líneas y ramas, tiempo en preparación de mocks, densidad de issues críticos en Sonar si existe). El diseño es comparativo antes/después o entre ramas documentadas del mismo repositorio, guardando versiones de comandos.
 
-\subsection{Validación}
+\subsection{Alcance de Validación}
 \label{ssec:alcance_validacion}
-Pruebas en al menos 3 proyectos reales con métricas comparativas (cobertura, tiempo de desarrollo, bugs reportados).
+Al menos \textbf{un proyecto Ionic real o de referencia} con versiones de tooling fijas entre mediciones. No buscamos inferencia estadística para toda la industria; sí evidencia bien documentada bajo las limitaciones que siguen.
 
 \section{Limitaciones}
 \label{sec:limitaciones}
-Algunas limitaciones de este estudio pueden resumirse en:
 
 \subsection{Técnicas}
 \label{ssec:limitaciones_tecnicas}
-El sistema no cubrirá pruebas E2E ni de integración, enfocándose exclusivamente en pruebas unitarias de componentes y servicios.
+El simulador \textbf{no} ejecuta bytecode nativo del teléfono; las conclusiones valen para \textbf{unitarias en Node}. Plugins fuera de lista siguen necesitando trabajo manual.
 
-\subsection{Dependencias}
-\label{ssec:limitaciones_dependencias}
-Requerirá acceso a la API de DeepSeek o modelos locales fine-tuneados, lo que podría implicar costos computacionales.
+\subsection{Del método de cobertura}
+\label{ssec:limitaciones_cobertura}
+Si el código está muy acoplado o el flujo asíncrono es enredado, el análisis ligero puede no bastar y aparecerán hacks que la tesis debe reconocer como trabajo futuro.
+
+\subsection{Del MCP y del LLM}
+\label{ssec:limitaciones_mcp}
+MCP es apoyo operativo; cualquier sugerencia automática de tests con LLM queda sometida a que el runner las ejecute y fallen o pasen del modo habitual. APIs de modelos implican costo y variabilidad opcionalmente marginal al experimento central.
 
 \subsection{Compatibilidad}
 \label{ssec:limitaciones_compatibilidad}
-Solo funcionará con proyectos Ionic+Angular que sigan una estructura modular estándar (ej: src/app/components).
+Proyectos Ionic con estructuras raras o tooling muy personalizado pueden exigir adaptaciones que no entran en la primera versión del plan.
 
 \subsection{Contexto}
 \label{ssec:limitaciones_contexto}
-La efectividad en proyectos con código legacy muy desorganizado puede ser reducida.
+Si Sonar u otros servicios no están disponibles, la validación se apoya en cobertura y tiempos tal como quedó descrito en metodología.

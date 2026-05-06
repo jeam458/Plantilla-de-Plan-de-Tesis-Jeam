@@ -5,16 +5,17 @@
 \newcolumntype{L}{>{\centering\arraybackslash}m{4cm}} 
 \usepackage[caption=false]{subfig}
 %\input{colors.tex}
-\usepackage{dsfont}
+%\usepackage{dsfont}  % no instalado en BasicTeX; descomentar si se usa \mathds
 \usepackage{gantt}
-\usepackage[ruled,vlined]{algorithm2e}
+%\usepackage[ruled,vlined]{algorithm2e}  % instalar: tlmgr install algorithm2e
 
 \newtheorem{defn}{Definition}[section]
 \pagenumbering{Roman}
 
-\title{``Automatización de pruebas unitarias para aplicaciones en Ionic"}
+\title{``Simulación de {APIs} nativas de {Capacitor} para pruebas unitarias, optimización de cobertura de código y orquestación auxiliar mediante {MCP} en aplicaciones {Ionic}"}
 \author{Br. Jean Carlo Cuellar Vizcarra}
 \orientador{Ing. Vanessa Choque}
+\coorientador{---} % Co-asesor: sustituir por nombre o dejar guiones si no aplica
 
 \begin{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -37,6 +38,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % En esta parte deberás incluir los archivos de tu plan de tesis %%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{contenido/introduccion} %Introducción (línea de la investigación)
 \input{contenido/cap_1_antecedentes} %Inserta el capítulo 1
 \input{contenido/cap_2_problema_investigacion} %Inserta el capítulo 2
 \input{contenido/cap_3_justificacion} %Inserta el capítulo 3

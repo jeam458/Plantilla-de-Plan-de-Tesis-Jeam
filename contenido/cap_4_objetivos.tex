@@ -3,18 +3,15 @@
 
 \section{Objetivo General}
 \label{sec:objetivo_general}
-% Define aquí el objetivo general de la investigación.
-% Ejemplo: Evaluar el impacto de la automatización de pruebas unitarias en aplicaciones Ionic mediante el uso de herramientas como ngentest, con el fin de reducir el tiempo de desarrollo y mejorar la cobertura de pruebas.
+El objetivo general es construir y evaluar un \textbf{módulo de simulación de plugins nativos Capacitor} para proyectos Ionic (Angular o React), enganchado al runner que ya use el equipo (Jest y/o Jasmine), acompañarlo de un \textbf{procedimiento para mejorar cobertura de líneas y ramas} bajo ese esquema, y sumar una \textbf{capa MCP auxiliar} que automatice lo repetible del ciclo de medición (correr tests, leer cobertura, calidad estática). Todo debe poder contrastarse con una \textbf{línea base} registrada en el mismo proyecto.
 
 \section{Objetivos Específicos}
 \label{sec:objetivos_especificos}
-% Define aquí los objetivos específicos. Añade más \item según sea necesario.
 \begin{itemize}
-    \item Desarrollar e implementar un flujo de trabajo automatizado para la generación de pruebas unitarias en proyectos Ionic utilizando n8n y ngentest.
-    \item Cuantificar la reducción en el tiempo dedicado por los desarrolladores a la creación de pruebas unitarias mediante la adopción del flujo de trabajo automatizado.
-    \item Medir la mejora en la cobertura de código de las pruebas unitarias generadas automáticamente en comparación con las pruebas escritas manualmente o la ausencia de estas.
-    \item Realizar un análisis comparativo de los tiempos de desarrollo y la cobertura de pruebas antes y después de la implementación de la automatización de pruebas unitarias.
-    \item Establecer directrices y mejores prácticas para la automatización de pruebas unitarias en aplicaciones Ionic, incluyendo el mocking efectivo de componentes nativos.
+    \item Programar en TypeScript/JavaScript el \textbf{módulo de simulación} para un conjunto acotado de plugins Capacitor (por ejemplo Geolocation, Camera, Storage o NFC, según alcance), con perfiles configurables y respuestas que permitan tanto caminos felices como errores creíbles.
+    \item Integrar ese módulo en \textbf{al menos un proyecto Ionic de referencia} con pasos reproducibles (preset Jest, \texttt{setupFilesAfterEnv}, o el equivalente razonable en Jasmine/Angular) y dejar por escrito qué queda fuera si aparece un plugin no cubierto.
+    \item Diseñar un \textbf{método de optimización de cobertura}: detectar dónde el código toca los plugins incluidos, elegir escenarios mínimos útiles y añadir o ajustar tests que suban líneas y ramas sin ejecutar binarios en el teléfono.
+    \item Montar un \textbf{servidor MCP auxiliar} pequeño pero honesto: por ejemplo disparar la suite con cobertura, leer el JSON o resumen estándar y, si existe infraestructura, consultar Sonar en solo lectura; describir en metodología cómo se usa y qué no promete.
+    \item Definir \textbf{métricas y diseño comparativo} entre línea base (mocks dispersos o ausencia del módulo) y escenario con simulación integrada, siguiendo la lógica cuantitativa de \cite{sampieri2010metodologia}: cobertura, tiempo dedicado a preparar pruebas y, si aplica, lecturas Sonar/ESLint.
+    \item Entregar \textbf{guías breves} para quien quiera extender plugins o meter el flujo en CI, incluyendo límites conocidos.
 \end{itemize}
-
-% Puedes ajustar o añadir más objetivos según la necesidad de tu investigación.

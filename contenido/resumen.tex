@@ -3,32 +3,8 @@
 \end{center}
 \vspace{1cm}
 
-Imagina esto: es viernes por la tarde, tu equipo acaba de lanzar una actualización crítica de una aplicación Ionic para un hospital. Todo parece funcionar… hasta que, horas después, los médicos reportan que el módulo de citas falla al agendar urgencias. ¿El motivo? Un componente aparentemente sencillo —un selector de horarios— no tenía pruebas unitarias para validar casos extremos. El resultado: horas de hotfixes, estrés y, lo peor, un riesgo evitable para pacientes.
+Las apps Ionic que usan Capacitor necesitan, para las pruebas unitarias en Node.js, implementaciones que cumplan el mismo contrato que los plugins nativos. Cuando eso falta o queda hecho a medias, la cobertura o no sube o engaña.
 
-Este escenario no es ficticio. En el desarrollo móvil híbrido con Ionic, las pruebas unitarias suelen sacrificarse por la presión de entregar features rápido. Los equipos confían en pruebas manuales o en suites desactualizadas que no escalan. Y cuando alguien intenta mejorar la cobertura, se enfrenta a:
+La propuesta central es un \textbf{módulo de simulación de esos plugins}: software reutilizable con perfiles (éxito, error, permisos, datos sintéticos razonables), es decir \textit{sustitutos de prueba} bien armados en Node. Encima se plantea un camino concreto para \textbf{mejorar cobertura} combinando corridas de tests con escenarios elegidos con criterio. El \textbf{MCP} entra como capa opcional que expone herramientas para ejecutar Jest/Jasmine, resumir cobertura y revisar calidad (por ejemplo Sonar), en línea con lo que describe la especificación del Model Context Protocol \cite{mcp-spec2025}.
 
-Pruebas frágiles: Un pequeño cambio en el diseño rompe 20 tests.
-
-Tiempo perdido: Escribir pruebas para un componente complejo puede tomar más que desarrollarlo.
-
-Cobertura desigual: El 80% de las pruebas cubren solo lo "fácil", dejando edge cases sin verificar.
-
-Aquí es donde este proyecto propone un cambio radical: ¿Y si la IA generara pruebas adaptativas, aprendiendo de tu código y priorizando lo crítico? No se trata de reemplazar a los desarrolladores, sino de darles un "asistente inteligente" que:
-
-Clasifique automáticamente los componentes en 3 niveles (básico, complejo, crítico), analizando su estructura, historial de cambios y dependencias.
-
-Genere pruebas contextuales usando modelos como DeepSeek, sugiriendo no solo qué testear, sino cómo, basado en patrones del repositorio.
-
-Se integre en el flujo Git: Ejecutando y actualizando pruebas con cada commit, como un guardián automático.
-
-Este no es otro framework de testing. Es un sistema vivo que evoluciona con el proyecto. Para un desarrollador, significaría:
-
-Dejar de escribir pruebas repetitivas para botones o inputs.
-
-Recibir alertas como: "Este servicio de pagos necesita 3 pruebas nuevas: aquí tienes un draft".
-
-Ver reportes en GitHub como: "Cobertura del 95% en Nivel 3 (flujos críticos) ✅".
-
-Validaremos el sistema en proyectos reales, midiendo no solo métricas técnicas (como cobertura o falsos positivos), sino su impacto humano: horas devueltas al equipo, estrés reducido y —lo más importante— bugs evitados en producción.
-
-Porque al final, el testing no se trata de código: se trata de confianza. Confianza en que, cuando un médico, un maestro o un usuario final abra tu app, funcionará como debe. Esta investigación busca hacer esa confianza más accesible, automática y, sobre todo, inteligente.
+Para apoyar la revisión bibliográfica tomamos como puntos de partida trabajos ya publicados y descargables: el mapeo sobre pruebas GUI en apps móviles \cite{nie2023gui_mobile_mapping}, la evaluación empírica de TESTPILOT \cite{schafer2024testpilot} y SynTest-JavaScript \cite{olsthoorn2024syntest_javascript}. La idea es mostrar en un proyecto Ionic de referencia que la cobertura y el esfuerzo de mocking mejoran respecto a una línea base documentada, sin confundir eso con pruebas extremo a extremo en hardware. El tipo de estudio se apoya en el planteamiento cuantitativo de alcance aplicado que caracteriza \cite{sampieri2010metodologia}.

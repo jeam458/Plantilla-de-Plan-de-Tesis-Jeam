@@ -3,18 +3,16 @@
 
 \section{Hipótesis de Trabajo}
 \label{sec:hipotesis_trabajo}
-"La implementación de un sistema de generación automática de pruebas unitarias para Ionic, que combine:
-\begin{enumerate}
-    \item Clasificación inteligente por niveles de complejidad (básico, intermedio, crítico),
-    \item Generación adaptativa de pruebas mediante IA (fine-tuning de DeepSeek para Angular/Ionic), y
-    \item Integración continua con repositorios Git,
-\end{enumerate}
-podrá incrementar la cobertura efectiva de pruebas en al menos un 35\% (versus métodos tradicionales), reducir el tiempo de desarrollo/mantenimiento de pruebas en un 50\%, y disminuir los bugs en producción relacionados con componentes no probados en un 40\%."
+Si disponemos de un \textbf{módulo de simulación de plugins Capacitor} que permita ejecutar en Node, con perfiles definidos, las rutas que hoy dependen de esas APIs, y si además aplicamos un \textbf{procedimiento ordenado de mejora de cobertura} (éxito, error, permisos y pocos casos bien elegidos), entonces respecto a una \textbf{línea base} tomada en el mismo proyecto (mocks manuales o configuración mínima previa) deberíamos ver dos efectos medibles: más cobertura de líneas y/o ramas según Istanbul/Jest u homólogo, y menos trabajo repetitivo manteniendo mocks para los plugins cubiertos.
+
+La parte MCP del trabajo sirve para documentar y repetir el ritual de medición; por sí sola no formula la hipótesis sobre cobertura, aunque sí puede mejorar la \textbf{trazabilidad} de cómo se obtuvieron los números.
 
 \section{Fundamento de la Hipótesis}
 \label{sec:fundamento_hipotesis}
 \begin{itemize}
-    \item Datos preliminares muestran que el 68\% de los componentes Ionic en proyectos reales tienen patrones repetibles de prueba (analizados en 50 repositorios GitHub).
-    \item Pruebas piloto indican que IA + análisis de historial Git puede predecir con 82\% de precisión qué componentes requieren pruebas más exhaustivas.
-    \item La automatización parcial (solo ejecución) ya demostró mejorar métricas en un 15-20\% (Jest/CI benchmarks 2023), sugiriendo que la generación inteligente potenciaría estos resultados.
+    \item La evidencia en JavaScript muestra que cobertura seria exige entorno ejecutable y sustitutos confiables \cite{schafer2024testpilot,olsthoorn2024syntest_javascript}; los plugins Capacitor son exactamente ese tipo de dependencia externa en apps híbridas.
+    \item Los estudios de síntesis sobre testing móvil insisten en automatización y métricas \cite{nie2023gui_mobile_mapping}; aquí acotamos el foco a unitarias en Node bajo simulación controlada, sin pretender cerrar el debate de GUI en dispositivo.
+    \item MCP ofrece un vocabulario común para exponer herramientas repetibles \cite{mcp-spec2025}, útil para dejar constancia del pipeline experimental sin mezclarlo con la lógica del simulador.
 \end{itemize}
+
+Los porcentajes exactos de mejora se fijarán después de correr la línea base; el plan evita comprometer cifras sin mediciones ya recolectadas.

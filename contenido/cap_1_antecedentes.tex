@@ -1,8 +1,24 @@
 \chapter{Antecedentes}
 \label{chap:antecedentes}
 
-En los primeros años de Ionic, las pruebas unitarias eran un lujo que pocos equipos se permitían. Herramientas como Jasmine y Karma requerían compleja configuración, y muchas startups optaban por lanzar features sin testing, acumulando deuda técnica. El resultado: apps que funcionaban hasta que un pequeño cambio rompía flujos críticos. Con la llegada de Jest y Spectator, el panorama mejoró, pero persistió un problema fundamental: escribir y mantener pruebas seguía siendo manual, tedioso y propenso a errores humanos.
+\section{Contexto y vacío de investigación}
+\label{sec:antecedentes_contexto}
+Hay bastante literatura que sintetiza cómo se investiga el testing en aplicaciones móviles; el trabajo de Nie et al.\ \cite{nie2023gui_mobile_mapping}, por ejemplo, ordena objetivos y métricas y recalca automatización y generación de casos, sobre todo en mundos Android/iOS bastante nativos. Las apps \textbf{híbridas} con Ionic y Capacitor comparten la preocupación por la calidad, pero meten un ingrediente incómodo: cada \texttt{@capacitor/*} es una promesa TypeScript que en Node no tiene detrás el mismo runtime que en el dispositivo. Por eso la literatura ``general'' de GUI móvil no basta para explicar qué pasa cuando intentas cobertura real en el bundle web.
 
-Estudios recientes revelan que el 60% de los proyectos Ionic tienen cobertura de pruebas insuficiente (SonarQube, 2023), y el 45% de los bugs en producción provienen de componentes sin pruebas adecuadas. Casos como apps médicas con errores en cálculos de dosis o fintechs con vulnerabilidades en pagos, demuestran que el enfoque actual no escala. La IA ya revolucionó cómo escribimos código (con Copilot, CodeWhisperer), pero su potencial para generar y gestionar pruebas en Ionic sigue inexplorado.
+Por otro lado, el frente JavaScript ya tiene evidencia seria: Schäfer et al.\ reportan resultados fuertes con TESTPILOT \cite{schafer2024testpilot}; Olsthoorn et al.\ muestran generación unitaria con búsqueda en SynTest-JavaScript \cite{olsthoorn2024syntest_javascript}. Ambos insisten en algo que aquí importa: sin dependencias sustituidas de manera consistente, el porcentaje de cobertura es humo. Para Capacitor ese trabajo de sustitución es el que suele quedar repartido en archivos de mock que nadie quiere mantener.
 
-Este trabajo se basa en una oportunidad clara: combinar el poder de los modernos LLMs (como DeepSeek) con el conocimiento específico de Ionic/Angular para crear un sistema que no solo genere pruebas, sino que las adapte según la complejidad del componente y su historial en el repositorio. Así como Git cambió cómo versionamos código, esta propuesta busca transformar cómo aseguramos calidad en apps híbridas.
+El \textbf{Model Context Protocol} \cite{mcp-spec2025} vale la pena mencionarlo porque estandariza cómo un cliente de LLM llama a herramientas externas; sirve para ordenar el flujo de mediciones (tests, reportes, Sonar). No es el corazón del aporte: el corazón sigue siendo el \textbf{módulo de simulación de plugins Capacitor} que hace correr la suite en condiciones controladas.
+
+\section{Fuentes prioritarias para iniciar la revisión}
+\label{sec:fuentes_prioritarias_descarga}
+Para bajar de una vez material revisado por pares y tenerlo a mano en PDF:
+
+\begin{enumerate}
+    \item \textbf{Nie et al.\ (2023), IET Software} \cite{nie2023gui_mobile_mapping}. PDF institucional: \url{https://dr.ntu.edu.sg/bitstreams/68906124-d1f3-470c-a57d-f08ff79860e8/download}.
+    \item \textbf{Schäfer et al.\ (2024), IEEE TSE} \cite{schafer2024testpilot}. Copia de autores: \url{https://www.franktip.org/pubs/testpilot2024.pdf}; arXiv \texttt{2302.06527}: \url{https://arxiv.org/pdf/2302.06527.pdf}.
+    \item \textbf{Olsthoorn et al.\ (2024), SBFT @ ICSE} \cite{olsthoorn2024syntest_javascript}. PDF: \url{https://pure.tudelft.nl/ws/portalfiles/portal/221041638/3643659.3643928.pdf}.
+\end{enumerate}
+
+\section{Síntesis}
+\label{sec:antecedentes_sintesis}
+En resumen: hace falta algo ejecutable en Node que haga el papel de los plugins nativos cuando corres unit tests; conviene apoyarse en cómo la comunidad ya mide cobertura en JavaScript; y el MCP puede ayudar a no perder el rastro de comandos y métricas si se documenta bien \cite{mcp-survey-techrxiv}. Los capítulos siguientes bajan eso a problema, objetivos y forma de medir.

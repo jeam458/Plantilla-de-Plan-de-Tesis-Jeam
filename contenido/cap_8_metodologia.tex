@@ -1,41 +1,43 @@
 \chapter{Metodología}
-(Se espera una redacción amplia y detallada la extensión esta determinada por el método seguido por el estudiante)
-En este capitulo se presenta el tipo de metodología utilizado en esta tesis, así como las etapas que se seguirán para alcanzar los objetivos establecidos para la investigación.
+\label{chap:metodologia}
+
+Este capítulo cuenta cómo se hará la parte ``de laboratorio'': qué tipo de estudio es, qué medimos y en qué orden se construye el artefacto. La idea es que otra persona pudiera repetir los pasos con el mismo repositorio de referencia.
+
+\section{Fundamentos metodológicos según Hernández Sampieri et al.}
+\label{sec:fundamentos_sampieri}
+Seguimos la estructura general del proceso cuantitativo \cite{sampieri2010metodologia}: delimitar problema y objetivos, apoyarse en marco teórico y fijar alcance. Las secciones sobre muestras grandes o encuestas masivas solo aplicarían si incorporáramos participantes humanos; por ahora la evidencia viene de mediciones sobre software.
 
 \section{Tipo de Investigación}
-Escribir que tipo de investigación se esta siguiendo.
+\label{sec:tipo_investigacion}
+Es investigación \textbf{cuantitativa}, con predominio del alcance \textbf{explicativo} en formato aplicado: construimos el módulo de simulación Capacitor, el método de cobertura y el MCP auxiliar, y contrastamos números antes y después de una intervención bien definida. Si hace falta caracterizar el artefacto en detalle, eso entra como componente \textbf{descriptivo} dentro del mismo plan.
 
-\section{Métodos de Validación Propuestas}
-Cuales serán las métricas utilizadas ?
+\section{Métodos de Validación y Métricas}
+\label{sec:metricas_validacion}
+\begin{itemize}
+    \item \textbf{Cobertura de código:} líneas y ramas según Istanbul/Jest u homólogo, siempre sobre el mismo snapshot del proyecto entre mediciones.
+    \item \textbf{Tiempo de preparación de pruebas:} registro honesto (cronómetro, bitácora o incluso conteo de archivos mock eliminados) entre línea base y escenario con simulación integrada.
+    \item \textbf{Pasaje de la suite:} cuántos tests pasan en Node en cada corrida que documentemos.
+    \item \textbf{Calidad estática opcional:} si hay Sonar configurado, puede usarse como evidencia extra de issues críticos; si no, no forzamos la narrativa.
+\end{itemize}
 
-% Insertando imagen.
-  \begin{figure}
-  \centering
-  \subfloat[]{\includegraphics[width=150mm]{graficos/counting.png}}
-  \caption[Ejemplo inserción de imagen]
-  {Aquí deberas colocar la leyenda o descripción de la imagen.}
- % Nota. Adaptado de Título de la imagen, de Autor de la Imagen, año de publicación de la imagen, Fuente. Tipo de licencia.%
-  \label{fig:counting}
-  \end{figure}
-% Fin insertando imagen
+\section{Diseño experimental}
+\label{sec:diseno_experimental}
+\begin{enumerate}
+    \item \textbf{Línea base ($B$):} tomar el proyecto Ionic de referencia tal como se prueba hoy (mocks dispersos o mínimos necesarios). Anotar cobertura $C_B$, tiempo $T_B$ y estado de la suite.
+    \item \textbf{Intervención ($P$):} integrar el módulo de simulación para los plugins del alcance, aplicar el método de cobertura y etiquetar commits o releases para poder volver atrás.
+    \item \textbf{Post-intervención:} medir $C_P$, $T_P$ y suite; calcular $\Delta C = C_P - C_B$ y $\Delta T = T_B - T_P$.
+    \item \textbf{Trazabilidad MCP (opcional):} guardar logs de herramientas MCP que ejecuten los mismos comandos que harías a mano, solo para demostrar equivalencia y orden.
+\end{enumerate}
 
-La metodología de investigación hace referencia al conjunto de procedimientos racionales y ordenados utilizados para alcanzar uno o varios objetivos que rigen en una investigación científica, en otras palabras, es el método utilizado para alcanzar los objetivos perseguidos. Se recomienda que el estudiante redacte en forma de párrafos el procedimiento a seguir para la elaboración de investigación.
+\section{Fases de desarrollo del artefacto}
+\label{sec:fases_desarrollo}
+\begin{enumerate}
+    \item \textbf{Ingeniería del simulador:} definir por plugin qué métodos cubrimos, qué perfil activa cada respuesta y cómo se engancha Jest/Jasmine (\texttt{setupFilesAfterEnv}, manual mocks o factoría común).
+    \item \textbf{Método de cobertura:} localizar usos de plugins; listar escenarios mínimos para ramas importantes; escribir o ajustar tests con plantillas claras.
+    \item \textbf{Servidor MCP auxiliar:} implementar herramientas acotadas y documentar rutas permitidas por seguridad.
+    \item \textbf{Redacción de resultados:} tablas, figuras y una sección corta sobre amenazas (tests flaky, orden de ejecución, dependencias de red si algún día aparecen).
+\end{enumerate}
 
-\section{Mapeo de Componentes del Proyecto Ionic}
-\label{sec:mapeo_componentes}
-% Describe aquí el proceso de identificación y mapeo de los diferentes componentes de una aplicación Ionic (servicios, pipes, directivas, componentes).
-
-\section{Generación de Pruebas Unitarias con ngentest}
-\label{sec:generacion_ngentest}
-% Detalla cómo se utilizará la herramienta ngentest para generar automáticamente las pruebas unitarias para cada tipo de componente identificado.
-
-\section{Compilación y Ejecución de Pruebas con Jasmine}
-\label{sec:compilacion_jasmine}
-% Explica el flujo de trabajo para compilar y ejecutar las pruebas unitarias generadas, utilizando Jasmine como framework de pruebas. Menciona los comandos de consola relevantes.
-
-\section{Mocking de Funcionalidades Nativas}
-\label{sec:mocking_funcionalidades_nativas}
-% Describe las estrategias y técnicas para mockear las funcionalidades nativas del dispositivo que Ionic utiliza a través de Cordova o Capacitor.
-% Incluye ejemplos específicos, como el mocking de datos del GPS.
-
-% Puedes agregar más secciones o subsecciones según sea necesario para detallar la metodología.
+\section{Instrumentos y fuentes bibliográficas iniciales}
+\label{sec:instrumentos_biblio}
+Los trabajos que más pesan al contrastar decisiones de diseño y métricas son \cite{nie2023gui_mobile_mapping,schafer2024testpilot,olsthoorn2024syntest_javascript}; para MCP recurrimos a \cite{mcp-spec2025}.

@@ -1,0 +1,20 @@
+# LaTeX / BibTeX
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.fdb_latexmk
+*.fls
+*.synctex.gz
+missfont.log
+*.bak
+
+# PDF local (generar con compile-pdf.sh)
+*.pdf
+
+# macOS
+.DS_Store

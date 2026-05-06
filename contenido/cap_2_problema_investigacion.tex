@@ -3,12 +3,19 @@
 
 \section{Problema Principal}
 \label{sec:problema_principal}
-La generación y mantenimiento manual de pruebas unitarias en aplicaciones Ionic es ineficiente, consume hasta un 40% del tiempo de desarrollo (GitLab, 2023) y no garantiza cobertura consistente en componentes críticos, lo que aumenta el riesgo de bugs en producción.
+Quien lleva un proyecto Ionic con Capacitor termina corriendo pruebas unitarias en Node.js. Allí los plugins no están ``de verdad'': o montas mocks a mano una y otra vez, o la suite revienta y dejas de confiar en el porcentaje de cobertura. Cuando los mocks están desactualizados o no cubren ramas de error, las pruebas pasan por encima del problema y la métrica ya no dice mucho sobre la lógica que te importa.
+
+En ese escenario no contamos, dentro del alcance realista de esta tesis, con una propuesta integrada y demostrable que junte tres cosas: un \textbf{módulo reutilizable de simulación de plugins Capacitor}, una forma explícita de \textbf{subir cobertura} (no magia, sino escenarios y casos elegidos) y, como ayuda, \textbf{orquestación con MCP} para no dispersarse entre consolas al evaluar resultados.
+
+El problema central puede decirse así: falta un \textbf{artefacto medible} que (i) permita ejecutar en Node, bajo perfiles claros, lo que hoy depende de \texttt{@capacitor/*}; (ii) dirija el esfuerzo de testing hacia más líneas y ramas dentro de ese modelo; (iii) deje registro reproducible de cómo se obtuvieron las métricas, incluyendo herramientas estándar enlazadas vía MCP cuando aplique.
 
 \section{Problemas Secundarios}
 \label{sec:problemas_secundarios}
 \begin{itemize}
-    \item \textbf{Falta de priorización inteligente:} No existe un sistema que clasifique automáticamente qué componentes requieren pruebas más robustas (ej: un formulario médico vs. un botón decorativo).
-    \item \textbf{Pruebas desactualizadas:} El 68% de los repositorios Ionic tienen pruebas obsoletas que no reflejan los últimos cambios (GitHub scan, 2024).
-    \item \textbf{Dependencia del conocimiento tribal:} Nuevos desarrolladores tardan semanas en entender qué y cómo probar en proyectos legacy.
+    \item \textbf{Brecha Node--nativo.} Si los sustitutos no respetan firmas y comportamientos esperados, los tests fallan por razones técnicas antes que por lógica de negocio; comparar ``antes y después'' de cobertura se vuelve injusto.
+    \item \textbf{Cobertura sin criterio de escenarios.} Para cubrir ramas hace falta pasar por éxitos y fracasos (permiso denegado, respuesta vacía, error simulado). Sin una guía acotada, cada desarrollador improvisa y el esfuerzo no escala.
+    \item \textbf{Herramientas dispersas.} Correr Jest, abrir el reporte Istanbul o lcov, revisar Sonar o ESLint son tareas que se repiten; sin un esquema documentado (por ejemplo herramientas MCP), el pipeline de validación de la tesis se ensucia y cuesta repetirlo igual dos veces.
+    \item \textbf{Lectura honesta del alcance.} Cobertura alta en Node con simulación no reemplaza una corrida en dispositivo; hay que decirlo en metodología para no sobreinterpretar frente al jurado.
 \end{itemize}
+
+Resolver estos puntos orienta objetivos, hipótesis y resultados esperados. El \textbf{módulo de simulación Capacitor} es la pieza que desbloquea el resto; la optimización de cobertura y el MCP ordenan cómo se mide y cómo se cuenta la historia.

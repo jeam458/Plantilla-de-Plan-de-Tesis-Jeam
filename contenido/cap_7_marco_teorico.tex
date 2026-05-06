@@ -1,95 +1,32 @@
 \chapter{Marco Teórico}
-(En este apartado el estudiante debe presentar en forma breve los temas que se abordarán en el marco teórico. El marco teórico se desprende de las palabras clave y del titulo. Debe ser totalmente acotado.
-Ésta sección describe conceptos relacionados a procesamiento de trayectorias y detección de trayectorias anómalas .
+\label{chap:marco_teorico}
 
-\section{Primer subtitulo}
-Aquí debe llenar tu contenido
+Este capítulo junta lo necesario para entender el trabajo sin dispersarse: cómo encaja la investigación en una línea cuantitativa aplicada \cite{sampieri2010metodologia}, qué dicen estudios recientes sobre testing móvil y sobre JavaScript \cite{nie2023gui_mobile_mapping,schafer2024testpilot,olsthoorn2024syntest_javascript}, y cómo se comportan Ionic y Capacitor cuando las pruebas corren en Node. El modelo MCP \cite{mcp-spec2025} aparece al final como herramienta de apoyo, no como sustituto del simulador de plugins.
 
-\begin{algorithm}[H]
-\SetAlgoLined
-\KwData{$G=(X,U)$ such that $G^{tc}$ is an order.}
-\KwResult{$G’=(X,V)$ with $V\subseteq U$ such that $G’^{tc}$ is an interval order.}
-initialization\;
-\nl \Begin{
-\nl\While{not at end of this document}{
-	\nl read current\;
-	\nl \eIf{understand}{
-	\nl go to next section\;
-	\nl current section becomes this one\;
-	}{
-	\nl go back to the beginning of current section\;
-	}
- }
- }
-\caption{Ejemplo de como colocar código en código latex}
-\label{IR2}
-\end{algorithm}
+\section{Bases teóricas de la metodología de la investigación}
+\label{sec:bases_metodologia}
+El proceso cuantitativo que resume \cite{sampieri2010metodologia} exige plantear problema, construir marco teórico y decidir alcance. Aquí el alcance es mayormente \textbf{explicativo-aplicado}: construimos algo que funciona y medimos diferencias frente a una línea base en variables como cobertura y tiempo.
 
-Ejemplo para colocar citaciones: \cite{sillito2008semi}
-
-Es posible utilizar abreviaturas dentro del contenido, abreviaturas como:
-%\acronum{GPS}, \ac{INEI}, \ac{t-SNE}, \ac{SOM}, \ac{IBM}.
-
-Para la utilización de ecuaciones matemáticas se puede utilizar el simbolo \$\$ dos veces tanto al inicio y al final, y para otros casos utilizar .
-
-$$ E = mc^2 $$
-
-Ecuaciones:
-\begin{align*}
-  1 + 2 &= 3\\
-  1 &= 3 - 2
-\end{align*}
-
-Matrices: 
-\[\begin{bmatrix}
-1 & 0\\
-0 & 1
-\end{bmatrix}\]
-
-otros:
-\begin{equation}
-(\frac{1}{\sqrt{x}})
-\end{equation}
-
-\section{Pruebas Unitarias}
+\section{Pruebas unitarias, cobertura y testabilidad en JavaScript}
 \label{sec:pruebas_unitarias}
-% Agrega aquí el contenido sobre pruebas unitarias.
+Las unitarias miran pedazos pequeños de código en aislamiento. La \textbf{cobertura} cuenta cuántas sentencias o ramas tocó la suite; como muestra Schäfer et al.\ \cite{schafer2024testpilot}, ese número solo tiene peso si el entorno realmente ejecutó el código. SynTest-JavaScript \cite{olsthoorn2024syntest_javascript} refuerza la idea de que en JavaScript dinámico los sustitutos importan tanto como el algoritmo que genera tests. La \textbf{testabilidad} mejora cuando puedes inyectar dependencias; los plugins Capacitor son dependencias duras hasta que los reemplazas de manera disciplinada en Node.
 
-\section{Ionic Framework}
-\label{sec:ionic_framework}
-% Agrega aquí el contenido sobre Ionic Framework.
+\section{Testing de aplicaciones móviles y mapping sistemático}
+\label{sec:lit_movil_gui}
+El estudio de Nie et al.\ \cite{nie2023gui_mobile_mapping} ordena años de investigación sobre pruebas GUI en apps móviles y subraya automatización y generación de casos. Nos sirve de mapa general. Esta tesis, sin embargo, se queda en la parte que corre en Node como unitarias sobre código web/híbrido; las corridas en dispositivo siguen siendo complementarias.
 
-\section{Herramientas de Automatización y Orquestación}
-\label{sec:herramientas_automatizacion}
+\section{Ionic, Capacitor y dobles de prueba}
+\label{sec:ionic_capacitor_doubles}
+\textbf{Ionic} organiza la UI y la lógica web; \textbf{Capacitor} empaqueta todo en un contenedor nativo y expone plugins con rutas \texttt{@capacitor/*}. Esas firmas TypeScript ocultan trabajo que en Node no existe: ahí entran los \textbf{dobles de prueba}, ya sea mocks sueltos o, como aquí se propone, un \textbf{módulo de simulación} que centraliza respuestas coherentes para éxito y error sin cable físico.
 
-\subsection{n8n}
-\label{ssec:n8n}
-% Agrega aquí el contenido sobre n8n.
+\section{Generación automática de pruebas y límites}
+\label{sec:gen_auto_llm_sbse}
+TESTPILOT \cite{schafer2024testpilot} muestra que los LLM pueden producir tests útiles en JavaScript cuando el contexto y el runner están bien planteados. SynTest-JavaScript \cite{olsthoorn2024syntest_javascript} muestra otra familia de técnicas basadas en búsqueda. Ambos casos acaban necesitando \textbf{infraestructura de sustitución}; en apps Ionic ese papel lo queremos cubrir con el simulador Capacitor antes de pensar en generación masiva u orquestación extra.
 
-\subsection{ngentest}
-\label{ssec:ngentest}
-% Agrega aquí el contenido sobre ngentest.
+\section{Model Context Protocol como capa auxiliar}
+\label{sec:mcp_generacion_pruebas}
+MCP describe cómo exponer herramientas y datos a clientes de LLM \cite{mcp-spec2025}. En esta memoria las herramientas serían cosas mundanas pero auditables: lanzar Jest con cobertura, leer el resumen numérico, consultar Sonar. MCP no define cómo responde cada plugin simulado; solo puede disparar comandos una vez el proyecto ya integró el módulo.
 
-\section{Frameworks de Pruebas para JavaScript}
-\label{sec:frameworks_pruebas_js}
-
-\subsection{Jasmine}
-\label{ssec:jasmine}
-% Agrega aquí el contenido sobre Jasmine.
-
-\section{Plataformas de Desarrollo Híbrido}
-\label{sec:plataformas_hibridas}
-
-\subsection{Apache Cordova}
-\label{ssec:cordova}
-% Agrega aquí el contenido sobre Apache Cordova.
-
-\subsection{Capacitor}
-\label{ssec:capacitor}
-% Agrega aquí el contenido sobre Capacitor.
-
-\section{Mocking de Componentes Nativos}
-\label{sec:mocking_nativos}
-% Agrega aquí el contenido sobre el mocking de componentes nativos, incluyendo ejemplos como GPS.
-
-% Puedes agregar más secciones o subsecciones según sea necesario.
+\section{Síntesis}
+\label{sec:sintesis_marco}
+Queda entonces: simulador Capacitor como base de testabilidad; método de cobertura apoyado en cómo se mide en JavaScript; literatura móvil para contextualizar; MCP como ayuda metodológica alineada con \cite{sampieri2010metodologia}. Con eso pasamos al diseño y la validación.

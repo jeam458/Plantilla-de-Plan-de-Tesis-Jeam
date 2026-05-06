@@ -1,7 +1,7 @@
-\chapter{Problema de Investigación}
+\section{Problema de Investigación}
 \label{chap:problema_investigacion}
 
-\section{Problema Principal}
+\subsection{Problema Principal}
 \label{sec:problema_principal}
 Las pruebas unitarias de aplicaciones Ionic con Capacitor se ejecutan con frecuencia en Node.js. En ese contexto los plugins nativos no están disponibles ``de verdad'': el equipo alterna entre mocks manuales repetidos y configuraciones mínimas que hacen frágil la suite o erosionan la confianza en el porcentaje de cobertura. Si los sustitutos quedan desactualizados o no atraviesan ramas de error, los tests pueden pasar sin ejercitar la lógica relevante y la métrica deja de reflejar el comportamiento buscado.
 
@@ -11,7 +11,7 @@ El problema central puede decirse así: falta un \textbf{artefacto medible} que 
 
 Formulado como pregunta de investigación principal: \textbf{¿En qué medida el desarrollo de un módulo de simulación de plugins nativos de Capacitor, complementado con un procedimiento de mejora de cobertura y una capa auxiliar MCP, permite incrementar de forma medible la cobertura de líneas y ramas en pruebas unitarias ejecutadas en Node.js para aplicaciones Ionic?}
 
-\section{Problemas Secundarios}
+\subsection{Problemas Secundarios}
 \label{sec:problemas_secundarios}
 \begin{itemize}
     \item \textbf{Brecha Node--nativo.} ¿Cómo asegurar que los sustitutos de prueba respeten firmas y comportamientos esperados para que los tests fallen por lógica de negocio y no por fallas técnicas del entorno?

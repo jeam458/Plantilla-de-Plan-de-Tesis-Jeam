@@ -1,6 +1,1 @@
-\begin{center}
-{\bf RESUMEN}
-\end{center}
-\vspace{1cm}
-
 Las aplicaciones Ionic con Capacitor necesitan, para las pruebas unitarias en Node.js, implementaciones que respeten el contrato de los plugins nativos; cuando eso falta o queda disperso en mocks inconsistentes, la cobertura deja de ser interpretable o puede volverse engañosa. La propuesta central es un \textbf{módulo de simulación} para \texttt{@capacitor/geolocation}, \texttt{@capacitor/camera} y \texttt{@capacitor/preferences}, con perfiles (éxito, error, permisos, datos límite), es decir \textit{sustitutos de prueba} centralizados en Node e integrables con Jest o Jasmine. Se define además un \textbf{procedimiento para mejorar cobertura de líneas y ramas} bajo ese esquema. La \textbf{capa MCP auxiliar} opcional expone herramientas para ejecutar la suite con cobertura, leer el reporte y revisar calidad estática (por ejemplo Sonar), según \cite{mcp-spec2025}. La revisión parte de \cite{nie2023gui_mobile_mapping,schafer2024testpilot,olsthoorn2024syntest_javascript}. La validación contrasta mediciones contra una \textbf{línea base} en un proyecto de referencia; no equivale a pruebas extremo a extremo en dispositivo. El estudio es cuantitativo aplicado, con diseño antes/después descrito en el capítulo de metodología.

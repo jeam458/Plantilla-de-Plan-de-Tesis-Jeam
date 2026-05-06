@@ -1,16 +1,16 @@
-\chapter{Alcance y Limitaciones}
+\section{Alcance y Limitaciones}
 \label{chap:alcance_limitaciones}
 
 Este capítulo delimita qué entra y qué queda fuera para el \textbf{módulo de simulación Capacitor}, el \textbf{procedimiento de cobertura} y la \textbf{capa MCP auxiliar}. El tiempo disponible, los recursos y la complejidad del proyecto Ionic de referencia acotan lo que puede prometerse.
 
-\section{Tipo de estudio y alcance general}
+\subsection{Tipo de estudio y alcance general}
 \label{sec:alcance_tipo_estudio}
 El enfoque es \textbf{explicativo-aplicado} en ingeniería de software: se construye un artefacto (simulador + procedimiento de cobertura + MCP opcional) y se contrastan mediciones \textit{antes} y \textit{después} sobre cobertura, tiempo de preparación de pruebas u otros indicadores opcionales. Hay además componente \textbf{descriptivo}: registrar qué plugins se cubrieron, cómo quedó configurado el proyecto de referencia y con qué herramientas se midió.
 
-\section{Alcances}
+\subsection{Alcances}
 \label{sec:alcances}
 
-\subsection{Alcance Tecnológico}
+\subsubsection{Alcance Tecnológico}
 \label{ssec:alcance_tecnologico}
 \begin{itemize}
     \item Un \textbf{módulo de simulación} para los plugins \textbf{\texttt{@capacitor/geolocation}}, \textbf{\texttt{@capacitor/camera}} y \textbf{\texttt{@capacitor/preferences}}, en proyectos Ionic con Angular y/o React, ejecutable en Node mediante Jest y/o Jasmine según el caso de referencia.
@@ -19,33 +19,33 @@ El enfoque es \textbf{explicativo-aplicado} en ingeniería de software: se const
     \item Herramientas estándar del ecosistema (p.\,ej.\ Istanbul vía Jest, ESLint si aporta) como instrumentos de medición.
 \end{itemize}
 
-\subsection{Alcance Metodológico}
+\subsubsection{Alcance Metodológico}
 \label{ssec:alcance_metodologico}
 Las variables se operacionalizan así: \textbf{independientes}---uso del simulador, aplicación del procedimiento de cobertura, uso opcional del MCP; \textbf{dependientes}---cobertura de líneas y ramas, tiempo en preparación de mocks y tests de apoyo, densidad de issues críticos en Sonar si existe instalación. El diseño es comparativo antes/después (o entre ramas etiquetadas del mismo repositorio), conservando commits y comandos.
 
-\subsection{Alcance de Validación}
+\subsubsection{Alcance de Validación}
 \label{ssec:alcance_validacion}
-Al menos \textbf{un proyecto Ionic real o de referencia} con versiones de tooling fijas entre mediciones. No se aspira a inferencia para toda la industria del software móvil; sí a evidencia documentada bajo las limitaciones siguientes.
+Al menos \textbf{un proyecto Ionic real o de referencia} con versiones de tooling fijas entre mediciones. Para evitar resultados triviales, la línea base se delimita con umbrales mínimos: (i) \textbf{8 o más componentes/páginas} con lógica de negocio; (ii) \textbf{2\,500 LOC o más} en TypeScript/JavaScript bajo prueba unitaria; (iii) uso efectivo de los plugins \texttt{geolocation}, \texttt{camera} y \texttt{preferences}; (iv) existencia previa de \textbf{mocks manuales dispersos} (al menos 6 puntos de mock o stubs equivalentes). Estos criterios se registrarán en una tabla de caracterización de la línea base ($B$) antes de ejecutar la intervención ($P$). No se aspira a inferencia para toda la industria del software móvil; sí a evidencia documentada bajo las limitaciones siguientes.
 
-\section{Limitaciones}
+\subsection{Limitaciones}
 \label{sec:limitaciones}
 
-\subsection{Técnicas}
+\subsubsection{Técnicas}
 \label{ssec:limitaciones_tecnicas}
 El simulador \textbf{no} ejecuta bytecode nativo del teléfono; las conclusiones valen para \textbf{unitarias en Node}. Plugins fuera de los tres nombrados requieren trabajo manual adicional.
 
-\subsection{Del método de cobertura}
+\subsubsection{Del método de cobertura}
 \label{ssec:limitaciones_cobertura}
 Si el código está muy acoplado o el flujo asíncrono es enredado, el análisis ligero puede no bastar y aparecerán soluciones ad hoc que la memoria debe marcar como trabajo futuro.
 
-\subsection{Del MCP y del LLM}
+\subsubsection{Del MCP y del LLM}
 \label{ssec:limitaciones_mcp}
 MCP es apoyo operativo; cualquier sugerencia automática de tests con LLM debe pasar por el runner y validarse como cualquier otro cambio. APIs de modelos implican costo y variabilidad opcionalmente marginal al experimento central.
 
-\subsection{Compatibilidad}
+\subsubsection{Compatibilidad}
 \label{ssec:limitaciones_compatibilidad}
 Proyectos Ionic con estructuras raras o tooling muy personalizado pueden exigir adaptaciones que no entran en la primera versión del plan.
 
-\subsection{Contexto}
+\subsubsection{Contexto}
 \label{ssec:limitaciones_contexto}
 Si Sonar u otros servicios no están disponibles, la validación se apoya en cobertura y tiempos según el procedimiento del capítulo de Metodología.

@@ -1,32 +1,32 @@
-\chapter{Marco Teórico}
+\section{Marco Teórico}
 \label{chap:marco_teorico}
 
-En etapa de plan, este marco se presenta como \textbf{esbozo}: lista de temas que la memoria final desarrollará a partir del título y las palabras clave de la investigación. El foco está en Ionic, Capacitor, pruebas en Node, cobertura en JavaScript y el uso disciplinado del MCP como auxiliar de medición.
+En etapa de plan, este marco se presenta como \textbf{esbozo} de los conceptos que sostienen el artefacto propuesto: simulación de plugins nativos en Node, control de asincronía para pruebas estables y orquestación semántica de herramientas mediante MCP.
 
-\section{Encaje metodológico (referencia)}
-\label{sec:bases_metodologia}
-La fundamentación del enfoque cuantitativo aplicado, la citación de Hernández Sampieri et al.\ y la secuencia completa del proceso investigativo se concentran en el capítulo \textbf{Metodología}. Aquí solo se anticipa que el trabajo contrasta mediciones frente a una \textbf{línea base} en variables como cobertura y tiempo de preparación de pruebas.
+\subsection{Arquitectura de dobles de prueba (test doubles) en entornos de ejecución JavaScript}
+\label{sec:arquitectura_test_doubles}
+En pruebas unitarias, aislar la lógica de negocio frente a dependencias externas es una decisión arquitectónica, no sólo de implementación. Meszaros \cite{meszaros2007xunit} formaliza una taxonomía útil para este trabajo: \textit{Dummy} (objeto de relleno), \textit{Stub} (retorno predefinido), \textit{Spy} (registro de interacción), \textit{Mock} (expectativas verificables) y \textit{Fake/Simulator} (sustituto funcional con estado local). La propuesta de tesis se alinea con este último nivel: un simulador que conserva contratos y modela respuestas por perfil, en lugar de dispersar stubs ad hoc por archivo.
 
-\section{Pruebas unitarias, cobertura y testabilidad en JavaScript}
-\label{sec:pruebas_unitarias}
-Las pruebas unitarias ejecutan fragmentos de código en aislamiento. La \textbf{cobertura de líneas y ramas} resume qué parte del código corrió bajo la suite; como muestra Schäfer et al.\ \cite{schafer2024testpilot}, esa métrica sólo es informativa si el entorno ejecutó realmente las rutas reportadas. SynTest-JavaScript \cite{olsthoorn2024syntest_javascript} subraya que en JavaScript dinámico los \textit{test doubles} son parte del problema técnico, no un adorno. Los plugins Capacitor son dependencias duras hasta que se sustituyen de forma estable en Node.
+La brecha técnica aparece en el ciclo de vida de ejecución: Ionic compila la capa web (TypeScript/JavaScript), pero cuando se invoca Capacitor, la operación se delega a código nativo (Android Java/Kotlin, iOS Swift/Objective-C). En Node.js ese puente no existe de forma nativa; por eso llamadas a \texttt{@capacitor/*} o a \texttt{window.Capacitor.Plugins} requieren inyección controlada de dobles para mantener continuidad del flujo de pruebas y validez de cobertura.
 
-\section{Testing de aplicaciones móviles y mapping sistemático}
-\label{sec:lit_movil_gui}
-El estudio de Nie et al.\ \cite{nie2023gui_mobile_mapping} ordena años de investigación sobre pruebas GUI en apps móviles. Esta tesis acota el foco a unitarias sobre código web/híbrido en Node; las pruebas en dispositivo quedan como complemento fuera del alcance principal.
+\subsection{Determinismo temporal y mitigación de pruebas inestables (flaky tests) en hilos asíncronos}
+\label{sec:determinismo_flaky}
+La inestabilidad de pruebas (\textit{flakiness}) surge cuando un mismo test alterna entre éxito y falla sin cambios en el código. Entre sus causas frecuentes están concurrencia, temporización no controlada, dependencia del orden de ejecución y recursos compartidos \cite{luo2014flaky}. En ecosistemas JavaScript, donde promesas, timers y colas del event loop participan activamente, esta amenaza es particularmente crítica.
 
-\section{Ionic, Capacitor y dobles de prueba}
-\label{sec:ionic_capacitor_doubles}
-\textbf{Ionic} organiza la interfaz y la lógica web; \textbf{Capacitor} empaqueta la app nativa y expone plugins vía \texttt{@capacitor/*}. Las firmas TypeScript ocultan trabajo que en Node no existe: ahí se usan \textbf{dobles de prueba}---mocks dispersos o, en esta propuesta, un \textbf{módulo de simulación} que centraliza respuestas coherentes para caminos de éxito y error.
+Para reducirla, la propuesta usa control determinista del tiempo con relojes virtuales de runner (Jest/Jasmine), avance explícito de timers y despacho controlado de microtareas/macrotareas. Este enfoque busca que los perfiles del simulador (éxito, error, límites) produzcan salidas repetibles y trazables; en esa línea, la evidencia sobre generación y cobertura en npm reportada por Schäfer et al.\ \cite{schafer2024testpilot} y SynTest-JavaScript \cite{olsthoorn2024syntest_javascript} refuerza la necesidad de entornos de prueba rigurosamente controlados.
 
-\section{Generación automática de pruebas y límites}
-\label{sec:gen_auto_llm_sbse}
-TESTPILOT \cite{schafer2024testpilot} muestra utilidad de LLM para tests en JavaScript cuando el runner y el contexto están bien definidos. SynTest-JavaScript \cite{olsthoorn2024syntest_javascript} ilustra generación asistida por búsqueda. En ambos casos hace falta un entorno donde las dependencias externas estén controladas; en Ionic/Capacitor el simulador de plugins cubre ese rol antes de plantear generación masiva u orquestación adicional.
+\subsection{Meta-programación mediante Proxies de JavaScript para mecanismos de fallback dinámico}
+\label{sec:proxies_fallback}
+Cuando el proyecto de referencia usa plugins fuera del núcleo definido (\texttt{geolocation}, \texttt{camera}, \texttt{preferences}), la suite no debe detenerse por una omisión de alcance. Para ello se incorpora un \textit{fallback mock} basado en meta-programación con \texttt{Proxy} de JavaScript. Mediante \textit{traps} como \texttt{get} y \texttt{apply}, el sistema intercepta firmas no declaradas en tiempo de ejecución y responde con promesas genéricas controladas, registrando el evento para su tratamiento posterior.
 
-\section{Model Context Protocol como capa auxiliar}
-\label{sec:mcp_generacion_pruebas}
-MCP describe cómo exponer herramientas externas a clientes que las invoquen de forma estandarizada \cite{mcp-spec2025}. En esta memoria las herramientas serían acciones ya habituales en el pipeline: lanzar Jest con cobertura, leer el resumen numérico del reporte, consultar Sonar. MCP no define respuestas de plugins; sólo puede ejecutar comandos una vez integrado el simulador.
+Este mecanismo no pretende reemplazar implementaciones específicas: su función es mantener continuidad técnica del experimento y evitar sesgos por fallas de integración ajenas a las variables principales del estudio.
 
-\section{Síntesis}
+\subsection{Orquestación de contexto semántico en modelos de lenguaje mediante Model Context Protocol (MCP)}
+\label{sec:orquestacion_mcp}
+MCP define cómo un agente interactúa con \textit{Tools}, \textit{Resources} y \textit{Prompts} de manera estandarizada \cite{mcp-spec2025}. En esta tesis, la diferencia frente a automatización lineal (scripts de consola) es la capa semántica: los reportes estructurados (por ejemplo, JSON de Istanbul/Jest) se transforman en contexto interpretable por un agente, que puede priorizar el siguiente perfil de simulación según líneas/ramas faltantes o fallos observados.
+
+Así, MCP se justifica como mecanismo de coordinación adaptativa sobre evidencia de ejecución, sin confundir su rol con la lógica interna del simulador de plugins.
+
+\subsection{Síntesis}
 \label{sec:sintesis_marco}
-El marco sitúa el simulador Capacitor como base para correr unitarias en Node, enlaza la discusión de cobertura con la literatura JavaScript reciente, usa el mapping móvil como contexto acotado y reserva MCP para ordenar mediciones. El diseño experimental detallado aparece en Metodología.
+El marco teórico sustenta cuatro ejes: arquitectura formal de dobles de prueba, control temporal para mitigar flakiness, fallback dinámico con Proxies y orquestación semántica con MCP. Con esa base, la metodología define cómo se medirán cobertura y tiempos frente a la línea base en un entorno reproducible.

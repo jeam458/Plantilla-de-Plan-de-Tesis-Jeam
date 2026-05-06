@@ -1,17 +1,17 @@
-\chapter{Metodología}
+\section{Metodología}
 \label{chap:metodologia}
 
 Este capítulo describe el procedimiento experimental: tipo de estudio, métricas y orden de trabajo sobre el repositorio Ionic de referencia. La intención es que otro investigador pueda repetir las corridas con los mismos commits y comandos registrados.
 
-\section{Fundamentos metodológicos según Hernández Sampieri et al.}
+\subsection{Fundamentos metodológicos según Hernández Sampieri et al.}
 \label{sec:fundamentos_sampieri}
 La investigación se apoya en el proceso cuantitativo descrito por \cite{sampieri2010metodologia}: delimitación de problema y objetivos, marco teórico de soporte y decisión de alcance. No hay muestra humana ni encuestas; la evidencia proviene de mediciones sobre software y tiempos de preparación de pruebas.
 
-\section{Tipo de Investigación}
+\subsection{Tipo de Investigación}
 \label{sec:tipo_investigacion}
 Es investigación \textbf{cuantitativa}, con predominio del alcance \textbf{explicativo} en formato aplicado: se construye el módulo de simulación Capacitor, el procedimiento de cobertura y la capa MCP auxiliar, y se contrastan mediciones antes y después de una intervención definida. La caracterización detallada del artefacto incorpora elementos \textbf{descriptivos} dentro del mismo diseño.
 
-\section{Métodos de Validación y Métricas}
+\subsection{Métodos de Validación y Métricas}
 \label{sec:metricas_validacion}
 \begin{itemize}
     \item \textbf{Cobertura de código:} líneas y ramas según Istanbul/Jest u homólogo, siempre sobre el mismo snapshot del proyecto entre mediciones.
@@ -20,7 +20,7 @@ Es investigación \textbf{cuantitativa}, con predominio del alcance \textbf{expl
     \item \textbf{Calidad estática opcional:} si hay Sonar configurado, puede usarse como evidencia adicional; si no existe, no se fuerza en la narrativa.
 \end{itemize}
 
-\section{Diseño experimental}
+\subsection{Diseño experimental}
 \label{sec:diseno_experimental}
 \begin{enumerate}
     \item \textbf{Línea base ($B$):} tomar el proyecto Ionic de referencia tal como se prueba hoy (mocks dispersos o mínimos necesarios). Anotar cobertura $C_B$, tiempo $T_B$ y estado de la suite.
@@ -29,7 +29,7 @@ Es investigación \textbf{cuantitativa}, con predominio del alcance \textbf{expl
     \item \textbf{Trazabilidad MCP (opcional):} conservar registros de herramientas MCP que ejecuten los mismos comandos que se usarían manualmente, para auditoría del proceso.
 \end{enumerate}
 
-\section{Fases de desarrollo del artefacto}
+\subsection{Fases de desarrollo del artefacto}
 \label{sec:fases_desarrollo}
 \begin{enumerate}
     \item \textbf{Ingeniería del simulador:} definir por plugin (\texttt{geolocation}, \texttt{camera}, \texttt{preferences}) qué métodos se cubren, qué perfil activa cada respuesta y cómo se engancha Jest/Jasmine (\texttt{setupFilesAfterEnv}, mocks manuales o factoría común).
@@ -38,8 +38,30 @@ Es investigación \textbf{cuantitativa}, con predominio del alcance \textbf{expl
     \item \textbf{Redacción de resultados:} tablas, figuras y breve discusión de amenazas (tests flaky, orden de ejecución, dependencias de red si aparecen).
 \end{enumerate}
 
-\section{Instrumentos y fuentes bibliográficas iniciales}
+\subsection{Diseño técnico de la propuesta (Capítulo IV)}
+\label{sec:diseno_tecnico_propuesta}
+\subsubsection{Control determinista de asincronía y flakiness}
+\label{ssec:determinismo_asincronia}
+Para reducir falsos positivos y pruebas inestables, cada perfil del simulador (éxito, error, límite) se ejecutará con \textbf{control temporal determinista}. En Jest se emplearán \texttt{fake timers} (modo moderno) y avance explícito del reloj virtual (\texttt{advanceTimersByTime}/\texttt{runAllTimers}); en Jasmine se usará el reloj simulado equivalente (\texttt{jasmine.clock()}) cuando corresponda. Además, las respuestas asíncronas del simulador se encapsularán en una cola controlada de microtareas/macrotareas para evitar desfases del event loop entre corridas. El criterio de aceptación para estabilidad será repetir lotes de pruebas en más de una corrida consecutiva sin variación de estado (sin fallas intermitentes atribuibles al orden temporal).
+
+\subsubsection{Bridge de inyección y soporte dual Jest/Jasmine}
+\label{ssec:bridge_inyeccion_dual}
+El artefacto usará una factoría global de inyección para resolver en tiempo de prueba el perfil activo por plugin y exponer la misma interfaz a ambos runners. Esto permite que el proyecto cambie entre Jest/Jasmine sin reescribir los perfiles de simulación ni los escenarios de cobertura. La configuración de integración quedará versionada (archivo de setup, orden de carga y mapeo de módulos) para mantener reproducibilidad.
+
+\subsubsection{Mock por defecto para plugins fuera de alcance}
+\label{ssec:fallback_mock}
+Si durante la ejecución aparece un plugin Capacitor no mapeado explícitamente en el núcleo (\texttt{geolocation}, \texttt{camera}, \texttt{preferences}), el sistema aplicará un \textbf{mecanismo de caída segura}: generación dinámica de un mock por defecto mediante \texttt{Proxy} de JavaScript, con respuestas asíncronas genéricas y trazadas en log. Este fallback evita que la suite se detenga por razones técnicas ajenas al alcance y permite etiquetar esos casos como ``pendientes de implementación específica'' en lugar de romper la validación principal.
+
+\subsubsection{Justificación operativa de MCP frente a automatización clásica}
+\label{ssec:justificacion_mcp_operativa}
+El uso de MCP no se limita a ejecutar comandos que también podría correr un script. La diferencia propuesta es \textbf{orquestación semántica}: un agente puede leer el estado del reporte de cobertura (líneas/ramas faltantes, suites fallidas, tipo de error) y seleccionar de forma guiada el siguiente perfil de simulación a probar (éxito, error, límites) antes de la siguiente corrida. En ese contexto, MCP aporta un protocolo de contexto entre herramientas y agente, mientras que Bash/CI aporta solo secuencias fijas. La tesis evaluará esta capa como apoyo adaptativo, no como sustituto de la instrumentación base.
+
+\subsection{Instrumentos y fuentes bibliográficas iniciales}
 \label{sec:instrumentos_biblio}
 Para contrastar decisiones de diseño y métricas se usan principalmente \cite{nie2023gui_mobile_mapping,schafer2024testpilot,olsthoorn2024syntest_javascript}; para MCP, \cite{mcp-spec2025}.
+
+\subsubsection{Población y muestra (si aplica)}
+\label{sec:poblacion_muestra}
+Este plan no trabaja con participantes humanos ni encuestas como fuente principal de evidencia. La unidad de análisis es el \textbf{proyecto Ionic de referencia} y sus artefactos de prueba (suite, cobertura y tiempos). Si durante la ejecución se incorpora evaluación con desarrolladores o usuarios, se añadirá la delimitación de población, criterio muestral e instrumento correspondiente.
 
 La validación busca evidencia bajo condiciones declaradas de que el artefacto cumple el objetivo general (mejora medible de cobertura y menor fricción en preparación de pruebas en Node), sin presentar corridas en dispositivo como equivalentes a las unitarias con simulación.

@@ -1,7 +1,7 @@
-\chapter{Antecedentes}
+\section{Antecedentes}
 \label{chap:antecedentes}
 
-\section{Contexto y vacío de investigación}
+\subsection{Contexto y vacío de investigación}
 \label{sec:antecedentes_contexto}
 Hay literatura que sintetiza cómo se investiga el testing en aplicaciones móviles; el trabajo de Nie et al.\ \cite{nie2023gui_mobile_mapping}, por ejemplo, ordena objetivos y métricas y recalca automatización y generación de casos, sobre todo en entornos Android/iOS mayormente nativos. Las aplicaciones \textbf{híbridas} con Ionic y Capacitor comparten la preocupación por la calidad, pero añaden un obstáculo habitual: cada \texttt{@capacitor/*} expone en TypeScript un contrato que en Node no tiene detrás el mismo runtime que en el dispositivo. Por eso el mapa general de pruebas GUI móvil no basta para explicar qué ocurre cuando se persigue \textbf{cobertura de líneas y ramas} en el código que consume esos plugins durante las unitarias en el bundle web.
 
@@ -9,7 +9,7 @@ En el frente JavaScript, Schäfer et al.\ reportan resultados sólidos con TESTP
 
 El \textbf{Model Context Protocol} \cite{mcp-spec2025} estandariza cómo un cliente invoca herramientas externas de forma repetible. En el plan actúa como \textbf{capa MCP auxiliar}: ordenar corridas de tests, lectura de reportes de cobertura y consultas opcionales a Sonar, sin sustituir el diseño del simulador ni el \textbf{procedimiento de cobertura}.
 
-\section{Fuentes prioritarias para iniciar la revisión}
+\subsection{Fuentes prioritarias para iniciar la revisión}
 \label{sec:fuentes_prioritarias_descarga}
 Para disponer de material revisado por pares en PDF:
 
@@ -19,6 +19,6 @@ Para disponer de material revisado por pares en PDF:
     \item \textbf{Olsthoorn et al.\ (2024), SBFT @ ICSE} \cite{olsthoorn2024syntest_javascript}. PDF: \url{https://pure.tudelft.nl/ws/portalfiles/portal/221041638/3643659.3643928.pdf}.
 \end{enumerate}
 
-\section{Síntesis}
+\subsection{Síntesis}
 \label{sec:antecedentes_sintesis}
 La revisión bibliográfica orienta hacia un artefacto ejecutable en Node que cubra el contrato de plugins Capacitor prioritarios del alcance, un procedimiento explícito para subir cobertura de líneas y ramas en ese contexto, y un uso disciplinado del MCP para registrar el ciclo de medición frente a una línea base. Los capítulos siguientes formulan la pregunta de investigación, la justificación, los objetivos y el diseño de validación.

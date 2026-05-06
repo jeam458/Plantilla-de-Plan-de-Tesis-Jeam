@@ -7,28 +7,26 @@ Este cronograma sigue la misma secuencia que el objetivo general: fundamentos, \
 
 Las tareas, en orden, son: revisión bibliográfica y consolidación del marco teórico; diseño del simulador (plugins del alcance y perfiles); implementación e integración con Jest y/o Jasmine; aplicación del procedimiento de cobertura y toma de métricas comparativas; implementación y prueba de la capa MCP auxiliar con trazabilidad de comandos; redacción de capítulos, tablas de resultados y revisiones previas a la defensa.
 
-\textbf{Convención para la Figura~\ref{fig:cronograma}:} el eje horizontal son \textbf{doce meses consecutivos} numerados del 1 al 12. El mes~1 debe asignarse a una fecha real de inicio (por ejemplo marzo o agosto del calendario académico) \textbf{acordada con el asesor}; al aprobar el plan, conviene sustituir en el pie de figura o en un anexo la tabla mes~$i$ $\rightarrow$ nombre del mes y año.
+\textbf{Convención:} el eje temporal se organiza en \textbf{doce meses consecutivos} (M1 a M12). El mes~1 se fija con el asesor según calendario académico.
 
-\begin{figure}[htbp]
+\begin{table}[htbp]
 \centering
 \caption{Cronograma de ejecución del proyecto (Mes 1 al Mes 12).}
-\label{fig:cronograma}
-\scalebox{0.5}{
-\begin{gantt}[xunitlength=0.8cm,fontsize=\scriptsize,titlefontsize=\small,drawledgerline=true]{6}{12}
-    \begin{ganttitle}
-      \titleelement{12 meses}{12}
-    \end{ganttitle}
-    \begin{ganttitle}
-      \numtitle{1}{1}{12}{1}
-    \end{ganttitle}
-    \ganttbar[color=gray]{\textbf{1. Revisión y marco teórico}}{1}{3}
-    \ganttbar[color=gray]{\textbf{2. Diseño del simulador}}{2}{4}
-    \ganttbar{\textbf{3. Implementación Ionic}}{5}{3}
-    \ganttbar{\textbf{4. Cobertura y mediciones}}{7}{3}
-    \ganttbar{\textbf{5. MCP auxiliar}}{8}{2}
-    \ganttbar{\textbf{6. Redacción y cierre}}{9}{3}
-\end{gantt}
-}
-\end{figure}
+\label{tab:cronograma}
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{p{5.1cm}cccccccccccc}
+\toprule
+\textbf{Actividad} & \textbf{M1} & \textbf{M2} & \textbf{M3} & \textbf{M4} & \textbf{M5} & \textbf{M6} & \textbf{M7} & \textbf{M8} & \textbf{M9} & \textbf{M10} & \textbf{M11} & \textbf{M12} \\
+\midrule
+1. Revisión bibliográfica y marco teórico            & X & X & X &   &   &   &   &   &   &    &    &    \\
+2. Diseño del simulador (plugins y perfiles)         &   & X & X & X & X &   &   &   &   &    &    &    \\
+3. Implementación e integración en proyecto Ionic    &   &   &   &   & X & X & X &   &   &    &    &    \\
+4. Cobertura y mediciones (línea base vs intervención)&   &   &   &   &   &   & X & X & X &    &    &    \\
+5. MCP auxiliar y trazabilidad                        &   &   &   &   &   &   &   & X & X &    &    &    \\
+6. Redacción final, revisión y cierre                 &   &   &   &   &   &   &   &   & X & X  & X  & X  \\
+\bottomrule
+\end{tabular}
+\end{table}
 
-La última barra abarca desde el mes~9 hasta el fin del horizonte de doce meses (inicio~9, duración~3), de modo que la redacción y los ajustes finales llegan hasta el mes~12 una vez fijado el mes~1 con el Dr.\ Rony Villafuerte Serna.
+La actividad de cierre se extiende hasta M12 para cubrir redacción, revisión con asesor y ajustes de presentación final.

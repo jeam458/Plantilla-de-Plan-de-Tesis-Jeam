@@ -8,10 +8,10 @@ El objetivo general es construir y evaluar un \textbf{módulo de simulación de 
 \section{Objetivos Específicos}
 \label{sec:objetivos_especificos}
 \begin{itemize}
-    \item Programar en TypeScript/JavaScript el \textbf{módulo de simulación} para un conjunto acotado de plugins Capacitor (por ejemplo Geolocation, Camera, Storage o NFC, según alcance), con perfiles configurables y respuestas que permitan tanto caminos felices como errores creíbles.
-    \item Integrar ese módulo en \textbf{al menos un proyecto Ionic de referencia} con pasos reproducibles (preset Jest, \texttt{setupFilesAfterEnv}, o el equivalente razonable en Jasmine/Angular) y dejar por escrito qué queda fuera si aparece un plugin no cubierto.
-    \item Diseñar un \textbf{método de optimización de cobertura}: detectar dónde el código toca los plugins incluidos, elegir escenarios mínimos útiles y añadir o ajustar tests que suban líneas y ramas sin ejecutar binarios en el teléfono.
-    \item Montar un \textbf{servidor MCP auxiliar} pequeño pero honesto: por ejemplo disparar la suite con cobertura, leer el JSON o resumen estándar y, si existe infraestructura, consultar Sonar en solo lectura; describir en metodología cómo se usa y qué no promete.
-    \item Definir \textbf{métricas y diseño comparativo} entre línea base (mocks dispersos o ausencia del módulo) y escenario con simulación integrada, siguiendo la lógica cuantitativa de \cite{sampieri2010metodologia}: cobertura, tiempo dedicado a preparar pruebas y, si aplica, lecturas Sonar/ESLint.
-    \item Entregar \textbf{guías breves} para quien quiera extender plugins o meter el flujo en CI, incluyendo límites conocidos.
+    \item Programar en TypeScript/JavaScript el \textbf{módulo de simulación} para los plugins \textbf{\texttt{@capacitor/geolocation}}, \textbf{\texttt{@capacitor/camera}} y \textbf{\texttt{@capacitor/preferences}}, con perfiles configurables y respuestas que cubran caminos de éxito y error creíbles respecto al contrato público de cada API.
+    \item Integrar ese módulo en \textbf{al menos un proyecto Ionic de referencia} con pasos reproducibles (preset Jest, \texttt{setupFilesAfterEnv}, o el equivalente razonable en Jasmine/Angular) y documentar qué ocurre con otros \texttt{@capacitor/*} no incluidos en el alcance.
+    \item Diseñar un \textbf{método de optimización de cobertura}: localizar en el código los usos de los tres plugins, elegir escenarios mínimos útiles para ramas relevantes y añadir o ajustar tests que eleven líneas y ramas sin ejecutar binarios en el teléfono.
+    \item Montar un \textbf{servidor MCP auxiliar acotado} que, por ejemplo, dispare la suite con cobertura, lea el JSON o resumen estándar del reporte y, si existe infraestructura, consulte Sonar en solo lectura; describir en metodología alcance, límites y configuración de seguridad.
+    \item Definir \textbf{métricas y diseño comparativo} entre línea base (mocks dispersos o ausencia del módulo) y escenario con simulación integrada, coherentes con la sección de diseño experimental de este plan: cobertura, tiempo dedicado a preparar pruebas y, si aplica, lecturas Sonar/ESLint.
+    \item Entregar \textbf{guías breves} para extender el simulador a otros plugins o integrar el flujo en CI, con límites conocidos.
 \end{itemize}

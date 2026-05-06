@@ -3,9 +3,11 @@
 
 \section{Hipótesis de Trabajo}
 \label{sec:hipotesis_trabajo}
+La hipótesis responde de forma provisional a la pregunta principal del capítulo de problema: si el simulador, el método de cobertura y (en apoyo) el MCP permiten un incremento \textbf{medible} de cobertura en Node para una app Ionic frente a la línea base.
+
 Si disponemos de un \textbf{módulo de simulación de plugins Capacitor} que permita ejecutar en Node, con perfiles definidos, las rutas que hoy dependen de esas APIs, y si además aplicamos un \textbf{procedimiento ordenado de mejora de cobertura} (éxito, error, permisos y pocos casos bien elegidos), entonces respecto a una \textbf{línea base} tomada en el mismo proyecto (mocks manuales o configuración mínima previa) deberíamos ver dos efectos medibles: más cobertura de líneas y/o ramas según Istanbul/Jest u homólogo, y menos trabajo repetitivo manteniendo mocks para los plugins cubiertos.
 
-La parte MCP del trabajo sirve para documentar y repetir el ritual de medición; por sí sola no formula la hipótesis sobre cobertura, aunque sí puede mejorar la \textbf{trazabilidad} de cómo se obtuvieron los números.
+La parte MCP del trabajo sirve para documentar y repetir el mismo ciclo de medición; por sí sola no formula la hipótesis sobre cobertura, aunque puede mejorar la \textbf{trazabilidad} de los números reportados.
 
 \section{Fundamento de la Hipótesis}
 \label{sec:fundamento_hipotesis}
@@ -15,4 +17,4 @@ La parte MCP del trabajo sirve para documentar y repetir el ritual de medición;
     \item MCP ofrece un vocabulario común para exponer herramientas repetibles \cite{mcp-spec2025}, útil para dejar constancia del pipeline experimental sin mezclarlo con la lógica del simulador.
 \end{itemize}
 
-Los porcentajes exactos de mejora se fijarán después de correr la línea base; el plan evita comprometer cifras sin mediciones ya recolectadas.
+Las magnitudes numéricas de mejora se reportarán en la memoria una vez ejecutadas la línea base y la intervención sobre el mismo proyecto de referencia.

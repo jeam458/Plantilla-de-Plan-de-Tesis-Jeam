@@ -1,32 +1,32 @@
 \chapter{Marco Teórico}
 \label{chap:marco_teorico}
 
-Este capítulo junta lo necesario para entender el trabajo sin dispersarse: cómo encaja la investigación en una línea cuantitativa aplicada \cite{sampieri2010metodologia}, qué dicen estudios recientes sobre testing móvil y sobre JavaScript \cite{nie2023gui_mobile_mapping,schafer2024testpilot,olsthoorn2024syntest_javascript}, y cómo se comportan Ionic y Capacitor cuando las pruebas corren en Node. El modelo MCP \cite{mcp-spec2025} aparece al final como herramienta de apoyo, no como sustituto del simulador de plugins.
+En etapa de plan, este marco se presenta como \textbf{esbozo}: lista de temas que la memoria final desarrollará a partir del título y las palabras clave de la investigación. El foco está en Ionic, Capacitor, pruebas en Node, cobertura en JavaScript y el uso disciplinado del MCP como auxiliar de medición.
 
-\section{Bases teóricas de la metodología de la investigación}
+\section{Encaje metodológico (referencia)}
 \label{sec:bases_metodologia}
-El proceso cuantitativo que resume \cite{sampieri2010metodologia} exige plantear problema, construir marco teórico y decidir alcance. Aquí el alcance es mayormente \textbf{explicativo-aplicado}: construimos algo que funciona y medimos diferencias frente a una línea base en variables como cobertura y tiempo.
+La fundamentación del enfoque cuantitativo aplicado, la citación de Hernández Sampieri et al.\ y la secuencia completa del proceso investigativo se concentran en el capítulo \textbf{Metodología}. Aquí solo se anticipa que el trabajo contrasta mediciones frente a una \textbf{línea base} en variables como cobertura y tiempo de preparación de pruebas.
 
 \section{Pruebas unitarias, cobertura y testabilidad en JavaScript}
 \label{sec:pruebas_unitarias}
-Las unitarias miran pedazos pequeños de código en aislamiento. La \textbf{cobertura} cuenta cuántas sentencias o ramas tocó la suite; como muestra Schäfer et al.\ \cite{schafer2024testpilot}, ese número solo tiene peso si el entorno realmente ejecutó el código. SynTest-JavaScript \cite{olsthoorn2024syntest_javascript} refuerza la idea de que en JavaScript dinámico los sustitutos importan tanto como el algoritmo que genera tests. La \textbf{testabilidad} mejora cuando puedes inyectar dependencias; los plugins Capacitor son dependencias duras hasta que los reemplazas de manera disciplinada en Node.
+Las pruebas unitarias ejecutan fragmentos de código en aislamiento. La \textbf{cobertura de líneas y ramas} resume qué parte del código corrió bajo la suite; como muestra Schäfer et al.\ \cite{schafer2024testpilot}, esa métrica sólo es informativa si el entorno ejecutó realmente las rutas reportadas. SynTest-JavaScript \cite{olsthoorn2024syntest_javascript} subraya que en JavaScript dinámico los \textit{test doubles} son parte del problema técnico, no un adorno. Los plugins Capacitor son dependencias duras hasta que se sustituyen de forma estable en Node.
 
 \section{Testing de aplicaciones móviles y mapping sistemático}
 \label{sec:lit_movil_gui}
-El estudio de Nie et al.\ \cite{nie2023gui_mobile_mapping} ordena años de investigación sobre pruebas GUI en apps móviles y subraya automatización y generación de casos. Nos sirve de mapa general. Esta tesis, sin embargo, se queda en la parte que corre en Node como unitarias sobre código web/híbrido; las corridas en dispositivo siguen siendo complementarias.
+El estudio de Nie et al.\ \cite{nie2023gui_mobile_mapping} ordena años de investigación sobre pruebas GUI en apps móviles. Esta tesis acota el foco a unitarias sobre código web/híbrido en Node; las pruebas en dispositivo quedan como complemento fuera del alcance principal.
 
 \section{Ionic, Capacitor y dobles de prueba}
 \label{sec:ionic_capacitor_doubles}
-\textbf{Ionic} organiza la UI y la lógica web; \textbf{Capacitor} empaqueta todo en un contenedor nativo y expone plugins con rutas \texttt{@capacitor/*}. Esas firmas TypeScript ocultan trabajo que en Node no existe: ahí entran los \textbf{dobles de prueba}, ya sea mocks sueltos o, como aquí se propone, un \textbf{módulo de simulación} que centraliza respuestas coherentes para éxito y error sin cable físico.
+\textbf{Ionic} organiza la interfaz y la lógica web; \textbf{Capacitor} empaqueta la app nativa y expone plugins vía \texttt{@capacitor/*}. Las firmas TypeScript ocultan trabajo que en Node no existe: ahí se usan \textbf{dobles de prueba}---mocks dispersos o, en esta propuesta, un \textbf{módulo de simulación} que centraliza respuestas coherentes para caminos de éxito y error.
 
 \section{Generación automática de pruebas y límites}
 \label{sec:gen_auto_llm_sbse}
-TESTPILOT \cite{schafer2024testpilot} muestra que los LLM pueden producir tests útiles en JavaScript cuando el contexto y el runner están bien planteados. SynTest-JavaScript \cite{olsthoorn2024syntest_javascript} muestra otra familia de técnicas basadas en búsqueda. Ambos casos acaban necesitando \textbf{infraestructura de sustitución}; en apps Ionic ese papel lo queremos cubrir con el simulador Capacitor antes de pensar en generación masiva u orquestación extra.
+TESTPILOT \cite{schafer2024testpilot} muestra utilidad de LLM para tests en JavaScript cuando el runner y el contexto están bien definidos. SynTest-JavaScript \cite{olsthoorn2024syntest_javascript} ilustra generación asistida por búsqueda. En ambos casos hace falta un entorno donde las dependencias externas estén controladas; en Ionic/Capacitor el simulador de plugins cubre ese rol antes de plantear generación masiva u orquestación adicional.
 
 \section{Model Context Protocol como capa auxiliar}
 \label{sec:mcp_generacion_pruebas}
-MCP describe cómo exponer herramientas y datos a clientes de LLM \cite{mcp-spec2025}. En esta memoria las herramientas serían cosas mundanas pero auditables: lanzar Jest con cobertura, leer el resumen numérico, consultar Sonar. MCP no define cómo responde cada plugin simulado; solo puede disparar comandos una vez el proyecto ya integró el módulo.
+MCP describe cómo exponer herramientas externas a clientes que las invoquen de forma estandarizada \cite{mcp-spec2025}. En esta memoria las herramientas serían acciones ya habituales en el pipeline: lanzar Jest con cobertura, leer el resumen numérico del reporte, consultar Sonar. MCP no define respuestas de plugins; sólo puede ejecutar comandos una vez integrado el simulador.
 
 \section{Síntesis}
 \label{sec:sintesis_marco}
-Queda entonces: simulador Capacitor como base de testabilidad; método de cobertura apoyado en cómo se mide en JavaScript; literatura móvil para contextualizar; MCP como ayuda metodológica alineada con \cite{sampieri2010metodologia}. Con eso pasamos al diseño y la validación.
+El marco sitúa el simulador Capacitor como base para correr unitarias en Node, enlaza la discusión de cobertura con la literatura JavaScript reciente, usa el mapping móvil como contexto acotado y reserva MCP para ordenar mediciones. El diseño experimental detallado aparece en Metodología.

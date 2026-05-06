@@ -1,43 +1,45 @@
 \chapter{Metodología}
 \label{chap:metodologia}
 
-Este capítulo cuenta cómo se hará la parte ``de laboratorio'': qué tipo de estudio es, qué medimos y en qué orden se construye el artefacto. La idea es que otra persona pudiera repetir los pasos con el mismo repositorio de referencia.
+Este capítulo describe el procedimiento experimental: tipo de estudio, métricas y orden de trabajo sobre el repositorio Ionic de referencia. La intención es que otro investigador pueda repetir las corridas con los mismos commits y comandos registrados.
 
 \section{Fundamentos metodológicos según Hernández Sampieri et al.}
 \label{sec:fundamentos_sampieri}
-Seguimos la estructura general del proceso cuantitativo \cite{sampieri2010metodologia}: delimitar problema y objetivos, apoyarse en marco teórico y fijar alcance. Las secciones sobre muestras grandes o encuestas masivas solo aplicarían si incorporáramos participantes humanos; por ahora la evidencia viene de mediciones sobre software.
+La investigación se apoya en el proceso cuantitativo descrito por \cite{sampieri2010metodologia}: delimitación de problema y objetivos, marco teórico de soporte y decisión de alcance. No hay muestra humana ni encuestas; la evidencia proviene de mediciones sobre software y tiempos de preparación de pruebas.
 
 \section{Tipo de Investigación}
 \label{sec:tipo_investigacion}
-Es investigación \textbf{cuantitativa}, con predominio del alcance \textbf{explicativo} en formato aplicado: construimos el módulo de simulación Capacitor, el método de cobertura y el MCP auxiliar, y contrastamos números antes y después de una intervención bien definida. Si hace falta caracterizar el artefacto en detalle, eso entra como componente \textbf{descriptivo} dentro del mismo plan.
+Es investigación \textbf{cuantitativa}, con predominio del alcance \textbf{explicativo} en formato aplicado: se construye el módulo de simulación Capacitor, el procedimiento de cobertura y la capa MCP auxiliar, y se contrastan mediciones antes y después de una intervención definida. La caracterización detallada del artefacto incorpora elementos \textbf{descriptivos} dentro del mismo diseño.
 
 \section{Métodos de Validación y Métricas}
 \label{sec:metricas_validacion}
 \begin{itemize}
     \item \textbf{Cobertura de código:} líneas y ramas según Istanbul/Jest u homólogo, siempre sobre el mismo snapshot del proyecto entre mediciones.
-    \item \textbf{Tiempo de preparación de pruebas:} registro honesto (cronómetro, bitácora o incluso conteo de archivos mock eliminados) entre línea base y escenario con simulación integrada.
-    \item \textbf{Pasaje de la suite:} cuántos tests pasan en Node en cada corrida que documentemos.
-    \item \textbf{Calidad estática opcional:} si hay Sonar configurado, puede usarse como evidencia extra de issues críticos; si no, no forzamos la narrativa.
+    \item \textbf{Tiempo de preparación de pruebas:} registro con bitácora o cronómetro (incluido el tiempo dedicado a mocks manuales eliminados o sustituidos) entre línea base y escenario con simulación integrada.
+    \item \textbf{Pasaje de la suite:} número de tests que pasan en Node en cada corrida documentada.
+    \item \textbf{Calidad estática opcional:} si hay Sonar configurado, puede usarse como evidencia adicional; si no existe, no se fuerza en la narrativa.
 \end{itemize}
 
 \section{Diseño experimental}
 \label{sec:diseno_experimental}
 \begin{enumerate}
     \item \textbf{Línea base ($B$):} tomar el proyecto Ionic de referencia tal como se prueba hoy (mocks dispersos o mínimos necesarios). Anotar cobertura $C_B$, tiempo $T_B$ y estado de la suite.
-    \item \textbf{Intervención ($P$):} integrar el módulo de simulación para los plugins del alcance, aplicar el método de cobertura y etiquetar commits o releases para poder volver atrás.
+    \item \textbf{Intervención ($P$):} integrar el módulo de simulación para los plugins del alcance, aplicar el procedimiento de cobertura y etiquetar commits o releases para poder reproducir el estado.
     \item \textbf{Post-intervención:} medir $C_P$, $T_P$ y suite; calcular $\Delta C = C_P - C_B$ y $\Delta T = T_B - T_P$.
-    \item \textbf{Trazabilidad MCP (opcional):} guardar logs de herramientas MCP que ejecuten los mismos comandos que harías a mano, solo para demostrar equivalencia y orden.
+    \item \textbf{Trazabilidad MCP (opcional):} conservar registros de herramientas MCP que ejecuten los mismos comandos que se usarían manualmente, para auditoría del proceso.
 \end{enumerate}
 
 \section{Fases de desarrollo del artefacto}
 \label{sec:fases_desarrollo}
 \begin{enumerate}
-    \item \textbf{Ingeniería del simulador:} definir por plugin qué métodos cubrimos, qué perfil activa cada respuesta y cómo se engancha Jest/Jasmine (\texttt{setupFilesAfterEnv}, manual mocks o factoría común).
-    \item \textbf{Método de cobertura:} localizar usos de plugins; listar escenarios mínimos para ramas importantes; escribir o ajustar tests con plantillas claras.
-    \item \textbf{Servidor MCP auxiliar:} implementar herramientas acotadas y documentar rutas permitidas por seguridad.
-    \item \textbf{Redacción de resultados:} tablas, figuras y una sección corta sobre amenazas (tests flaky, orden de ejecución, dependencias de red si algún día aparecen).
+    \item \textbf{Ingeniería del simulador:} definir por plugin (\texttt{geolocation}, \texttt{camera}, \texttt{preferences}) qué métodos se cubren, qué perfil activa cada respuesta y cómo se engancha Jest/Jasmine (\texttt{setupFilesAfterEnv}, mocks manuales o factoría común).
+    \item \textbf{Procedimiento de cobertura:} localizar usos de esos plugins; listar escenarios mínimos para ramas relevantes; escribir o ajustar tests con plantillas repetibles.
+    \item \textbf{Servidor MCP auxiliar:} implementar herramientas acotadas y documentar permisos y rutas por seguridad.
+    \item \textbf{Redacción de resultados:} tablas, figuras y breve discusión de amenazas (tests flaky, orden de ejecución, dependencias de red si aparecen).
 \end{enumerate}
 
 \section{Instrumentos y fuentes bibliográficas iniciales}
 \label{sec:instrumentos_biblio}
-Los trabajos que más pesan al contrastar decisiones de diseño y métricas son \cite{nie2023gui_mobile_mapping,schafer2024testpilot,olsthoorn2024syntest_javascript}; para MCP recurrimos a \cite{mcp-spec2025}.
+Para contrastar decisiones de diseño y métricas se usan principalmente \cite{nie2023gui_mobile_mapping,schafer2024testpilot,olsthoorn2024syntest_javascript}; para MCP, \cite{mcp-spec2025}.
+
+La validación busca evidencia bajo condiciones declaradas de que el artefacto cumple el objetivo general (mejora medible de cobertura y menor fricción en preparación de pruebas en Node), sin presentar corridas en dispositivo como equivalentes a las unitarias con simulación.

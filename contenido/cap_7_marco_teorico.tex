@@ -1,7 +1,15 @@
 \section{Marco Teórico}
 \label{chap:marco_teorico}
 
-En etapa de plan, este marco se presenta como \textbf{esbozo} de los conceptos que sostienen el artefacto propuesto: simulación de plugins nativos en Node, control de asincronía para pruebas estables y orquestación semántica de herramientas mediante MCP.
+En etapa de plan, este marco se presenta como \textbf{esbozo} de los conceptos que sostienen el artefacto propuesto: simulación de plugins nativos en Node, control de asincronía para pruebas estables y orquestación semántica de herramientas mediante \textbf{Model Context Protocol (MCP)}.
+
+\subsection{Dependencia software--hardware y testabilidad en ingeniería de software}
+\label{sec:dependencia_testabilidad}
+Los sistemas operativos introdujeron capas de abstracción ---controladores, llamadas al sistema, bibliotecas de usuario--- para ocultar detalles del hardware sin renunciar a su uso \cite{tanenbaum2015modern_os}. En aplicaciones híbridas, Capacitor cumple un rol análogo: expone contratos JavaScript que en tiempo de ejecución se resuelven contra implementaciones nativas. Cuando la suite de pruebas corre en Node.js, esa resolución no existe; el investigador debe decidir explícitamente qué comportamiento del ``dispositivo simulado'' es aceptable para cada escenario.
+
+La literatura de diseño de software insiste en que esas fronteras deben ser reemplazables. Martin describe la regla de dependencia hacia adentro: las políticas de negocio no deben conocer detalles de frameworks ni de dispositivos \cite{martin2017clean}. Fowler complementa con patrones de aplicación empresarial en los que las pruebas automatizadas dependen de interfaces estables y de puntos de inyección \cite{fowler2002poeaa}. Feathers aporta el concepto operativo de \textit{seam}: un lugar donde se puede introducir un doble sin modificar la semántica observable del dominio \cite{feathers2004working}. La propuesta de tesis se inscribe en esa línea: centralizar la simulación de plugins Capacitor en lugar de dispersar mocks por archivo.
+
+Finalmente, la evaluación de calidad no puede limitarse a un porcentaje de cobertura. ISO/IEC 25010 relaciona fiabilidad y adecuación funcional con evidencia de comportamiento bajo condiciones representativas \cite{iso250102011}, mientras que IEEE 1012 y IEEE 829 vinculan verificación, validación y documentación de pruebas con criterios trazables \cite{ieee10122012,ieee8292008}. El marco siguiente detalla cómo materializar esos principios mediante dobles de prueba formales, control temporal, \texttt{Proxy} de respaldo y orquestación MCP.
 
 \subsection{Arquitectura de dobles de prueba (test doubles) en entornos de ejecución JavaScript}
 \label{sec:arquitectura_test_doubles}
@@ -29,4 +37,4 @@ Así, MCP se justifica como mecanismo de coordinación adaptativa sobre evidenci
 
 \subsection{Síntesis}
 \label{sec:sintesis_marco}
-El marco teórico sustenta cuatro ejes: arquitectura formal de dobles de prueba, control temporal para mitigar flakiness, fallback dinámico con Proxies y orquestación semántica con MCP. Con esa base, la metodología define cómo se medirán cobertura y tiempos frente a la línea base en un entorno reproducible.
+El marco teórico sustenta cinco ejes: dependencia software--hardware y testabilidad; arquitectura formal de dobles de prueba; control temporal para mitigar \textit{flakiness}; fallback dinámico con Proxies; y orquestación semántica con MCP. Con esa base, la metodología define cómo se medirán cobertura y tiempos frente a la línea base en un entorno reproducible, alineado con criterios de calidad y verificación citados en la sección \ref{sec:dependencia_testabilidad}.

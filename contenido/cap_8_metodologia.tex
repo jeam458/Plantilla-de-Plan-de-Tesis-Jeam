@@ -9,7 +9,7 @@ La investigación se apoya en el proceso cuantitativo descrito por \cite{sampier
 
 \subsection{Tipo de Investigación}
 \label{sec:tipo_investigacion}
-Es investigación \textbf{cuantitativa}, con predominio del alcance \textbf{explicativo} en formato aplicado: se construye el módulo de simulación Capacitor, el procedimiento de cobertura y la capa MCP auxiliar, y se contrastan mediciones antes y después de una intervención definida. La caracterización detallada del artefacto incorpora elementos \textbf{descriptivos} dentro del mismo diseño.
+Es investigación \textbf{cuantitativa}, con predominio del alcance \textbf{explicativo} en formato aplicado: se construye un bridge universal extensible de simulación Capacitor, se aplica el procedimiento de cobertura y se integra una capa auxiliar basada en MCP, y se contrastan mediciones antes y después de una intervención definida. La caracterización detallada del artefacto incorpora elementos \textbf{descriptivos} dentro del mismo diseño.
 
 \subsection{Métodos de Validación y Métricas}
 \label{sec:metricas_validacion}
@@ -18,21 +18,23 @@ Es investigación \textbf{cuantitativa}, con predominio del alcance \textbf{expl
     \item \textbf{Tiempo de preparación de pruebas:} registro con bitácora o cronómetro (incluido el tiempo dedicado a mocks manuales eliminados o sustituidos) entre línea base y escenario con simulación integrada.
     \item \textbf{Pasaje de la suite:} número de tests que pasan en Node en cada corrida documentada.
     \item \textbf{Calidad estática opcional:} si hay Sonar configurado, puede usarse como evidencia adicional; si no existe, no se fuerza en la narrativa.
+    \item \textbf{Tiempo de iteración diagnóstica:} tiempo entre recibir un reporte de cobertura/fallo y definir el siguiente escenario de prueba, comparando flujo lineal (script/CI) frente a flujo asistido por MCP.
 \end{itemize}
 
 \subsection{Diseño experimental}
 \label{sec:diseno_experimental}
 \begin{enumerate}
     \item \textbf{Línea base ($B$):} tomar el proyecto Ionic de referencia tal como se prueba hoy (mocks dispersos o mínimos necesarios). Anotar cobertura $C_B$, tiempo $T_B$ y estado de la suite.
-    \item \textbf{Intervención ($P$):} integrar el módulo de simulación para los plugins del alcance, aplicar el procedimiento de cobertura y etiquetar commits o releases para poder reproducir el estado.
+    \item \textbf{Intervención ($P$):} integrar el bridge universal extensible y validarlo en el núcleo de plugins del alcance, aplicar el procedimiento de cobertura y etiquetar commits o releases para poder reproducir el estado.
     \item \textbf{Post-intervención:} medir $C_P$, $T_P$ y suite; calcular $\Delta C = C_P - C_B$ y $\Delta T = T_B - T_P$.
+    \item \textbf{Comparación de orquestación:} ejecutar un subconjunto de corridas bajo dos modos equivalentes: (i) script/CI lineal y (ii) MCP asistido. Registrar tiempo de iteración diagnóstica ($T_{diag}$), número de pasos manuales y consistencia de decisiones de siguiente escenario.
     \item \textbf{Trazabilidad MCP (opcional):} conservar registros de herramientas MCP que ejecuten los mismos comandos que se usarían manualmente, para auditoría del proceso.
 \end{enumerate}
 
 \subsection{Fases de desarrollo del artefacto}
 \label{sec:fases_desarrollo}
 \begin{enumerate}
-    \item \textbf{Ingeniería del simulador:} definir por plugin (\texttt{geolocation}, \texttt{camera}, \texttt{preferences}) qué métodos se cubren, qué perfil activa cada respuesta y cómo se engancha Jest/Jasmine (\texttt{setupFilesAfterEnv}, mocks manuales o factoría común).
+    \item \textbf{Ingeniería del simulador:} definir por plugin (\tcode{geolocation}, \tcode{camera}, \tcode{preferences}) qué métodos se cubren y qué perfil activa cada respuesta. Documentar el enganche en Jest o Jasmine mediante \tcode{setupFilesAfterEnv}, mocks manuales o factoría común.
     \item \textbf{Procedimiento de cobertura:} localizar usos de esos plugins; listar escenarios mínimos para ramas relevantes; escribir o ajustar tests con plantillas repetibles.
     \item \textbf{Servidor MCP auxiliar:} implementar herramientas acotadas y documentar permisos y rutas por seguridad.
     \item \textbf{Redacción de resultados:} tablas, figuras y breve discusión de amenazas (tests flaky, orden de ejecución, dependencias de red si aparecen).
@@ -42,7 +44,7 @@ Es investigación \textbf{cuantitativa}, con predominio del alcance \textbf{expl
 \label{sec:diseno_tecnico_propuesta}
 \subsubsection{Control determinista de asincronía y flakiness}
 \label{ssec:determinismo_asincronia}
-Para reducir falsos positivos y pruebas inestables, cada perfil del simulador (éxito, error, límite) se ejecutará con \textbf{control temporal determinista}. En Jest se emplearán \texttt{fake timers} (modo moderno) y avance explícito del reloj virtual (\texttt{advanceTimersByTime}/\texttt{runAllTimers}); en Jasmine se usará el reloj simulado equivalente (\texttt{jasmine.clock()}) cuando corresponda. Además, las respuestas asíncronas del simulador se encapsularán en una cola controlada de microtareas/macrotareas para evitar desfases del event loop entre corridas. El criterio de aceptación para estabilidad será repetir lotes de pruebas en más de una corrida consecutiva sin variación de estado (sin fallas intermitentes atribuibles al orden temporal).
+Para reducir falsos positivos y pruebas inestables, cada perfil del simulador (éxito, error, límite) se ejecutará con \textbf{control temporal determinista}. En Jest se emplearán \tcode{fake timers} (modo moderno) y avance explícito del reloj virtual con \tcode{advanceTimersByTime} y \tcode{runAllTimers}; en Jasmine se usará el reloj simulado equivalente (\tcode{jasmine.clock()}) cuando corresponda. Además, las respuestas asíncronas del simulador se encapsularán en una cola controlada de microtareas y macrotareas para evitar desfases del \textit{event loop} entre corridas. El criterio de aceptación para estabilidad será repetir lotes de pruebas en más de una corrida consecutiva sin variación de estado (sin fallas intermitentes atribuibles al orden temporal).
 
 \subsubsection{Bridge de inyección y soporte dual Jest/Jasmine}
 \label{ssec:bridge_inyeccion_dual}
@@ -50,11 +52,11 @@ El artefacto usará una factoría global de inyección para resolver en tiempo d
 
 \subsubsection{Mock por defecto para plugins fuera de alcance}
 \label{ssec:fallback_mock}
-Si durante la ejecución aparece un plugin Capacitor no mapeado explícitamente en el núcleo (\texttt{geolocation}, \texttt{camera}, \texttt{preferences}), el sistema aplicará un \textbf{mecanismo de caída segura}: generación dinámica de un mock por defecto mediante \texttt{Proxy} de JavaScript, con respuestas asíncronas genéricas y trazadas en log. Este fallback evita que la suite se detenga por razones técnicas ajenas al alcance y permite etiquetar esos casos como ``pendientes de implementación específica'' en lugar de romper la validación principal.
+Si durante la ejecución aparece un plugin Capacitor no mapeado explícitamente en el núcleo (\tcode{geolocation}, \tcode{camera}, \tcode{preferences}), el sistema aplicará un \textbf{mecanismo de caída segura}: generación dinámica de un mock por defecto mediante \tcode{Proxy} de JavaScript, con respuestas asíncronas genéricas y trazadas en log. Este fallback evita que la suite se detenga por razones técnicas ajenas al alcance y permite etiquetar esos casos como ``pendientes de implementación específica'' en lugar de romper la validación principal.
 
 \subsubsection{Justificación operativa de MCP frente a automatización clásica}
 \label{ssec:justificacion_mcp_operativa}
-El uso de MCP no se limita a ejecutar comandos que también podría correr un script. La diferencia propuesta es \textbf{orquestación semántica}: un agente puede leer el estado del reporte de cobertura (líneas/ramas faltantes, suites fallidas, tipo de error) y seleccionar de forma guiada el siguiente perfil de simulación a probar (éxito, error, límites) antes de la siguiente corrida. En ese contexto, MCP aporta un protocolo de contexto entre herramientas y agente, mientras que Bash/CI aporta solo secuencias fijas. La tesis evaluará esta capa como apoyo adaptativo, no como sustituto de la instrumentación base.
+El uso de MCP no se limita a ejecutar comandos que también podría correr un script. La diferencia propuesta es \textbf{orquestación semántica}: un agente puede leer el estado del reporte de cobertura (líneas/ramas faltantes, suites fallidas, tipo de error) y seleccionar de forma guiada el siguiente perfil de simulación a probar (éxito, error, límites) antes de la siguiente corrida. En ese contexto, MCP aporta un protocolo de contexto entre herramientas y agente, mientras que Bash/CI aporta solo secuencias fijas. Para no dejar esta afirmación en nivel declarativo, la tesis incluye una comparación explícita con flujo lineal, usando $T_{diag}$ y pasos manuales como indicadores observables.
 
 \subsection{Instrumentos y fuentes bibliográficas iniciales}
 \label{sec:instrumentos_biblio}

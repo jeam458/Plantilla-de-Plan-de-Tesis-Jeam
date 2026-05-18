@@ -1,11 +1,11 @@
 \section{Justificación}
 \label{chap:justificacion}
 
-Esta justificación expone por qué importa el estudio y quién puede beneficiarse. Aquí se argumenta en torno al trabajo concreto: \textbf{módulo de simulación de plugins Capacitor}, \textbf{procedimiento de cobertura de líneas y ramas} y \textbf{capa MCP auxiliar}.
+Esta justificación expone por qué importa el estudio y quién puede beneficiarse. Aquí se argumenta en torno a tres componentes concretos: \textbf{un bridge universal extensible de simulación para APIs nativas de Capacitor}, \textbf{un procedimiento de cobertura de líneas y ramas} y \textbf{una capa auxiliar basada en Model Context Protocol (MCP)}.
 
 \subsection{Justificación Técnica y Práctica}
 \label{sec:justificacion_tecnica_practica}
-Capacitor agrupa en plugins funciones que en dispositivo recurren a cámara, geolocalización, almacenamiento persistente, etc. En Node ese soporte no existe de fábrica; si cada desarrollador dispersa mocks en carpetas distintas, las suites se vuelven frágiles y los porcentajes de cobertura difíciles de comparar entre versiones. Un \textbf{módulo de simulación reutilizable} concentra respuestas y perfiles, reduce retrabajo y permite interpretar la cobertura sobre código que efectivamente se ejecutó en el runner. El procedimiento asociado evita confundir ``añadir tests'' con cubrir ramas relevantes (éxitos, errores, permisos). La capa MCP, acotada a comandos y reportes ya habituales, sirve para repetir el mismo ciclo de medición y dejar rastro en la memoria.
+Capacitor agrupa en plugins funciones que en dispositivo recurren a cámara, geolocalización, almacenamiento persistente, etc. En Node ese soporte no existe de fábrica; si cada desarrollador dispersa mocks en carpetas distintas, las suites se vuelven frágiles; en consecuencia, la cobertura pierde interpretabilidad o puede resultar engañosa. Un \textbf{módulo de simulación reutilizable} concentra respuestas y perfiles, reduce retrabajo y permite interpretar la cobertura sobre código que efectivamente se ejecutó en el runner. El procedimiento asociado evita confundir ``añadir tests'' con cubrir ramas relevantes (éxitos, errores, permisos). La capa MCP, acotada a comandos y reportes ya habituales, sirve para repetir el mismo ciclo de medición y dejar rastro en la memoria.
 
 \subsection{Impacto Económico y Social}
 \label{sec:impacto_economico_social}
@@ -13,4 +13,4 @@ Menos tiempo en mocks inconsistentes y suites más estables reducen errores evit
 
 \subsection{Aporte Científico y Evolución Metodológica}
 \label{sec:aporte_cientifico_metodologico}
-El aporte \textbf{teórico-práctico} es caracterizar la brecha entre contratos \texttt{@capacitor/*} y ejecución en Node, y ofrecer un artefacto medible relacionado con la literatura de testing móvil \cite{nie2023gui_mobile_mapping} y con estudios recientes de cobertura y generación en JavaScript \cite{schafer2024testpilot,olsthoorn2024syntest_javascript}. La parte metodológica reproducible (variables, línea base, comandos fijos) se desarrolla en el capítulo de Metodología. La evidencia de uso del MCP \cite{mcp-spec2025} documenta la orquestación del pipeline experimental sin confundirla con la lógica del simulador.
+El aporte \textbf{teórico-práctico} es caracterizar la brecha entre contratos \tcode{@capacitor/*} y ejecución en Node, y ofrecer un artefacto medible relacionado con la literatura de testing móvil \cite{nie2023gui_mobile_mapping} y con estudios recientes de cobertura y generación en JavaScript \cite{schafer2024testpilot,olsthoorn2024syntest_javascript}. La parte metodológica reproducible (variables, línea base, comandos fijos) se desarrolla en el capítulo de Metodología. La evidencia de uso del MCP \cite{mcp-spec2025} documenta la orquestación del pipeline experimental sin confundirla con la lógica del simulador.

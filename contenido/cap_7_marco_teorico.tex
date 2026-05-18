@@ -7,31 +7,31 @@ Este capítulo esboza los conceptos del artefacto: simulación de plugins en Nod
 \label{sec:dependencia_testabilidad}
 
 \subsubsection{Evolución histórica: de los controladores a los plugins nativos}
-Tanenbaum y Bos describen cómo el SO ocultó hardware mediante controladores y llamadas al sistema \cite{tanenbaum2015modern_os}. Capacitor repite el patrón en otra capa: contratos JavaScript que en producción saltan a nativo. En \texttt{npm test} ese salto no ocurre; hay que declarar qué devuelve \texttt{getCurrentPosition()} o \texttt{getPhoto()} en cada perfil. Nie et al.\ documentan, en apps móviles, que la heterogeneidad de plataformas sigue condicionando la calidad de las pruebas de interfaz \cite{nie2023gui_mobile_mapping}.
+Tanenbaum y Bos describen cómo el SO ocultó hardware mediante controladores y llamadas al sistema \cite{tanenbaum2015modern_os}. Capacitor repite el patrón en otra capa: contratos JavaScript que en producción saltan a nativo. En \tcode{npm test} ese salto no ocurre; hay que declarar qué devuelve \tcode{getCurrentPosition()} o \tcode{getPhoto()} en cada perfil. Nie et al.\ documentan, en apps móviles, que la heterogeneidad de plataformas sigue condicionando la calidad de las pruebas de interfaz \cite{nie2023gui_mobile_mapping}.
 
 \subsubsection{Desacoplamiento arquitectónico}
-Martin exige que las reglas de negocio no conozcan detalles de dispositivo \cite{martin2017clean}. Invocar \texttt{@capacitor/camera} desde un servicio sin \textit{seam} rompe esa regla. Fowler añade el matiz temporal: promesas, permisos y timeouts mal aislados hacen flaky a la suite en Node \cite{fowler2002poeaa}. La tesis responde con un bridge extensible (factoría + \texttt{Proxy}), no con otro \texttt{jest.mock()} suelto por archivo.
+Martin exige que las reglas de negocio no conozcan detalles de dispositivo \cite{martin2017clean}. Invocar \tcode{@capacitor/camera} desde un servicio sin \textit{seam} rompe esa regla. Fowler añade el matiz temporal: promesas, permisos y timeouts mal aislados hacen flaky a la suite en Node \cite{fowler2002poeaa}. La tesis responde con un bridge extensible (factoría + \tcode{Proxy}), no con otro \tcode{jest.mock()} suelto por archivo.
 
 \subsubsection{Testabilidad, \textit{seams} y dobles de prueba}
-Feathers define \textit{seam} como el lugar donde inyectar un sustituto sin reescribir dominio \cite{feathers2004working}. Meszaros separa \textit{stub} de \textit{fake}/simulador con estado y contrato estable \cite{meszaros2007xunit}. El módulo propuesto apunta al segundo nivel: perfiles de éxito, error y permisos para \texttt{geolocation}, \texttt{camera} y \texttt{preferences}, cargados desde \texttt{setupFilesAfterEnv} o equivalente en Jasmine.
+Feathers define \textit{seam} como el lugar donde inyectar un sustituto sin reescribir dominio \cite{feathers2004working}. Meszaros separa \textit{stub} de \textit{fake}/simulador con estado y contrato estable \cite{meszaros2007xunit}. El módulo propuesto apunta al segundo nivel: perfiles de éxito, error y permisos para \tcode{geolocation}, \tcode{camera} y \tcode{preferences}, cargados desde \tcode{setupFilesAfterEnv} o equivalente en Jasmine.
 
 \subsubsection{Validación normativa y calidad del producto}
-ISO/IEC 25010 no reduce fiabilidad a un porcentaje de líneas \cite{iso250102011}. IEEE 829 pide poder rastrear qué entorno simuló cada caso \cite{ieee8292008}; IEEE 1012 ubica V\&V en el ciclo de vida \cite{ieee10122012}. En la comparación $B$ vs $P$ del diseño experimental, esas normas orientan qué registrar además de $C_B$ y $C_P$: perfiles activos, comandos (\texttt{jest --coverage}) y versión fijada de tooling.
+ISO/IEC 25010 no reduce fiabilidad a un porcentaje de líneas \cite{iso250102011}. IEEE 829 pide poder rastrear qué entorno simuló cada caso \cite{ieee8292008}; IEEE 1012 ubica V\&V en el ciclo de vida \cite{ieee10122012}. En la comparación $B$ vs $P$ del diseño experimental, esas normas orientan qué registrar además de $C_B$ y $C_P$: perfiles activos, comandos (\tcode{jest --coverage}) y versión fijada de tooling.
 
-El resto del capítulo muestra cómo operacionalizar eso con dobles formales, tiempo determinista, \texttt{Proxy} de respaldo y MCP.
+El resto del capítulo muestra cómo operacionalizar eso con dobles formales, tiempo determinista, \tcode{Proxy} de respaldo y MCP.
 
 \subsection{Arquitectura de dobles de prueba (test doubles) en entornos de ejecución JavaScript}
 \label{sec:arquitectura_test_doubles}
-Aislar negocio de dependencias externas es decisión de arquitectura. Meszaros distingue \textit{Dummy}, \textit{Stub}, \textit{Spy}, \textit{Mock} y \textit{Fake/Simulator} \cite{meszaros2007xunit}; aquí interesa el último: sustituto con estado y respuestas por perfil, no un retorno fijo copiado en cada \texttt{spec}.
+Aislar negocio de dependencias externas es decisión de arquitectura. Meszaros distingue \textit{Dummy}, \textit{Stub}, \textit{Spy}, \textit{Mock} y \textit{Fake/Simulator} \cite{meszaros2007xunit}; aquí interesa el último: sustituto con estado y respuestas por perfil, no un retorno fijo copiado en cada \tcode{spec}.
 
-Ionic compila TypeScript a JavaScript web; Capacitor delega en Android/iOS al invocar un plugin. En Node no hay puente nativo: \texttt{window.Capacitor.Plugins} o los imports \texttt{@capacitor/*} deben resolverse contra el simulador antes de que Istanbul mida ramas.
+Ionic compila TypeScript a JavaScript web; Capacitor delega en Android/iOS al invocar un plugin. En Node no hay puente nativo: \tcode{window.Capacitor.Plugins} o los imports \tcode{@capacitor/*} deben resolverse contra el simulador antes de que Istanbul mida ramas.
 
 \subsection{Determinismo temporal y mitigación de pruebas inestables (flaky tests) en hilos asíncronos}
-Un test \textit{flaky} pasa y falla sin cambios de código \cite{luo2014flaky}. En JavaScript la causa habitual es el \textit{event loop}: timers, \texttt{Promise} y colas de microtareas desordenadas. La propuesta fija \texttt{fake timers} en Jest (modo moderno, \texttt{advanceTimersByTime}) o \texttt{jasmine.clock()}, y encola respuestas del simulador para que el perfil ``permiso denegado'' o ``timeout de cámara'' se repita igual en corridas consecutivas. Schäfer et al.\ y SynTest-JavaScript subrayan, en npm, que sin entorno controlado la cobertura tampoco es interpretable \cite{schafer2024testpilot,olsthoorn2024syntest_javascript}.
+Un test \textit{flaky} pasa y falla sin cambios de código \cite{luo2014flaky}. En JavaScript la causa habitual es el \textit{event loop}: timers, \tcode{Promise} y colas de microtareas desordenadas. La propuesta fija \tcode{fake timers} en Jest (modo moderno, \tcode{advanceTimersByTime}) o \tcode{jasmine.clock()}, y encola respuestas del simulador para que el perfil ``permiso denegado'' o ``timeout de cámara'' se repita igual en corridas consecutivas. Schäfer et al.\ y SynTest-JavaScript subrayan, en npm, que sin entorno controlado la cobertura tampoco es interpretable \cite{schafer2024testpilot,olsthoorn2024syntest_javascript}.
 
 \subsection{Meta-programación mediante Proxies de JavaScript para mecanismos de fallback dinámico}
 \label{sec:proxies_fallback}
-Si el proyecto de referencia importa un plugin fuera del núcleo (\texttt{geolocation}, \texttt{camera}, \texttt{preferences}), la suite no debe abortar. Un \texttt{Proxy} intercepta métodos no mapeados, devuelve promesas genéricas y deja traza en log para marcarlos como pendientes de perfil específico. Eso evita confundir fallo de integración con las variables del experimento principal.
+Si el proyecto de referencia importa un plugin fuera del núcleo (\tcode{geolocation}, \tcode{camera}, \tcode{preferences}), la suite no debe abortar. Un \tcode{Proxy} intercepta métodos no mapeados, devuelve promesas genéricas y deja traza en log para marcarlos como pendientes de perfil específico. Eso evita confundir fallo de integración con las variables del experimento principal.
 
 \subsection{Orquestación de contexto semántico en modelos de lenguaje mediante Model Context Protocol (MCP)}
 \label{sec:orquestacion_mcp}
@@ -39,4 +39,4 @@ MCP estandariza cómo un agente llama \textit{Tools} y lee \textit{Resources} \c
 
 \subsection{Síntesis}
 \label{sec:sintesis_marco}
-El marco enlaza historia (drivers $\rightarrow$ plugins), diseño (Martin, Fowler, Feathers, Meszaros), normas (ISO, IEEE) y artefacto (bridge, perfiles, timers, \texttt{Proxy}, MCP). La metodología tomará de ahí las variables $C$, $T$ y la línea base $B$ frente al escenario con simulación $P$, con el alcance ya acotado a tres plugins y a unitarias en Node, no a pruebas en dispositivo.
+El marco enlaza historia (drivers $\rightarrow$ plugins), diseño (Martin, Fowler, Feathers, Meszaros), normas (ISO, IEEE) y artefacto (bridge, perfiles, timers, \tcode{Proxy}, MCP). La metodología tomará de ahí las variables $C$, $T$ y la línea base $B$ frente al escenario con simulación $P$, con el alcance ya acotado a tres plugins y a unitarias en Node, no a pruebas en dispositivo.

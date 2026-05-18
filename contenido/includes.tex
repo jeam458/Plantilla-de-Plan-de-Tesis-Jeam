@@ -1,5 +1,6 @@
 \usepackage[spanish, es-ucroman]{babel}
 \usepackage[utf8]{inputenc}
+\usepackage{microtype}
 \usepackage{fancyhdr}
 \usepackage{graphicx}
 \usepackage[inner=3.0cm,outer=2.5cm,top=3cm,bottom=3cm]{geometry}%margen 2.54
@@ -16,7 +17,13 @@
 \usepackage{tikz,pgfplots,pgfplotstable}
 \usepackage{capt-of}
 \usepackage{csvsimple}
-\usepackage[breaklinks]{hyperref}
+\PassOptionsToPackage{hyphens,spaces,obeyspaces}{url}
+\usepackage[hidelinks]{hyperref}
+% Código inline con cortes en /, ., -, _ (evita overfull hbox en PDF)
+\urlstyle{tt}
+\def\UrlBreaks{\do\/\do\-\do\_\do\.\do\?\do\&\do\=\do\:\do\;}
+\newcommand{\tcode}[1]{\nolinkurl{#1}}
+\setlength{\emergencystretch}{2.5em}
 \setlength{\parindent}{1.27cm}
 \usepackage[acronym]{glossaries} % paquete de acrónimos
 \usepackage{caption}
@@ -71,3 +78,10 @@
   \forloop{loopcntr}{0}{\value{loopcntr}<#1}{&}
 }
 \usepackage[nottoc]{tocbibind}
+
+% Ajuste de estilo para alinearse al formato DAII:
+% sin cabeceras/pies decorados ni líneas horizontales.
+\pagestyle{plain}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}

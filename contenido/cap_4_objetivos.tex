@@ -3,15 +3,16 @@
 
 \subsection{Objetivo General}
 \label{sec:objetivo_general}
-El objetivo general es construir y evaluar un \textbf{módulo de simulación de plugins nativos Capacitor} para proyectos Ionic (Angular o React), enganchado al runner que ya use el equipo (Jest y/o Jasmine), acompañarlo de un \textbf{procedimiento para mejorar cobertura de líneas y ramas} bajo ese esquema, y sumar una \textbf{capa MCP auxiliar} que automatice lo repetible del ciclo de medición (correr tests, leer cobertura, calidad estática). Todo debe poder contrastarse con una \textbf{línea base} registrada en el mismo proyecto.
+El objetivo general es construir y evaluar un \textbf{bridge universal extensible de simulación para APIs nativas de Capacitor} en proyectos Ionic (Angular o React), validado sobre un núcleo de plugins críticos y acoplado al runner que ya use el equipo (Jest y/o Jasmine), acompañarlo de un \textbf{procedimiento para mejorar cobertura de líneas y ramas} bajo ese esquema, y sumar una \textbf{capa auxiliar basada en Model Context Protocol (MCP)} que automatice lo repetible del ciclo de medición (correr tests, leer cobertura, calidad estática). Todo debe poder contrastarse con una \textbf{línea base} registrada en el mismo proyecto.
 
 \subsection{Objetivos Específicos}
 \label{sec:objetivos_especificos}
 \begin{itemize}
-    \item Programar en TypeScript/JavaScript el \textbf{módulo de simulación} para los plugins \textbf{\texttt{@capacitor/geolocation}}, \textbf{\texttt{@capacitor/camera}} y \textbf{\texttt{@capacitor/preferences}}, con perfiles configurables y respuestas que cubran caminos de éxito y error creíbles respecto al contrato público de cada API.
-    \item Integrar ese módulo en \textbf{al menos un proyecto Ionic de referencia} con pasos reproducibles (preset Jest, \texttt{setupFilesAfterEnv}, o el equivalente razonable en Jasmine/Angular) y documentar qué ocurre con otros \texttt{@capacitor/*} no incluidos en el alcance.
+    \item Programar en TypeScript/JavaScript el \textbf{bridge universal extensible} y validarlo en los plugins \textbf{\tcode{@capacitor/geolocation}}, \textbf{\tcode{@capacitor/camera}} y \textbf{\tcode{@capacitor/preferences}}, con perfiles configurables y respuestas que cubran caminos de éxito y error creíbles respecto al contrato público de cada API.
+    \item Integrar ese módulo en \textbf{al menos un proyecto Ionic de referencia} con pasos reproducibles (preset Jest, \tcode{setupFilesAfterEnv}, o el equivalente razonable en Jasmine/Angular), documentando qué ocurre con otros \tcode{@capacitor/*} no incluidos en el núcleo y activando un \textit{fallback mock} para preservar continuidad de la suite.
     \item Diseñar un \textbf{método de optimización de cobertura}: localizar en el código los usos de los tres plugins, elegir escenarios mínimos útiles para ramas relevantes y añadir o ajustar tests que eleven líneas y ramas sin ejecutar binarios en el teléfono.
     \item Montar un \textbf{servidor MCP auxiliar acotado} que, por ejemplo, dispare la suite con cobertura, lea el JSON o resumen estándar del reporte y, si existe infraestructura, consulte Sonar en solo lectura; describir en metodología alcance, límites y configuración de seguridad.
+    \item Evaluar el \textbf{aporte específico de MCP} frente a automatización clásica (script/CI lineal), comparando tiempo de iteración de diagnóstico y selección de siguiente escenario de prueba bajo el mismo conjunto de corridas.
     \item Definir \textbf{métricas y diseño comparativo} entre línea base (mocks dispersos o ausencia del módulo) y escenario con simulación integrada, coherentes con la sección de diseño experimental de este plan: cobertura, tiempo dedicado a preparar pruebas y, si aplica, lecturas Sonar/ESLint.
     \item Entregar \textbf{guías breves} para extender el simulador a otros plugins o integrar el flujo en CI, con límites conocidos.
 \end{itemize}

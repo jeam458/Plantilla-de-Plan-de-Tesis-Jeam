@@ -1,7 +1,7 @@
 \section{Alcance y Limitaciones}
 \label{chap:alcance_limitaciones}
 
-Este capítulo delimita qué entra y qué queda fuera para el \textbf{módulo de simulación Capacitor}, el \textbf{procedimiento de cobertura} y la \textbf{capa MCP auxiliar}. El tiempo disponible, los recursos y la complejidad del proyecto Ionic de referencia acotan lo que puede prometerse.
+Este capítulo delimita qué entra y qué queda fuera para el \textbf{bridge universal extensible de simulación Capacitor}, el \textbf{procedimiento de cobertura} y la \textbf{capa auxiliar basada en Model Context Protocol (MCP)}. El tiempo disponible, los recursos y la complejidad del proyecto Ionic de referencia acotan lo que puede prometerse.
 
 \subsection{Tipo de estudio y alcance general}
 \label{sec:alcance_tipo_estudio}
@@ -13,8 +13,8 @@ El enfoque es \textbf{explicativo-aplicado} en ingeniería de software: se const
 \subsubsection{Alcance Tecnológico}
 \label{ssec:alcance_tecnologico}
 \begin{itemize}
-    \item Un \textbf{módulo de simulación} para los plugins \textbf{\texttt{@capacitor/geolocation}}, \textbf{\texttt{@capacitor/camera}} y \textbf{\texttt{@capacitor/preferences}}, en proyectos Ionic con Angular y/o React, ejecutable en Node mediante Jest y/o Jasmine según el caso de referencia.
-    \item Un \textbf{método de cobertura} aplicado al código que consume esos plugins (perfiles de éxito, permiso denegado, datos vacíos, errores simulados), sin pretender barrer todo el repositorio con igual detalle.
+    \item Un \textbf{bridge universal extensible de simulación} validado en el núcleo \textbf{\tcode{@capacitor/geolocation}}, \textbf{\tcode{@capacitor/camera}} y \textbf{\tcode{@capacitor/preferences}}, en proyectos Ionic con Angular y/o React, ejecutable en Node mediante Jest y/o Jasmine según el caso de referencia.
+    \item Un \textbf{método de cobertura} aplicado al código que consume ese núcleo de plugins (perfiles de éxito, permiso denegado, datos vacíos, errores simulados), sin pretender cubrir exhaustivamente todos los plugins del ecosistema Capacitor en esta etapa.
     \item Un \textbf{servidor MCP auxiliar} con herramientas explícitas para correr tests con cobertura, leer agregados del reporte y, si existe proyecto SonarQube/SonarCloud disponible, consultarlo en solo lectura; sin comprometer refactors automáticos fuera de alcance.
     \item Herramientas estándar del ecosistema (p.\,ej.\ Istanbul vía Jest, ESLint si aporta) como instrumentos de medición.
 \end{itemize}
@@ -25,14 +25,14 @@ Las variables se operacionalizan así: \textbf{independientes}---uso del simulad
 
 \subsubsection{Alcance de Validación}
 \label{ssec:alcance_validacion}
-Al menos \textbf{un proyecto Ionic real o de referencia} con versiones de tooling fijas entre mediciones. Para evitar resultados triviales, la línea base se delimita con umbrales mínimos: (i) \textbf{8 o más componentes/páginas} con lógica de negocio; (ii) \textbf{2\,500 LOC o más} en TypeScript/JavaScript bajo prueba unitaria; (iii) uso efectivo de los plugins \texttt{geolocation}, \texttt{camera} y \texttt{preferences}; (iv) existencia previa de \textbf{mocks manuales dispersos} (al menos 6 puntos de mock o stubs equivalentes). Estos criterios se registrarán en una tabla de caracterización de la línea base ($B$) antes de ejecutar la intervención ($P$). No se aspira a inferencia para toda la industria del software móvil; sí a evidencia documentada bajo las limitaciones siguientes.
+Al menos \textbf{un proyecto Ionic real o de referencia} con versiones de tooling fijas entre mediciones. Para evitar resultados triviales, la línea base se delimita con umbrales mínimos: (i) \textbf{8 o más componentes/páginas} con lógica de negocio; (ii) \textbf{2\,500 LOC o más} en TypeScript/JavaScript bajo prueba unitaria; (iii) uso efectivo de los plugins \tcode{geolocation}, \tcode{camera} y \tcode{preferences}; (iv) existencia previa de \textbf{mocks manuales dispersos} (al menos 6 puntos de mock o stubs equivalentes). Estos criterios se registrarán en una tabla de caracterización de la línea base ($B$) antes de ejecutar la intervención ($P$). No se aspira a inferencia para toda la industria del software móvil; sí a evidencia documentada bajo las limitaciones siguientes.
 
 \subsection{Limitaciones}
 \label{sec:limitaciones}
 
 \subsubsection{Técnicas}
 \label{ssec:limitaciones_tecnicas}
-El simulador \textbf{no} ejecuta bytecode nativo del teléfono; las conclusiones valen para \textbf{unitarias en Node}. Plugins fuera de los tres nombrados requieren trabajo manual adicional.
+El simulador \textbf{no} ejecuta bytecode nativo del teléfono; las conclusiones valen para \textbf{unitarias en Node}. La validación se concentra en tres plugins críticos; para plugins fuera de ese núcleo se usa mecanismo de \textit{fallback} y su implementación específica queda como extensión posterior.
 
 \subsubsection{Del método de cobertura}
 \label{ssec:limitaciones_cobertura}

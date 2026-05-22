@@ -48,27 +48,27 @@ Si la validación de funcionalidades nativas sigue atada al dispositivo físico,
 
 \subsubsection{Problemas específicos}
 \label{sec:problemas_especificos}
-A continuación se listan siete problemas específicos; cada uno se responde con el objetivo del mismo número (sección~\ref{sec:objetivos_especificos}).
+El problema general se descompone en siete problemas específicos; cada uno se responde con un objetivo específico (sección~\ref{sec:objetivos_especificos}).
 
 \begin{enumerate}[label=\textbf{P\arabic*.}, leftmargin=*]
     \item \label{prob:simulador}
-    \textbf{Simulación centralizada.} Los mocks sueltos en \tcode{*.spec.ts} no comparten perfiles ni contrato. Falta un \textbf{bridge universal extensible} para \tcode{geolocation}, \tcode{camera} y \tcode{preferences} en Node.
+    \textbf{Simulación centralizada de plugins.} ¿Cómo sustituir mocks manuales dispersos por un \textbf{bridge universal extensible} que simule, con perfiles configurables, el núcleo \tcode{@capacitor/geolocation}, \tcode{@capacitor/camera} y \tcode{@capacitor/preferences} respetando sus contratos en Node.js?
 
     \item \label{prob:integracion}
-    \textbf{Integración en Ionic.} Aun existiendo el bridge, el proyecto de referencia puede no cargarlo siempre igual (orden en \tcode{jest.config}, \tcode{setupFilesAfterEnv}). ¿Cómo integrarlo en Angular o React sin tumbar la suite cuando aparezca otro \tcode{@capacitor/*}?
+    \textbf{Integración en proyecto Ionic.} ¿Cómo incorporar ese bridge en \textbf{al menos un proyecto Ionic de referencia} (Angular o React) con pasos reproducibles en Jest y/o Jasmine, sin interrumpir la suite cuando aparezcan otros \tcode{@capacitor/*} fuera del núcleo?
 
     \item \label{prob:cobertura}
-    \textbf{Cobertura con sentido.} Subir porcentajes con stubs que solo devuelven éxito no ejercita ramas de permiso denegado ni fallo de hardware. Hace falta un \textbf{método} que ordene escenarios antes de escribir tests a ciegas.
+    \textbf{Procedimiento de cobertura.} ¿Cómo definir y aplicar un \textbf{método sistemático} que eleve la cobertura de líneas y ramas del código que depende de APIs nativas, mediante escenarios de éxito, error y permisos, sin ejecutar la app en dispositivo físico?
 
     \item \label{prob:mcp}
-    \textbf{Ciclo de medición.} Repetir \tcode{npm test -- --coverage}, abrir el JSON de Istanbul y anotar resultados consume tiempo si todo es manual. Se requiere una \textbf{capa MCP} acotada, no un agente que modifique código de producción.
+    \textbf{Orquestación del ciclo de medición.} ¿Cómo automatizar de forma acotada y trazable el ciclo repetible (ejecutar tests con cobertura, leer reportes, consultas estáticas opcionales) mediante una \textbf{capa auxiliar basada en MCP}?
 
     \item \label{prob:mcp_valor}
-    \textbf{¿MCP aporta algo?} Sin comparar contra un script o job de CI que haga lo mismo, no se sabe si MCP solo añade complejidad. El problema es medir \textbf{iteración diagnóstica} ($T_{diag}$, pasos) en ambos flujos.
+    \textbf{Aporte de MCP frente a CI clásico.} ¿En qué medida el uso de MCP reduce tiempo y pasos manuales de \textbf{iteración diagnóstica} frente a un flujo lineal con scripts o CI, manteniendo el mismo conjunto de corridas?
 
     \item \label{prob:metricas}
-    \textbf{Evidencia $B$ vs $P$.} Sin tabla de línea base (componentes, LOC, mocks previos) y sin $\Delta C$, $\Delta T$, cualquier mejora anecdótica no defiende la tesis. Hay que operacionalizar el contraste antes/después.
+    \textbf{Evidencia comparativa.} ¿Cómo operacionalizar \textbf{métricas y diseño antes/después} (línea base $B$ versus intervención $P$) que demuestren cambios en cobertura, tiempo de preparación de pruebas y estabilidad de la suite?
 
     \item \label{prob:transferencia}
-    \textbf{Salida al equipo.} Otros plugins de Capacitor y el pipeline de CI quedan fuera del núcleo; sin guía breve, el artefacto no se reutiliza fuera del experimento.
+    \textbf{Extensión y adopción.} ¿Cómo documentar la \textbf{extensión del simulador} a otros plugins y su incorporación en pipelines de integración continua, declarando límites conocidos del alcance?
 \end{enumerate}

@@ -1,16 +1,17 @@
 \section{Justificación}
 \label{chap:justificacion}
 
-Esta justificación expone por qué importa el estudio y quién puede beneficiarse. Aquí se argumenta en torno a tres componentes concretos: \textbf{un bridge universal extensible de simulación para APIs nativas de Capacitor}, \textbf{un procedimiento de cobertura de líneas y ramas} y \textbf{una capa auxiliar basada en Model Context Protocol (MCP)}.
+Quien mantiene un proyecto Ionic con varios \tcode{*.spec.ts} ya vio el patrón: un mock de geolocalización en un archivo, otro de cámara en otro, coordenadas inventadas que no coinciden con el contrato público del plugin. Ese desorden es lo que ataca esta tesis con tres piezas: \textbf{bridge de simulación}, \textbf{procedimiento de cobertura} y \textbf{MCP auxiliar} (opcional, acotado).
 
 \subsection{Justificación Técnica y Práctica}
 \label{sec:justificacion_tecnica_practica}
-Capacitor agrupa en plugins funciones que en dispositivo recurren a cámara, geolocalización, almacenamiento persistente, etc. En Node ese soporte no existe de fábrica; si cada desarrollador dispersa mocks en carpetas distintas, las suites se vuelven frágiles; en consecuencia, la cobertura pierde interpretabilidad o puede resultar engañosa. Un \textbf{módulo de simulación reutilizable} concentra respuestas y perfiles, reduce retrabajo y permite interpretar la cobertura sobre código que efectivamente se ejecutó en el runner. El procedimiento asociado evita confundir ``añadir tests'' con cubrir ramas relevantes (éxitos, errores, permisos). La capa MCP, acotada a comandos y reportes ya habituales, sirve para repetir el mismo ciclo de medición y dejar rastro en la memoria.
+Capacitor expone cámara, GPS y almacenamiento como plugins TypeScript; en el dispositivo eso termina en código nativo, en Node no. Sin un único punto de inyección, cada desarrollador duplica stubs y la suite se vuelve frágil. Un módulo con perfiles (\texttt{success}, \texttt{permissionDenied}, timeout de cámara) concentra el comportamiento y hace legible el reporte de Istanbul.
+
+En la práctica del equipo, el bridge se carga antes de los tests (por ejemplo vía \tcode{setupFilesAfterEnv}) y reemplaza la resolución global de plugins para que \tcode{Geolocation.getCurrentPosition()} y \tcode{Camera.getPhoto()} respondan desde memoria, no desde hardware. El procedimiento de cobertura evita la trampa de ``añadir diez tests'' sin tocar la rama del \tcode{catch} cuando falla el permiso. MCP entra después: dispara los mismos comandos que ya usarías a mano y deja traza, sin mezclarse con la lógica del simulador.
 
 \subsection{Impacto Económico y Social}
-\label{sec:impacto_economico_social}
-Menos tiempo en mocks inconsistentes y suites más estables reducen errores evitables y costos de mantenimiento en equipos que publican apps híbridas de uso cotidiano (turismo, educación, comercio local). El usuario final no ``ve'' el simulador, pero sí puede verse beneficiado por actualizaciones con regresiones menos frecuentes cuando la estrategia de pruebas en Node es más clara.
+Menos horas rehaciendo mocks y menos regresiones en apps de uso cotidiano (turismo, educación, comercio local) tienen impacto directo en costos de mantenimiento. El usuario final no instala el simulador; sí recibe builds con menos fallos que solo aparecían en teléfono.
 
 \subsection{Aporte Científico y Evolución Metodológica}
 \label{sec:aporte_cientifico_metodologico}
-El aporte \textbf{teórico-práctico} es caracterizar la brecha entre contratos \tcode{@capacitor/*} y ejecución en Node, y ofrecer un artefacto medible relacionado con la literatura de testing móvil \cite{nie2023gui_mobile_mapping} y con estudios recientes de cobertura y generación en JavaScript \cite{schafer2024testpilot,olsthoorn2024syntest_javascript}. La parte metodológica reproducible (variables, línea base, comandos fijos) se desarrolla en el capítulo de Metodología. La evidencia de uso del MCP \cite{mcp-spec2025} documenta la orquestación del pipeline experimental sin confundirla con la lógica del simulador.
+El vacío que se documenta es la brecha entre contrato \tcode{@capacitor/*} y ejecución en Node, con artefacto medible frente a literatura de testing móvil \cite{nie2023gui_mobile_mapping} y estudios de cobertura en npm \cite{schafer2024testpilot,olsthoorn2024syntest_javascript}. Variables, línea base y comandos fijos van en Metodología; MCP \cite{mcp-spec2025} queda como evidencia de orquestación del pipeline, no como núcleo teórico del simulador.

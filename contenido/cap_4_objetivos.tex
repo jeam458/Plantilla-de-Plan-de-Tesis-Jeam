@@ -5,31 +5,31 @@
 \label{sec:objetivo_general}
 Construir y evaluar un \textbf{bridge universal extensible de simulación para APIs nativas de Capacitor} en aplicaciones Ionic, con \textbf{procedimiento de cobertura en Node.js} (Jest y/o Jasmine) y \textbf{capa auxiliar MCP}, contrastando resultados con una \textbf{línea base} documentada en el mismo proyecto de referencia.
 
-Este objetivo responde al problema general formulado en la sección~\ref{sec:problema_general}.
+Responde al problema general de la sección~\ref{sec:problema_general}.
 
 \subsection{Objetivos Específicos}
 \label{sec:objetivos_especificos}
-Cada objetivo específico responde al problema específico homólogo (P1--P7) de la sección~\ref{sec:problemas_especificos}.
+Los objetivos O1--O7 responden a los problemas P1--P7 (sección~\ref{sec:problemas_especificos}). La numeración es paralela; la redacción de cada ítem varía según el entregable.
 
 \begin{enumerate}[label=\textbf{O\arabic*.}, leftmargin=*]
     \item \label{obj:simulador}
-    \textbf{Responde a P\ref{prob:simulador}.} Programar en TypeScript/JavaScript el bridge universal extensible y validarlo en \tcode{@capacitor/geolocation}, \tcode{@capacitor/camera} y \tcode{@capacitor/preferences}, con perfiles de éxito, error, permisos y datos límite alineados al contrato de cada API.
+    \textbf{[P\ref{prob:simulador}]} Desarrollar en TypeScript el bridge con perfiles configurables para \tcode{geolocation}, \tcode{camera} y \tcode{preferences}, cubriendo éxito, error, permisos denegados y valores límite según el contrato publicado de cada plugin.
 
     \item \label{obj:integracion}
-    \textbf{Responde a P\ref{prob:integracion}.} Integrar el módulo en al menos un proyecto Ionic de referencia con pasos reproducibles (\tcode{setupFilesAfterEnv} en Jest o equivalente en Jasmine/Angular) y \textit{fallback mock} mediante \tcode{Proxy} para plugins fuera del núcleo.
+    Integrar el bridge en al menos un proyecto Ionic de referencia: preset Jest, \tcode{setupFilesAfterEnv} y mapeo de módulos documentados; en Jasmine/Angular, el equivalente razonable. Activar \textit{fallback} con \tcode{Proxy} para \tcode{@capacitor/*} fuera del núcleo. \textbf{[P\ref{prob:integracion}]}
 
     \item \label{obj:cobertura}
-    \textbf{Responde a P\ref{prob:cobertura}.} Diseñar y aplicar un método de optimización de cobertura: localizar usos de los tres plugins, definir escenarios mínimos por rama relevante y ajustar tests que eleven líneas y ramas en Node.
+    \textbf{[P\ref{prob:cobertura}]} Aplicar un método de cobertura: inventariar usos de los tres plugins, listar escenarios mínimos por rama y escribir o ajustar tests hasta elevar líneas y ramas en \tcode{jest --coverage}, sin binarios en teléfono.
 
     \item \label{obj:mcp}
-    \textbf{Responde a P\ref{prob:mcp}.} Montar un servidor MCP auxiliar acotado que dispare la suite con cobertura, lea el reporte agregado (p.\,ej.\ JSON de Istanbul/Jest) y, si existe infraestructura, consulte Sonar en solo lectura; documentar alcance y seguridad.
+    Implementar servidor MCP auxiliar con herramientas acotadas (lanzar suite con cobertura, leer agregados del reporte, Sonar solo lectura si existe). Dejar por escrito permisos, rutas y qué no hará el servidor. \textbf{[P\ref{prob:mcp}]}
 
     \item \label{obj:mcp_valor}
-    \textbf{Responde a P\ref{prob:mcp_valor}.} Evaluar el aporte de MCP frente a automatización clásica (script/CI lineal), comparando tiempo de iteración diagnóstica ($T_{diag}$), pasos manuales y consistencia al elegir el siguiente escenario de prueba.
+    \textbf{[P\ref{prob:mcp_valor}]} Comparar, en el mismo subconjunto de corridas, flujo MCP asistido frente a script o CI lineal: medir $T_{diag}$, pasos manuales y si el siguiente perfil de simulación se elige con la misma criterio.
 
     \item \label{obj:metricas}
-    \textbf{Responde a P\ref{prob:metricas}.} Definir métricas y diseño comparativo entre línea base ($B$) y escenario con simulación integrada ($P$): cobertura $C$, tiempo de preparación de pruebas $T$, pasaje de suite y lecturas Sonar/ESLint si aplican.
+    Fijar métricas y diseño $B \rightarrow P$: cobertura $C$, tiempo de preparación de mocks $T$, pasaje de suite; tabla de caracterización de la línea base (8+ componentes, 2\,500+ LOC, 6+ mocks previos). \textbf{[P\ref{prob:metricas}]}
 
     \item \label{obj:transferencia}
-    \textbf{Responde a P\ref{prob:transferencia}.} Entregar guías breves para extender el simulador a otros plugins e integrar el flujo en CI, explicitando límites y requisitos de la línea base mínima (componentes, LOC, mocks previos).
+    \textbf{[P\ref{prob:transferencia}]} Redactar guías cortas para extender perfiles a otros plugins y enlazar el flujo en CI, con límites explícitos del alcance actual.
 \end{enumerate}

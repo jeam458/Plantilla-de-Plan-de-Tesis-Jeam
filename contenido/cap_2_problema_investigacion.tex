@@ -39,6 +39,36 @@ Eso frena la mejora continua y retrasa regresiones cuando cambia Capacitor, el S
 
 \subsection{Formulación del problema}
 \label{sec:formulacion_problema}
+
+\subsubsection{Problema general}
+\label{sec:problema_general}
 Si la validación de funcionalidades nativas sigue atada al dispositivo físico, las pruebas permanecerán lentas, variables y poco repetibles. La cobertura reportada perderá confianza frente a cambios de versión o de arquitectura.
 
-\textbf{¿De qué manera puede mejorarse la validación de funcionalidades nativas en aplicaciones Ionic para reducir la dependencia de pruebas manuales y aumentar la confiabilidad de la cobertura de código en entornos de desarrollo basados en Node.js?}
+\textbf{Problema general:} ¿de qué manera puede mejorarse la validación de funcionalidades nativas en aplicaciones Ionic para reducir la dependencia de pruebas manuales y aumentar la confiabilidad de la cobertura de código en entornos de desarrollo basados en Node.js?
+
+\subsubsection{Problemas específicos}
+\label{sec:problemas_especificos}
+El problema general se descompone en siete problemas específicos. Cada uno tiene respuesta directa en un objetivo específico (sección~\ref{sec:objetivos_especificos}).
+
+\begin{enumerate}[label=\textbf{P\arabic*.}, leftmargin=*]
+    \item \label{prob:simulador}
+    \textbf{Simulación centralizada de plugins.} ¿Cómo sustituir mocks manuales dispersos por un \textbf{bridge universal extensible} que simule, con perfiles configurables, el núcleo \tcode{@capacitor/geolocation}, \tcode{@capacitor/camera} y \tcode{@capacitor/preferences} respetando sus contratos en Node.js?
+
+    \item \label{prob:integracion}
+    \textbf{Integración en proyecto Ionic.} ¿Cómo incorporar ese bridge en \textbf{al menos un proyecto Ionic de referencia} (Angular o React) con pasos reproducibles en Jest y/o Jasmine, sin interrumpir la suite cuando aparezcan otros \tcode{@capacitor/*} fuera del núcleo?
+
+    \item \label{prob:cobertura}
+    \textbf{Procedimiento de cobertura.} ¿Cómo definir y aplicar un \textbf{método sistemático} que eleve la cobertura de líneas y ramas del código que depende de APIs nativas, mediante escenarios de éxito, error y permisos, sin ejecutar la app en dispositivo físico?
+
+    \item \label{prob:mcp}
+    \textbf{Orquestación del ciclo de medición.} ¿Cómo automatizar de forma acotada y trazable el ciclo repetible (ejecutar tests con cobertura, leer reportes, consultas estáticas opcionales) mediante una \textbf{capa auxiliar basada en MCP}?
+
+    \item \label{prob:mcp_valor}
+    \textbf{Aporte de MCP frente a CI clásico.} ¿En qué medida el uso de MCP reduce tiempo y pasos manuales de \textbf{iteración diagnóstica} frente a un flujo lineal con scripts o CI, manteniendo el mismo conjunto de corridas?
+
+    \item \label{prob:metricas}
+    \textbf{Evidencia comparativa.} ¿Cómo operacionalizar \textbf{métricas y diseño antes/después} (línea base $B$ versus intervención $P$) que demuestren cambios en cobertura, tiempo de preparación de pruebas y estabilidad de la suite?
+
+    \item \label{prob:transferencia}
+    \textbf{Extensión y adopción.} ¿Cómo documentar la \textbf{extensión del simulador} a otros plugins y su incorporación en pipelines de integración continua, declarando límites conocidos del alcance?
+\end{enumerate}

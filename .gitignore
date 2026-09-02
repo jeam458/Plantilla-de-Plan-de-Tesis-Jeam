@@ -15,6 +15,7 @@ missfont.log
 
 # PDF local (generar con compile-pdf.sh)
 *.pdf
+!referencias/**/*.pdf
 
 # macOS
 .DS_Store

@@ -1,51 +1,14 @@
 \section{Alcance y Limitaciones}
 \label{chap:alcance_limitaciones}
 
-Este capítulo delimita qué entra y qué queda fuera para el \textbf{bridge universal extensible de simulación Capacitor}, el \textbf{procedimiento de cobertura} y la \textbf{capa auxiliar basada en Model Context Protocol (MCP)}. El tiempo disponible, los recursos y la complejidad del proyecto Ionic de referencia acotan lo que puede prometerse.
-
-\subsection{Tipo de estudio y alcance general}
-\label{sec:alcance_tipo_estudio}
-El enfoque es \textbf{explicativo-aplicado} en ingeniería de software: se construye un artefacto (simulador + procedimiento de cobertura + MCP opcional) y se contrastan mediciones \textit{antes} y \textit{después} sobre cobertura, tiempo de preparación de pruebas u otros indicadores opcionales. Hay además componente \textbf{descriptivo}: registrar qué plugins se cubrieron, cómo quedó configurado el proyecto de referencia y con qué herramientas se midió.
-
 \subsection{Alcances}
 \label{sec:alcances}
 
-\subsubsection{Alcance Tecnológico}
-\label{ssec:alcance_tecnologico}
-\begin{itemize}
-    \item Un \textbf{bridge universal extensible de simulación} validado en el núcleo \textbf{\tcode{@capacitor/geolocation}}, \textbf{\tcode{@capacitor/camera}} y \textbf{\tcode{@capacitor/preferences}}, en proyectos Ionic con Angular y/o React, ejecutable en Node mediante Jest y/o Jasmine según el caso de referencia.
-    \item Un \textbf{método de cobertura} aplicado al código que consume ese núcleo de plugins (perfiles de éxito, permiso denegado, datos vacíos, errores simulados), sin pretender cubrir exhaustivamente todos los plugins del ecosistema Capacitor en esta etapa.
-    \item Un \textbf{servidor MCP auxiliar} con herramientas explícitas para correr tests con cobertura, leer agregados del reporte y, si existe proyecto SonarQube/SonarCloud disponible, consultarlo en solo lectura; sin comprometer refactors automáticos fuera de alcance.
-    \item Herramientas estándar del ecosistema (p.\,ej.\ Istanbul vía Jest, ESLint si aporta) como instrumentos de medición.
-\end{itemize}
-
-\subsubsection{Alcance Metodológico}
-\label{ssec:alcance_metodologico}
-Las variables se operacionalizan así: \textbf{independientes}---uso del simulador, aplicación del procedimiento de cobertura, uso opcional del MCP; \textbf{dependientes}---cobertura de líneas y ramas, tiempo en preparación de mocks y tests de apoyo, densidad de issues críticos en Sonar si existe instalación. El diseño es comparativo antes/después (o entre ramas etiquetadas del mismo repositorio), conservando commits y comandos.
-
-\subsubsection{Alcance de Validación}
-\label{ssec:alcance_validacion}
-Al menos \textbf{un proyecto Ionic real o de referencia} con versiones de tooling fijas entre mediciones. Para evitar resultados triviales, la línea base se delimita con umbrales mínimos: (i) \textbf{8 o más componentes/páginas} con lógica de negocio; (ii) \textbf{2\,500 LOC o más} en TypeScript/JavaScript bajo prueba unitaria; (iii) uso efectivo de los plugins \tcode{geolocation}, \tcode{camera} y \tcode{preferences}; (iv) existencia previa de \textbf{mocks manuales dispersos} (al menos 6 puntos de mock o stubs equivalentes). Estos criterios se registrarán en una tabla de caracterización de la línea base ($B$) antes de ejecutar la intervención ($P$). No se aspira a inferencia para toda la industria del software móvil; sí a evidencia documentada bajo las limitaciones siguientes.
+El producto de esta investigación es un \textbf{módulo de simulación} para APIs nativas de Capacitor, implementado como \textbf{bridge universal extensible} con patrón \tcode{Proxy}, validado en el núcleo \tcode{@capacitor/geolocation}, \tcode{@capacitor/camera} y \tcode{@capacitor/preferences}. El módulo se integra en \textbf{al menos un proyecto Ionic de referencia} (Angular o React) y permite ejecutar pruebas unitarias en Node.js mediante Jest y/o Jasmine, con perfiles configurables de éxito, error, permisos y datos límite. Junto al simulador se entrega un \textbf{procedimiento de cobertura} para elevar líneas y ramas del código que consume esas APIs, y una \textbf{capa auxiliar de orquestación basada en MCP} que automatiza el ciclo de medición (ejecución de suite, lectura de reportes y consultas estáticas opcionales). La validación documenta una \textbf{línea base experimental} y los resultados obtenidos tras la intervención en el mismo repositorio.
 
 \subsection{Limitaciones}
 \label{sec:limitaciones}
 
-\subsubsection{Técnicas}
-\label{ssec:limitaciones_tecnicas}
-El simulador \textbf{no} ejecuta bytecode nativo del teléfono; las conclusiones valen para \textbf{unitarias en Node}. La validación se concentra en tres plugins críticos; para plugins fuera de ese núcleo se usa mecanismo de \textit{fallback} y su implementación específica queda como extensión posterior.
+El simulador \textbf{no emula el kernel del sistema operativo} ni el \textit{firmware} del dispositivo; reproduce únicamente el \textbf{contrato TypeScript/JavaScript} que el desarrollador invoca (\tcode{getCurrentPosition}, \tcode{getPhoto}, \tcode{set}, etc.) con respuestas coherentes en Node. Por tanto, \textbf{no detecta fallos de hardware real} (sensor GPS defectuoso, cámara ocupada en el teléfono, cuotas de almacenamiento del SO) ni sustituye pruebas en dispositivo físico o emulador nativo.
 
-\subsubsection{Del método de cobertura}
-\label{ssec:limitaciones_cobertura}
-Si el código está muy acoplado o el flujo asíncrono es enredado, el análisis ligero puede no bastar y aparecerán soluciones ad hoc que la memoria debe marcar como trabajo futuro.
-
-\subsubsection{Del MCP y del LLM}
-\label{ssec:limitaciones_mcp}
-MCP es apoyo operativo; cualquier sugerencia automática de tests con LLM debe pasar por el runner y validarse como cualquier otro cambio. APIs de modelos implican costo y variabilidad opcionalmente marginal al experimento central.
-
-\subsubsection{Compatibilidad}
-\label{ssec:limitaciones_compatibilidad}
-Proyectos Ionic con estructuras raras o tooling muy personalizado pueden exigir adaptaciones que no entran en la primera versión del plan.
-
-\subsubsection{Contexto}
-\label{ssec:limitaciones_contexto}
-Si Sonar u otros servicios no están disponibles, la validación se apoya en cobertura y tiempos según el procedimiento del capítulo de Metodología.
+El alcance tecnológico se concentra en tres plugins del ecosistema Capacitor; otros \tcode{@capacitor/*} quedan fuera del núcleo inicial o dependen del mecanismo de \textit{fallback} genérico. Factores externos pueden condicionar los resultados: acceso limitado a hardware móvil diverso, diferencias entre versiones de sistemas operativos, cambios de versión en Ionic/Capacitor o en el runner de pruebas, y disponibilidad de servicios cloud o tokens para escenarios MCP acotados. Si el proyecto de referencia tiene tooling muy personalizado, puede requerir adaptaciones no contempladas en la primera versión del artefacto.

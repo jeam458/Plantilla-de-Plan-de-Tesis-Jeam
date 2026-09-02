@@ -1,69 +1,135 @@
 \section{Metodología}
 \label{chap:metodologia}
 
-Este capítulo describe el procedimiento experimental: tipo de estudio, métricas y orden de trabajo sobre el repositorio Ionic de referencia. La intención es que otro investigador pueda repetir las corridas con los mismos commits y comandos registrados.
+\subsection{Enfoque}
+\label{sec:enfoque}
+La investigación adopta un enfoque \textbf{cuantitativo}: la evidencia proviene de \textbf{números y tiempos} medibles (cobertura de líneas y ramas, duración de preparación de pruebas, pasaje de la suite, tiempo de iteración diagnóstica). No se recolectan opiniones ni percepciones de usuarios como fuente principal; tampoco se aplican entrevistas ni grupos focales.
 
-\subsection{Fundamentos metodológicos según Hernández Sampieri et al.}
-\label{sec:fundamentos_sampieri}
-La investigación se apoya en el proceso cuantitativo descrito por \cite{sampieri2010metodologia}: delimitación de problema y objetivos, marco teórico de soporte y decisión de alcance. No hay muestra humana ni encuestas; la evidencia proviene de mediciones sobre software y tiempos de preparación de pruebas.
+\subsection{Alcance}
+\label{sec:alcance_metodologico}
+El alcance es \textbf{descriptivo} \cite{sampieri2023metodologia}: se aplican conceptos de la literatura para \textbf{desarrollar, integrar y describir} un artefacto concreto (módulo de simulación Capacitor, procedimiento de cobertura y capa MCP auxiliar) y se documentan sus resultados medidos en el proyecto de referencia. No se persigue un alcance \textbf{explicativo} (manipulación deliberada de variables para inferir causalidad) ni \textbf{correlacional} formal en esta etapa del plan, a fin de mantener la complejidad metodológica acorde al tiempo disponible.
 
-\subsection{Tipo de Investigación}
-\label{sec:tipo_investigacion}
-Es investigación \textbf{cuantitativa}, con predominio del alcance \textbf{explicativo} en formato aplicado: se construye un bridge universal extensible de simulación Capacitor, se aplica el procedimiento de cobertura y se integra una capa auxiliar basada en MCP, y se contrastan mediciones antes y después de una intervención definida. La caracterización detallada del artefacto incorpora elementos \textbf{descriptivos} dentro del mismo diseño.
-
-\subsection{Métodos de Validación y Métricas}
-\label{sec:metricas_validacion}
+\subsection{Diseño}
+\label{sec:diseno}
+El diseño es \textbf{no experimental} y \textbf{transversal} \cite{sampieri2023metodologia}:
 \begin{itemize}
-    \item \textbf{Cobertura de código:} líneas y ramas según Istanbul/Jest u homólogo, siempre sobre el mismo snapshot del proyecto entre mediciones.
-    \item \textbf{Tiempo de preparación de pruebas:} registro con bitácora o cronómetro (incluido el tiempo dedicado a mocks manuales eliminados o sustituidos) entre línea base y escenario con simulación integrada.
-    \item \textbf{Pasaje de la suite:} número de tests que pasan en Node en cada corrida documentada.
-    \item \textbf{Calidad estática opcional:} si hay Sonar configurado, puede usarse como evidencia adicional; si no existe, no se fuerza en la narrativa.
-    \item \textbf{Tiempo de iteración diagnóstica:} tiempo entre recibir un reporte de cobertura/fallo y definir el siguiente escenario de prueba, comparando flujo lineal (script/CI) frente a flujo asistido por MCP.
+    \item \textbf{No experimental:} no se manipulan variables independientes en condiciones controladas de laboratorio; se observan métricas del proyecto en su contexto natural de desarrollo.
+    \item \textbf{Transversal:} la recolección de datos ocurre en un \textbf{único periodo} del ciclo de la investigación, sin seguimiento longitudinal prolongado.
 \end{itemize}
+El registro de la línea base ($B$) y del estado con módulo integrado ($P$) tiene fines de \textbf{caracterización y documentación descriptiva} de las métricas en dos versiones etiquetadas del mismo repositorio; \textbf{no constituye un diseño experimental} ni pretende inferir causalidad ni comprobar hipótesis, conforme al alcance descriptivo adoptado \cite{sampieri2023metodologia}.
 
-\subsection{Diseño experimental}
+\subsection{Población y muestra}
+\label{sec:poblacion_muestra}
+No hay participantes humanos. La \textbf{población} es el conjunto de artefactos de software del \textbf{proyecto Ionic de referencia} (código fuente, suite de pruebas, reportes de cobertura y configuración de tooling). La \textbf{muestra} coincide con esa unidad de análisis: el mismo repositorio en versiones etiquetadas (línea base $B$ e intervención $P$).
+
+\subsection{Proyecto de referencia y línea base}
+\label{sec:proyecto_referencia}
+Para que las métricas sean auditables, el proyecto Ionic de referencia se caracteriza antes de $B$ con los criterios mínimos de la Tabla~\ref{tab:proyecto_referencia}. Si el repositorio definitivo difiere en cifras, se documentará la tabla actualizada en la memoria; los umbrales expresan el piso de credibilidad, no una promesa sobre toda la industria móvil.
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Caracterización mínima del proyecto Ionic de referencia (línea base $B$).}
+\label{tab:proyecto_referencia}
+\begin{tabular}{p{4.8cm}p{7.8cm}}
+\toprule
+\textbf{Criterio} & \textbf{Descripción / umbral} \\
+\midrule
+Stack & Ionic con Capacitor; Angular o React; runner Jest y/o Jasmine en Node.js \\
+Plugins nativos en uso & \tcode{@capacitor/geolocation}, \tcode{@capacitor/camera}, \tcode{@capacitor/preferences} con llamadas efectivas en código de aplicación \\
+Componentes con lógica & Al menos 8 páginas o componentes con lógica de negocio que consuman APIs nativas \\
+Volumen bajo prueba & $\geq$\,2\,500 LOC en TypeScript/JavaScript cubiertas por la suite unitaria \\
+Mocks previos & $\geq$\,6 puntos de mock o \textit{stub} dispersos documentados (archivos \tcode{*.spec.ts} o setup local) \\
+Versiones fijadas & Commits o etiquetas que registren versión de Ionic, Capacitor, Node y del runner entre $B$ y $P$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Metodología de desarrollo de software}
+\label{sec:metodologia_desarrollo_software}
+Para la parte informática se adopta un proceso \textbf{ágil incremental} inspirado en \textbf{Scrum}: trabajo organizado en \textbf{sprints} de dos a cuatro semanas con entregables verificables (simulador por plugin, integración en el runner, procedimiento de cobertura, servidor MCP). Cada sprint cierra con revisión de métricas y retrospectiva técnica. Esta metodología de desarrollo es independiente de la metodología de investigación documental (Sampieri) y gobierna únicamente la construcción del artefacto.
+
+\subsection{Métricas e instrumentos}
+\label{sec:metricas_validacion}
+Las variables se miden de forma \textbf{independiente} (alcance descriptivo); no se plantea relación ni causalidad entre ellas. La Tabla~\ref{tab:operacionalizacion} resume la operacionalización según Hernández Sampieri et al.\ \cite{sampieri2023metodologia}.
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Operacionalización de variables e instrumentos de medición.}
+\label{tab:operacionalizacion}
+\begin{tabular}{p{3.2cm}p{4.2cm}p{4.8cm}}
+\toprule
+\textbf{Variable} & \textbf{Indicador} & \textbf{Instrumento / fuente} \\
+\midrule
+Cobertura de código & Porcentaje de líneas y ramas ejecutadas & Reporte Istanbul vía \tcode{jest --coverage} o homólogo \\
+Tiempo de preparación de pruebas & Minutos dedicados a mocks y ajustes de suite & Bitácora o cronómetro del tesista \\
+Pasaje de la suite & Número de tests aprobados sobre el total en Node & Salida del runner (Jest/Jasmine) \\
+Calidad estática (opcional) & Issues críticos o advertencias relevantes & SonarQube/SonarCloud u homólogo, si existe \\
+Tiempo de iteración diagnóstica ($T_{diag}$) & Minutos entre detección de fallo o rama faltante y definición del siguiente escenario & Registro manual o bitácora MCP (ver definición abajo) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Definición operativa de $T_{diag}$.} Una \textbf{iteración diagnóstica} comienza cuando el investigador recibe una señal objetiva de mejora pendiente: (a) un test fallido en el runner, o (b) una rama o línea no cubierta marcada en el reporte Istanbul como relevante para código que consume APIs nativas. La iteración \textbf{termina} cuando queda documentado el siguiente escenario a ejecutar (perfil de simulación a activar o caso de prueba a ajustar) y se registra la marca temporal en bitácora. \textbf{No incluye} tiempo de implementación del bridge, reuniones de asesoría ni redacción de la memoria; solo el ciclo ``detectar $\rightarrow$ decidir siguiente escenario $\rightarrow$ preparar corrida''.
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Coherencia entre objetivos específicos e instrumentos de validación.}
+\label{tab:objetivos_instrumentos}
+\begin{tabular}{p{0.8cm}p{5.2cm}p{5.8cm}}
+\toprule
+\textbf{Obj.} & \textbf{Objetivo específico (resumen)} & \textbf{Instrumento / evidencia} \\
+\midrule
+1 & Bridge universal con perfiles por API & Pasaje de suite; contratos ejercidos por perfil (\tcode{success}, \tcode{error}, permisos) \\
+2 & Integración en proyecto Ionic de referencia & Suite ejecutable en Node con \tcode{setupFilesAfterEnv} o equivalente documentado \\
+3 & Procedimiento de cobertura en Node.js & $C_B$, $C_P$, $\Delta C$ (líneas y ramas, Istanbul/Jest) \\
+4 & Capa auxiliar MCP & Tools de Tabla~\ref{tab:mcp_tools}; trazabilidad de comandos \\
+5 & Viabilidad en integración continua (CI) & Corrida reproducible en pipeline sin dispositivo físico \\
+6 & Línea base experimental & Tabla~\ref{tab:proyecto_referencia}; $B$ vs $P$; $T_{diag}$; $\Delta T$ \\
+7 & Extensibilidad del módulo & Incorporación de un contrato nativo adicional sin alterar núcleo del bridge \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Procedimiento de trabajo}
 \label{sec:diseno_experimental}
+El siguiente procedimiento documenta el estado del artefacto en dos commits etiquetados del mismo repositorio; los contrastes numéricos ($\Delta C$, $\Delta T$) se reportan como \textbf{descripción de resultados}, no como prueba de hipótesis.
 \begin{enumerate}
-    \item \textbf{Línea base ($B$):} tomar el proyecto Ionic de referencia tal como se prueba hoy (mocks dispersos o mínimos necesarios). Anotar cobertura $C_B$, tiempo $T_B$ y estado de la suite.
-    \item \textbf{Intervención ($P$):} integrar el bridge universal extensible y validarlo en el núcleo de plugins del alcance, aplicar el procedimiento de cobertura y etiquetar commits o releases para poder reproducir el estado.
-    \item \textbf{Post-intervención:} medir $C_P$, $T_P$ y suite; calcular $\Delta C = C_P - C_B$ y $\Delta T = T_B - T_P$.
-    \item \textbf{Comparación de orquestación:} ejecutar un subconjunto de corridas bajo dos modos equivalentes: (i) script/CI lineal y (ii) MCP asistido. Registrar tiempo de iteración diagnóstica ($T_{diag}$), número de pasos manuales y consistencia de decisiones de siguiente escenario.
-    \item \textbf{Trazabilidad MCP (opcional):} conservar registros de herramientas MCP que ejecuten los mismos comandos que se usarían manualmente, para auditoría del proceso.
+    \item \textbf{Línea base ($B$):} caracterizar el proyecto Ionic de referencia con mocks dispersos o mínimos; registrar cobertura $C_B$, tiempo $T_B$ y estado de la suite.
+    \item \textbf{Intervención ($P$):} integrar el módulo de simulación, aplicar el procedimiento de cobertura y etiquetar commits para reproducibilidad.
+    \item \textbf{Registro post-intervención:} medir $C_P$, $T_P$ y suite; calcular $\Delta C = C_P - C_B$ y $\Delta T = T_B - T_P$ como caracterización descriptiva.
+    \item \textbf{Orquestación MCP (opcional):} documentar corridas asistidas por la capa auxiliar y conservar trazabilidad de comandos ejecutados.
 \end{enumerate}
 
 \subsection{Fases de desarrollo del artefacto}
 \label{sec:fases_desarrollo}
 \begin{enumerate}
-    \item \textbf{Ingeniería del simulador:} definir por plugin (\tcode{geolocation}, \tcode{camera}, \tcode{preferences}) qué métodos se cubren y qué perfil activa cada respuesta. Documentar el enganche en Jest o Jasmine mediante \tcode{setupFilesAfterEnv}, mocks manuales o factoría común.
-    \item \textbf{Procedimiento de cobertura:} localizar usos de esos plugins; listar escenarios mínimos para ramas relevantes; escribir o ajustar tests con plantillas repetibles.
-    \item \textbf{Servidor MCP auxiliar:} implementar herramientas acotadas y documentar permisos y rutas por seguridad.
-    \item \textbf{Redacción de resultados:} tablas, figuras y breve discusión de amenazas (tests flaky, orden de ejecución, dependencias de red si aparecen).
+    \item \textbf{Ingeniería del simulador:} definir por plugin (\tcode{geolocation}, \tcode{camera}, \tcode{preferences}) métodos cubiertos y perfiles de respuesta; enganchar en Jest o Jasmine mediante \tcode{setupFilesAfterEnv} o equivalente.
+    \item \textbf{Procedimiento de cobertura:} localizar usos de los plugins; definir escenarios mínimos por rama relevante; ajustar tests con plantillas repetibles.
+    \item \textbf{Servidor MCP auxiliar:} implementar herramientas acotadas; documentar permisos y rutas.
+    \item \textbf{Redacción de resultados:} tablas, figuras y discusión de amenazas (tests flaky, orden de ejecución).
 \end{enumerate}
 
-\subsection{Diseño técnico de la propuesta (Capítulo IV)}
+\subsection{Diseño técnico de la propuesta}
 \label{sec:diseno_tecnico_propuesta}
-\subsubsection{Control determinista de asincronía y flakiness}
+\subsubsection{Control determinista de asincronía}
 \label{ssec:determinismo_asincronia}
-Para reducir falsos positivos y pruebas inestables, cada perfil del simulador (éxito, error, límite) se ejecutará con \textbf{control temporal determinista}. En Jest se emplearán \tcode{fake timers} (modo moderno) y avance explícito del reloj virtual con \tcode{advanceTimersByTime} y \tcode{runAllTimers}; en Jasmine se usará el reloj simulado equivalente (\tcode{jasmine.clock()}) cuando corresponda. Además, las respuestas asíncronas del simulador se encapsularán en una cola controlada de microtareas y macrotareas para evitar desfases del \textit{event loop} entre corridas. El criterio de aceptación para estabilidad será repetir lotes de pruebas en más de una corrida consecutiva sin variación de estado (sin fallas intermitentes atribuibles al orden temporal).
+Cada perfil del simulador se ejecutará con \textbf{control temporal determinista}: \tcode{fake timers} en Jest o \tcode{jasmine.clock()} en Jasmine, con cola controlada de microtareas para respuestas asíncronas estables entre corridas \cite{luo2014flaky}.
 
 \subsubsection{Bridge de inyección y soporte dual Jest/Jasmine}
 \label{ssec:bridge_inyeccion_dual}
-El artefacto usará una factoría global de inyección para resolver en tiempo de prueba el perfil activo por plugin y exponer la misma interfaz a ambos runners. Esto permite que el proyecto cambie entre Jest/Jasmine sin reescribir los perfiles de simulación ni los escenarios de cobertura. La configuración de integración quedará versionada (archivo de setup, orden de carga y mapeo de módulos) para mantener reproducibilidad.
+Una factoría global de inyección resolverá el perfil activo por plugin y expondrá la misma interfaz a ambos runners, con configuración versionada (setup, orden de carga y mapeo de módulos).
 
 \subsubsection{Mock por defecto para plugins fuera de alcance}
 \label{ssec:fallback_mock}
-Si durante la ejecución aparece un plugin Capacitor no mapeado explícitamente en el núcleo (\tcode{geolocation}, \tcode{camera}, \tcode{preferences}), el sistema aplicará un \textbf{mecanismo de caída segura}: generación dinámica de un mock por defecto mediante \tcode{Proxy} de JavaScript, con respuestas asíncronas genéricas y trazadas en log. Este fallback evita que la suite se detenga por razones técnicas ajenas al alcance y permite etiquetar esos casos como ``pendientes de implementación específica'' en lugar de romper la validación principal.
+Si aparece un plugin Capacitor no mapeado en el núcleo, el sistema aplicará un \textbf{fallback} mediante \tcode{Proxy} de JavaScript con respuestas genéricas trazadas en log, evitando que la suite se detenga por dependencias ajenas al alcance.
 
-\subsubsection{Justificación operativa de MCP frente a automatización clásica}
+\subsubsection{Rol operativo de MCP}
 \label{ssec:justificacion_mcp_operativa}
-El uso de MCP no se limita a ejecutar comandos que también podría correr un script. La diferencia propuesta es \textbf{orquestación semántica}: un agente puede leer el estado del reporte de cobertura (líneas/ramas faltantes, suites fallidas, tipo de error) y seleccionar de forma guiada el siguiente perfil de simulación a probar (éxito, error, límites) antes de la siguiente corrida. En ese contexto, MCP aporta un protocolo de contexto entre herramientas y agente, mientras que Bash/CI aporta solo secuencias fijas. Para no dejar esta afirmación en nivel declarativo, la tesis incluye una comparación explícita con flujo lineal, usando $T_{diag}$ y pasos manuales como indicadores observables.
+MCP \cite{mcp-spec2025} orquesta el ciclo repetible mediante las herramientas definidas en la Tabla~\ref{tab:mcp_tools} del marco teórico (\tcode{run\_jest\_coverage}, \tcode{read\_coverage\_summary}, \tcode{set\_simulation\_profile}, etc.), sin reemplazar la lógica del simulador ni el procedimiento de cobertura.
 
-\subsection{Instrumentos y fuentes bibliográficas iniciales}
+\subsection{Fuentes metodológicas de apoyo}
 \label{sec:instrumentos_biblio}
-Para contrastar decisiones de diseño y métricas se usan principalmente \cite{nie2023gui_mobile_mapping,schafer2024testpilot,olsthoorn2024syntest_javascript}; para MCP, \cite{mcp-spec2025}.
-
-\subsubsection{Población y muestra (si aplica)}
-\label{sec:poblacion_muestra}
-Este plan no trabaja con participantes humanos ni encuestas como fuente principal de evidencia. La unidad de análisis es el \textbf{proyecto Ionic de referencia} y sus artefactos de prueba (suite, cobertura y tiempos). Si durante la ejecución se incorpora evaluación con desarrolladores o usuarios, se añadirá la delimitación de población, criterio muestral e instrumento correspondiente.
-
-La validación busca evidencia bajo condiciones declaradas de que el artefacto cumple el objetivo general (mejora medible de cobertura y menor fricción en preparación de pruebas en Node), sin presentar corridas en dispositivo como equivalentes a las unitarias con simulación.
+Para contrastar decisiones de diseño y métricas se usan \cite{nie2023gui_mobile_mapping,schafer2024testpilot,olsthoorn2024syntest_javascript,mcp-spec2025}. La validación busca evidencia documentada de que el artefacto cumple el objetivo general, sin presentar corridas en dispositivo como equivalentes a las unitarias con simulación.

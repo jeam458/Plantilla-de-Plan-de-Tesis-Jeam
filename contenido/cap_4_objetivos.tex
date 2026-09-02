@@ -3,33 +3,30 @@
 
 \subsection{Objetivo General}
 \label{sec:objetivo_general}
-Construir y evaluar un \textbf{bridge universal extensible de simulación para APIs nativas de Capacitor} en aplicaciones Ionic, con \textbf{procedimiento de cobertura en Node.js} (Jest y/o Jasmine) y \textbf{capa auxiliar MCP}, contrastando resultados con una \textbf{línea base} documentada en el mismo proyecto de referencia.
-
-Este objetivo responde al problema general formulado en la sección~\ref{sec:problema_general}.
+Desarrollo y evaluación de un módulo de simulación de APIs nativas de Capacitor para mejorar pruebas unitarias y cobertura de código, con orquestación auxiliar mediante MCP, en entornos basados en Node.js para aplicaciones Ionic.
 
 \subsection{Objetivos Específicos}
 \label{sec:objetivos_especificos}
-Cada objetivo específico (O1--O7) responde al problema homólogo P1--P7 de la sección~\ref{sec:problemas_especificos}.
 
-\begin{enumerate}[label=\textbf{O\arabic*.}, leftmargin=*]
+\begin{enumerate}[label=\arabic*., leftmargin=*]
     \item \label{obj:simulador}
-    \textbf{Responde a P\ref{prob:simulador}.} Programar en TypeScript/JavaScript el bridge universal extensible y validarlo en \tcode{@capacitor/geolocation}, \tcode{@capacitor/camera} y \tcode{@capacitor/preferences}, con perfiles de éxito, error, permisos y datos límite alineados al contrato de cada API.
+    Diseñar y programar un \textbf{bridge universal extensible} de simulación con perfiles de éxito, error, permisos y datos límite alineados al contrato de las APIs nativas de geolocalización, cámara y preferencias.
 
     \item \label{obj:integracion}
-    \textbf{Responde a P\ref{prob:integracion}.} Integrar el módulo en al menos un proyecto Ionic de referencia con pasos reproducibles (\tcode{setupFilesAfterEnv} en Jest o equivalente en Jasmine/Angular) y \textit{fallback mock} mediante \tcode{Proxy} para plugins fuera del núcleo.
+    Integrar el módulo en \textbf{al menos un proyecto Ionic de referencia} con pasos reproducibles en el ciclo de pruebas unitarias en Node.js.
 
     \item \label{obj:cobertura}
-    \textbf{Responde a P\ref{prob:cobertura}.} Diseñar y aplicar un método de optimización de cobertura: localizar usos de los tres plugins, definir escenarios mínimos por rama relevante y ajustar tests que eleven líneas y ramas en Node.
+    Implementar un \textbf{procedimiento de cobertura en Node.js} (Jest y/o Jasmine) que eleve líneas y ramas del código expuesto a APIs nativas mediante escenarios sistemáticos.
 
     \item \label{obj:mcp}
-    \textbf{Responde a P\ref{prob:mcp}.} Montar un servidor MCP auxiliar acotado que dispare la suite con cobertura, lea el reporte agregado (p.\,ej.\ JSON de Istanbul/Jest) y, si existe infraestructura, consulte Sonar en solo lectura; documentar alcance y seguridad.
+    Desarrollar una \textbf{capa auxiliar de orquestación basada en MCP} para conmutar perfiles de hardware de forma dinámica desde agentes o scripts de prueba.
 
     \item \label{obj:mcp_valor}
-    \textbf{Responde a P\ref{prob:mcp_valor}.} Evaluar el aporte de MCP frente a automatización clásica (script/CI lineal), comparando tiempo de iteración diagnóstica ($T_{diag}$), pasos manuales y consistencia al elegir el siguiente escenario de prueba.
+    Evaluar la viabilidad de ejecutar el módulo de simulación y la capa MCP en flujos de \textbf{integración continua}, eliminando dependencias no deterministas.
 
     \item \label{obj:metricas}
-    \textbf{Responde a P\ref{prob:metricas}.} Definir métricas y diseño comparativo entre línea base ($B$) y escenario con simulación integrada ($P$): cobertura $C$, tiempo de preparación de pruebas $T$, pasaje de suite y lecturas Sonar/ESLint si aplican.
+    Establecer y documentar una \textbf{línea base experimental} en el proyecto de referencia para contrastar cobertura ($\Delta C$) y tiempo de diagnóstico ($T_{diag}$) antes y después de la intervención.
 
     \item \label{obj:transferencia}
-    \textbf{Responde a P\ref{prob:transferencia}.} Entregar guías breves para extender el simulador a otros plugins e integrar el flujo en CI, explicitando límites y requisitos de la línea base mínima (componentes, LOC, mocks previos).
+    Validar la \textbf{extensibilidad} del módulo mediante la incorporación de nuevos contratos de APIs nativas sin modificar el núcleo del bridge universal.
 \end{enumerate}

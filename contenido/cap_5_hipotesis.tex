@@ -3,18 +3,7 @@
 
 \subsection{Hipótesis de Trabajo}
 \label{sec:hipotesis_trabajo}
-La hipótesis responde de forma provisional al problema general (sección~\ref{sec:problema_general}): si el simulador, el método de cobertura y (en apoyo) el MCP permiten un incremento \textbf{medible} de cobertura en Node para una app Ionic frente a la línea base.
 
-Si disponemos de un \textbf{módulo de simulación de plugins Capacitor} que permita ejecutar en Node, con perfiles definidos, las rutas que hoy dependen de esas APIs, y si además aplicamos un \textbf{procedimiento ordenado de mejora de cobertura} (éxito, error, permisos y pocos casos bien elegidos), entonces respecto a una \textbf{línea base} tomada en el mismo proyecto (mocks manuales o configuración mínima previa) deberíamos ver dos efectos medibles: más cobertura de líneas y/o ramas según Istanbul/Jest u homólogo, y menos trabajo repetitivo manteniendo mocks para los plugins cubiertos.
+\textbf{No aplica} según el alcance \textbf{descriptivo} adoptado en esta investigación \cite{sampieri2023metodologia}. El estudio se centra en \textbf{describir y documentar} el artefacto construido (módulo de simulación, procedimiento de cobertura y capa auxiliar MCP), sus métricas registradas y su integración en un proyecto Ionic de referencia, sin plantear una comprobación formal de relación causa--efecto entre variables independientes y dependientes.
 
-La parte MCP del trabajo sirve para documentar y repetir el mismo ciclo de medición; por sí sola no formula la hipótesis sobre cobertura, aunque puede mejorar la \textbf{trazabilidad} de los números reportados.
-
-\subsection{Fundamento de la Hipótesis}
-\label{sec:fundamento_hipotesis}
-\begin{itemize}
-    \item La evidencia en JavaScript muestra que cobertura seria exige entorno ejecutable y sustitutos confiables \cite{schafer2024testpilot,olsthoorn2024syntest_javascript}; los plugins Capacitor son exactamente ese tipo de dependencia externa en apps híbridas.
-    \item Los estudios de síntesis sobre testing móvil insisten en automatización y métricas \cite{nie2023gui_mobile_mapping}; aquí acotamos el foco a unitarias en Node bajo simulación controlada, sin pretender cerrar el debate de GUI en dispositivo.
-    \item MCP ofrece un vocabulario común para exponer herramientas repetibles \cite{mcp-spec2025}, útil para dejar constancia del pipeline experimental sin mezclarlo con la lógica del simulador.
-\end{itemize}
-
-Las magnitudes numéricas de mejora se reportarán en la memoria una vez ejecutadas la línea base y la intervención sobre el mismo proyecto de referencia.
+La evidencia se presentará como \textbf{caracterización y registro medible} (cobertura de líneas y ramas, tiempos de preparación de pruebas, pasaje de suite, lecturas opcionales de calidad estática) tomada en un momento definido del desarrollo. Si en etapas posteriores el asesor y el jurado consideran pertinente elevar el alcance a correlacional o explicativo, se reformulará la hipótesis en la memoria final con el diseño experimental correspondiente.

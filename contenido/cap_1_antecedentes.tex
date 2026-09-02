@@ -1,24 +1,110 @@
 \section{Antecedentes}
 \label{chap:antecedentes}
 
-\subsection{Contexto y vacío de investigación}
-\label{sec:antecedentes_contexto}
-Hay literatura que sintetiza cómo se investiga el testing en aplicaciones móviles; el trabajo de Nie et al.\ \cite{nie2023gui_mobile_mapping}, por ejemplo, ordena objetivos y métricas y recalca automatización y generación de casos, sobre todo en entornos Android/iOS mayormente nativos. Las aplicaciones \textbf{híbridas} con Ionic y Capacitor comparten la preocupación por la calidad, pero añaden un obstáculo habitual: cada \tcode{@capacitor/*} expone en TypeScript un contrato que en Node no tiene detrás el mismo runtime que en el dispositivo. Por eso el mapa general de pruebas GUI móvil no basta para explicar qué ocurre cuando se persigue \textbf{cobertura de líneas y ramas} en el código que consume esos plugins durante las unitarias en el bundle web.
+\subsection{Nie L. et al., (2023)}
+\label{sec:antecedente_nie}
 
-En el frente JavaScript, Schäfer et al.\ reportan resultados sólidos con TESTPILOT \cite{schafer2024testpilot} y Olsthoorn et al.\ con SynTest-JavaScript \cite{olsthoorn2024syntest_javascript}. Ambos convergen en que, sin \textbf{sustitutos de prueba} consistentes, la métrica de cobertura puede volverse poco fiable. En proyectos Capacitor ese trabajo suele quedar repartido en mocks sueltos; la propuesta que sigue concentra la sustitución en un \textbf{módulo de simulación} orientado inicialmente a \tcode{@capacitor/geolocation}, \tcode{@capacitor/camera} y \tcode{@capacitor/preferences}.
+\textbf{Nie L. et al., (2023),} \textit{A systematic mapping study for graphical user interface testing on mobile apps}, \textbf{IET Software / Nanyang Technological University}, \textbf{Singapur} \cite{nie2023gui_mobile_mapping}.
 
-El \textbf{Model Context Protocol} \cite{mcp-spec2025} estandariza cómo un cliente invoca herramientas externas de forma repetible. En el plan actúa como \textbf{capa auxiliar basada en MCP}: ordenar corridas de tests, lectura de reportes de cobertura y consultas opcionales a Sonar, sin sustituir el diseño del simulador ni el \textbf{procedimiento de cobertura}.
+\textbf{Conclusiones:}
+\begin{itemize}
+    \item Existe un volumen creciente de investigación sobre pruebas de interfaz gráfica en aplicaciones móviles, con énfasis en automatización, generación de casos y métricas de cobertura.
+    \item La mayor parte de los estudios revisados se orienta a entornos Android/iOS nativos; las aplicaciones híbridas y los puentes web--nativo aparecen con menor frecuencia en el mapa sistemático.
+    \item Persisten vacíos en la trazabilidad entre lo que se mide en laboratorio y lo que ocurre en dispositivos reales con hardware heterogéneo.
+\end{itemize}
 
-\subsection{Fuentes prioritarias para iniciar la revisión}
+\textbf{Comentario:} Este antecedente aporta el \textbf{marco de referencia} para ubicar la tesis dentro del estado del arte en testing móvil. Permite justificar que la brecha en apps Ionic/Capacitor no está cubierta por la literatura GUI predominante y orienta la selección de métricas (cobertura, automatización, repetibilidad).
+
+\subsection{Schäfer M. et al., (2024)}
+\label{sec:antecedente_schafer}
+
+\textbf{Schäfer M. et al., (2024),} \textit{An Empirical Evaluation of Using Large Language Models for Automated Unit Test Generation (TESTPILOT)}, \textbf{IEEE Transactions on Software Engineering}, \textbf{Estados Unidos / Europa} \cite{schafer2024testpilot}.
+
+\textbf{Conclusiones:}
+\begin{itemize}
+    \item La generación automática de pruebas unitarias en JavaScript puede elevar cobertura de líneas y ramas cuando el entorno de ejecución es estable y las dependencias están controladas.
+    \item Sin sustitutos de prueba consistentes, las métricas de cobertura pierden interpretabilidad: el porcentaje no refleja comportamiento real del código bajo prueba.
+    \item Los resultados dependen fuertemente del aislamiento de dependencias externas y de la calidad del contexto disponible para el generador.
+\end{itemize}
+
+\textbf{Comentario:} Sirve como \textbf{fundamento metodológico} para el procedimiento de cobertura en Node.js. Refuerza la necesidad del módulo de simulación Capacitor antes de confiar en métricas agregadas, y contextualiza el uso eventual de herramientas asistidas sin sustituir el diseño del bridge.
+
+\subsection{Olsthoorn M. et al., (2024)}
+\label{sec:antecedente_olsthoorn}
+
+\textbf{Olsthoorn M. et al., (2024),} \textit{SynTest-JavaScript: Automated Unit-Level Test Case Generation for JavaScript}, \textbf{ACM/IEEE SBFT @ ICSE / Delft University of Technology}, \textbf{Países Bajos} \cite{olsthoorn2024syntest_javascript}.
+
+\textbf{Conclusiones:}
+\begin{itemize}
+    \item La generación basada en búsqueda para JavaScript mejora la cobertura estructural cuando puede ejecutar el código bajo prueba en un entorno controlado.
+    \item Las dependencias asíncronas y los módulos externos dificultan la síntesis automática de casos útiles si no se simulan con contratos estables.
+    \item La evaluación empírica muestra que la cobertura por sí sola no garantiza detección de fallos en integración con APIs reales.
+\end{itemize}
+
+\textbf{Comentario:} Complementa a TESTPILOT en el frente JavaScript. Aporta criterios para diseñar \textbf{escenarios de prueba} (éxito, error, permisos) y valida que el simulador Capacitor es un prerrequisito para cualquier procedimiento sistemático de cobertura en el proyecto de referencia.
+
+\subsection{Meszaros G., (2007)}
+\label{sec:antecedente_meszaros}
+
+\textbf{Meszaros G., (2007),} \textit{xUnit Test Patterns: Refactoring Test Code}, \textbf{Addison-Wesley}, \textbf{Estados Unidos} \cite{meszaros2007xunit}.
+
+\textbf{Conclusiones:}
+\begin{itemize}
+    \item Los \textit{test doubles} se clasifican en Dummy, Stub, Spy, Mock y Fake/Simulador; cada uno responde a un nivel distinto de fidelidad al contrato real.
+    \item Un simulador con estado y perfiles configurables supera a stubs dispersos cuando el dominio incluye hardware, permisos y respuestas asíncronas variables.
+    \item La testabilidad mejora cuando las \textit{seams} permiten inyectar sustitutos sin alterar la lógica de negocio.
+\end{itemize}
+
+\textbf{Comentario:} Proporciona el \textbf{marco teórico de patrones de prueba} que sustenta la arquitectura del bridge universal. Justifica el uso de perfiles (éxito, error, permisos) en lugar de mocks planos repetidos en cada archivo \tcode{*.spec.ts}.
+
+\subsection{Feathers M., (2004)}
+\label{sec:antecedente_feathers}
+
+\textbf{Feathers M., (2004),} \textit{Working Effectively with Legacy Code}, \textbf{Prentice Hall}, \textbf{Estados Unidos} \cite{feathers2004working}.
+
+\textbf{Conclusiones:}
+\begin{itemize}
+    \item El código acoplado a sistemas externos sin puntos de inyección se vuelve difícil de probar de forma repetible.
+    \item Las \textit{seams} son lugares donde cambiar comportamiento sin modificar reglas de negocio; son la base práctica del aislamiento en pruebas.
+    \item La deuda en tests manuales dispersos incrementa el costo de mantenimiento y oculta regresiones cuando cambia el entorno de ejecución.
+\end{itemize}
+
+\textbf{Comentario:} Fundamenta el \textbf{problema de ingeniería} que motiva la tesis: mocks manuales en proyectos Ionic son síntoma de falta de seams formales frente a APIs nativas. Orienta el diseño de inyección del bridge sin tocar código de producción.
+
+\subsection{Ionic Team, (2024)}
+\label{sec:antecedente_capacitor}
+
+\textbf{Ionic Team, (2024),} \textit{Capacitor Documentation: Unit Testing with Capacitor}, \textbf{Ionic (Capacitor)}, \textbf{Estados Unidos} \cite{capacitor2024testing}.
+
+\textbf{Conclusiones:}
+\begin{itemize}
+    \item La documentación oficial recomienda simular plugins de Capacitor en el runner de pruebas unitarias.
+    \item No existe un módulo único del framework que cubra de forma extensible todos los plugins con perfiles configurables.
+    \item La responsabilidad de implementar mocks consistentes recae en cada equipo de desarrollo.
+\end{itemize}
+
+\textbf{Comentario:} Antecedente \textbf{práctico y normativo} del ecosistema objetivo. Valida que la propuesta no contradice las guías oficiales y delimita la contribución: centralizar lo que hoy cada proyecto resuelve de forma ad hoc.
+
+\subsection{Anthropic, (2025)}
+\label{sec:antecedente_mcp}
+
+\textbf{Anthropic, (2025),} \textit{Model Context Protocol (MCP) Specification}, \textbf{Anthropic}, \textbf{Estados Unidos} \cite{mcp-spec2025}.
+
+\textbf{Conclusiones:}
+\begin{itemize}
+    \item MCP estandariza cómo un cliente (agente o herramienta) invoca recursos y herramientas externas de forma repetible y trazable.
+    \item El protocolo separa la lógica de negocio de la orquestación operativa del ciclo de desarrollo.
+    \item Permite exponer acciones acotadas (ejecutar tests, leer reportes) sin acoplar el núcleo del simulador a un agente concreto.
+\end{itemize}
+
+\textbf{Comentario:} Sustenta el diseño de la \textbf{capa auxiliar MCP} como orquestación del ciclo de medición, no como sustituto del simulador. Aporta vocabulario técnico y criterio de trazabilidad para documentar el pipeline experimental.
+
+\subsection{Fuentes prioritarias para consulta}
 \label{sec:fuentes_prioritarias_descarga}
-Para disponer de material revisado por pares en PDF:
+Material revisado por pares disponible en PDF:
 
 \begin{enumerate}
-    \item \textbf{Nie et al.\ (2023), IET Software} \cite{nie2023gui_mobile_mapping}. PDF institucional: \url{https://dr.ntu.edu.sg/bitstreams/68906124-d1f3-470c-a57d-f08ff79860e8/download}.
-    \item \textbf{Schäfer et al.\ (2024), IEEE TSE} \cite{schafer2024testpilot}. Copia de autores: \url{https://www.franktip.org/pubs/testpilot2024.pdf}; arXiv \tcode{2302.06527}: \url{https://arxiv.org/pdf/2302.06527.pdf}.
-    \item \textbf{Olsthoorn et al.\ (2024), SBFT @ ICSE} \cite{olsthoorn2024syntest_javascript}. PDF: \url{https://pure.tudelft.nl/ws/portalfiles/portal/221041638/3643659.3643928.pdf}.
+    \item Nie et al.\ (2023): \url{https://dr.ntu.edu.sg/bitstreams/68906124-d1f3-470c-a57d-f08ff79860e8/download}.
+    \item Schäfer et al.\ (2024): \url{https://www.franktip.org/pubs/testpilot2024.pdf}.
+    \item Olsthoorn et al.\ (2024): \url{https://pure.tudelft.nl/ws/portalfiles/portal/221041638/3643659.3643928.pdf}.
 \end{enumerate}
-
-\subsection{Síntesis}
-\label{sec:antecedentes_sintesis}
-La revisión bibliográfica orienta hacia un artefacto ejecutable en Node que cubra el contrato de plugins Capacitor prioritarios del alcance, un procedimiento explícito para subir cobertura de líneas y ramas en ese contexto, y un uso disciplinado del MCP para registrar el ciclo de medición frente a una línea base. Los capítulos siguientes formulan la pregunta de investigación, la justificación, los objetivos y el diseño de validación.

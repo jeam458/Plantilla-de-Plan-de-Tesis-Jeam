@@ -1,32 +1,46 @@
 \section{Cronograma de Actividades}
 \label{chap:cronograma}
 
-Este cronograma sigue la misma secuencia que el objetivo general: fundamentos, \textbf{bridge universal extensible de simulación para APIs nativas de Capacitor}, integración en un proyecto Ionic de referencia, \textbf{procedimiento para mejorar cobertura de líneas y ramas}, \textbf{capa auxiliar basada en Model Context Protocol (MCP)}, mediciones frente a la \textbf{línea base} y cierre documental.
+\subsection{Diagrama de Gantt}
+\label{sec:gantt}
 
-\subsection{Línea de tiempo}
-
-Las tareas, en orden, son: revisión bibliográfica y consolidación del marco teórico; diseño del simulador (plugins del alcance y perfiles); implementación e integración con Jest y/o Jasmine; aplicación del procedimiento de cobertura y toma de métricas comparativas; implementación y prueba de la capa auxiliar basada en MCP con trazabilidad de comandos; redacción de capítulos, tablas de resultados y revisiones previas a la defensa.
-
-\textbf{Convención:} el eje temporal se organiza en \textbf{doce meses consecutivos} (M1 a M12). El mes~1 se fija con el asesor según calendario académico.
+La Tabla~\ref{tab:cronograma_gantt} resume la planificación temporal. Cada celda sombreada indica que la actividad está activa en ese mes.
 
 \begin{table}[htbp]
 \centering
+\small
 \caption{Cronograma de ejecución del proyecto (Mes 1 al Mes 12).}
-\label{tab:cronograma}
-\scriptsize
+\label{tab:cronograma_gantt}
 \setlength{\tabcolsep}{3pt}
-\begin{tabular}{p{5.1cm}cccccccccccc}
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{p{4.6cm}*{12}{>{\centering\arraybackslash}p{0.42cm}}}
 \toprule
-\textbf{Actividad} & \textbf{M1} & \textbf{M2} & \textbf{M3} & \textbf{M4} & \textbf{M5} & \textbf{M6} & \textbf{M7} & \textbf{M8} & \textbf{M9} & \textbf{M10} & \textbf{M11} & \textbf{M12} \\
+\textbf{Actividad} & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} & \textbf{5} & \textbf{6} & \textbf{7} & \textbf{8} & \textbf{9} & \textbf{10} & \textbf{11} & \textbf{12} \\
 \midrule
-1. Revisión bibliográfica y marco teórico            & X & X & X &   &   &   &   &   &   &    &    &    \\
-2. Diseño del simulador (plugins y perfiles)         &   & X & X & X & X &   &   &   &   &    &    &    \\
-3. Implementación e integración en proyecto Ionic    &   &   &   &   & X & X & X &   &   &    &    &    \\
-4. Cobertura y mediciones (línea base vs intervención)&   &   &   &   &   &   & X & X & X &    &    &    \\
-5. Capa auxiliar MCP y trazabilidad                  &   &   &   &   &   &   &   & X & X &    &    &    \\
-6. Redacción final, revisión y cierre                 &   &   &   &   &   &   &   &   & X & X  & X  & X  \\
+1. Revisión bibliográfica y marco teórico &
+\cellcolor{blue!35} & \cellcolor{blue!35} & \cellcolor{blue!35} & & & & & & & & & \\
+2. Diseño del simulador (plugins y perfiles) &
+& \cellcolor{teal!40} & \cellcolor{teal!40} & \cellcolor{teal!40} & \cellcolor{teal!40} & & & & & & & \\
+3. Implementación e integración Ionic &
+& & & & \cellcolor{green!35} & \cellcolor{green!35} & \cellcolor{green!35} & & & & & & \\
+4. Cobertura y mediciones ($B$ vs $P$) &
+& & & & & & \cellcolor{orange!45} & \cellcolor{orange!45} & \cellcolor{orange!45} & & & & \\
+5. Capa auxiliar MCP y trazabilidad &
+& & & & & & & \cellcolor{violet!35} & \cellcolor{violet!35} & & & & \\
+6. Redacción final y cierre &
+& & & & & & & & \cellcolor{red!25} & \cellcolor{red!25} & \cellcolor{red!25} & \cellcolor{red!25} \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-La actividad de cierre se extiende hasta M12 para cubrir redacción, revisión con asesor y ajustes de presentación final.
+\subsection{Descripción de actividades}
+\label{sec:descripcion_actividades}
+
+\begin{enumerate}
+    \item \textbf{Revisión bibliográfica y marco teórico} (M1--M3): consolidación de antecedentes, marco teórico y delimitación del problema.
+    \item \textbf{Diseño del simulador} (M2--M5): definición de perfiles, contratos por plugin y arquitectura del bridge.
+    \item \textbf{Implementación e integración} (M5--M7): desarrollo del módulo e integración en el proyecto Ionic de referencia.
+    \item \textbf{Cobertura y mediciones} (M7--M9): aplicación del procedimiento de cobertura y registro de métricas de línea base e intervención.
+    \item \textbf{Capa MCP} (M8--M9): implementación del servidor auxiliar y documentación de trazabilidad.
+    \item \textbf{Redacción y cierre} (M9--M12): redacción de capítulos, revisión con asesor y preparación de sustentación.
+\end{enumerate}
